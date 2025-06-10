@@ -1,0 +1,57 @@
+﻿name: .NET Desktop App CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        dotnet-version: [ '8.0.x' ]
+
+    steps:
+      - name: 🛎️ Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: 🧰 Setup .NET ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+
+      - name: 🔍 Restore NuGet Packages
+        run: dotnet restore
+
+      - name: 🛠️ Build Solution
+        run: dotnet build --no-restore --configuration Release
+
+      - name: 🧪 Run Unit Tests (if any)
+        run: |
+          echo "Checking for test projects..."
+          test_projects=$(dotnet sln list | findstr -i test)
+          if [ -z "$test_projects" ]; then
+            echo "⚠️ No test projects found. Skipping tests."
+          else
+            dotnet test --no-build --configuration Release --verbosity normal
+          fi
+        shell: bash
+
+      - name: 📦 Publish Build Artifacts
+        if: success()
+        run: |
+          mkdir -p output
+          cp -r **/bin/Release/* output || echo "No build artifacts found."
+        shell: bash
+
+      - name: 📤 Upload Artifacts to GitHub
+        if: success()
+        uses: actions/upload-artifact@v3
+        with:
+          name: eShift-Desktop-Build
+          path: output
