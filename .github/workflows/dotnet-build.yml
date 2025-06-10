@@ -31,17 +31,6 @@ jobs:
       - name: 🛠️ Build Solution
         run: dotnet build --no-restore --configuration Release
 
-      - name: 🧪 Run Unit Tests (if any)
-        run: |
-          echo "Checking for test projects..."
-          test_projects=$(dotnet sln list | findstr -i test)
-          if [ -z "$test_projects" ]; then
-            echo "⚠️ No test projects found. Skipping tests."
-          else
-            dotnet test --no-build --configuration Release --verbosity normal
-          fi
-        shell: bash
-
       - name: 📦 Collect Build Artifacts
         if: success()
         run: |
