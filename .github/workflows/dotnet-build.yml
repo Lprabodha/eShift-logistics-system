@@ -42,16 +42,16 @@ jobs:
           fi
         shell: bash
 
-      - name: 📦 Publish Build Artifacts
+      - name: 📦 Collect Build Artifacts
         if: success()
         run: |
           mkdir -p output
-          cp -r **/bin/Release/* output || echo "No build artifacts found."
+          find . -type f -path "*/bin/Release/*.exe" -exec cp {} output/ \;
         shell: bash
 
       - name: 📤 Upload Artifacts to GitHub
         if: success()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: eShift-Desktop-Build
           path: output
