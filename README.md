@@ -64,7 +64,7 @@ A Windows Forms-based desktop application built with C# and MySQL, designed for 
 
 1. **Clone the repository**
     ```bash
-    git clone https://github.com/your-username/eShift-Logistics-System.git
+    git clone https://github.com/Lprabodha/eShift-logistics-system
     ```
 2. **Open in Visual Studio 2022**
     - Open the `.sln` file in Visual Studio.
@@ -137,9 +137,3 @@ To enable email notifications:
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 🙋‍♂️ Author
-
-**Lahiru Prabodha**
