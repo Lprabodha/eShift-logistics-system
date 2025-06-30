@@ -10,6 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Repository\Interface\" />
+    <Folder Include="Repository\Service\" />
     <Folder Include="Resources\Icons\" />
     <Folder Include="Resources\Images\" />
   </ItemGroup>
