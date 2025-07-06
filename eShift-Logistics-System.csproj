@@ -13,10 +13,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Repository\NewFolder\**" />
+    <EmbeddedResource Remove="Repository\NewFolder\**" />
+    <None Remove="Repository\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Assets\Fonts\" />
-    <Folder Include="Repository\Interface\" />
-    <Folder Include="Repository\NewFolder\" />
-    <Folder Include="Repository\Service\" />
     <Folder Include="Resources\Icons\" />
     <Folder Include="Resources\Images\" />
   </ItemGroup>
