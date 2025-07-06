@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,8 @@ namespace eShift_Logistics_System.Models
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
 
+        [StringLength(100)]
+        [EmailAddress]
         public string Email { get; set; } = string.Empty;
         public string PasswordHash { get; set; } = string.Empty;
 
