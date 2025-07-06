@@ -22,6 +22,8 @@ namespace eShift_Logistics_System.Forms
             base.Dispose(disposing);
         }
 
+        #region
+
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CustomerRegisterForm));
@@ -30,43 +32,43 @@ namespace eShift_Logistics_System.Forms
             picIllustration = new PictureBox();
             lblAppName = new Label();
             pnlRight = new Panel();
+            label7 = new Label();
+            panel3 = new Panel();
+            pictureBox3 = new PictureBox();
+            txtConfirmPassword = new TextBox();
+            label6 = new Label();
+            panel2 = new Panel();
+            pictureBox2 = new PictureBox();
+            textBox2 = new TextBox();
+            label5 = new Label();
+            panel1 = new Panel();
+            pictureBox1 = new PictureBox();
+            txtPhoneNumber = new TextBox();
             label3 = new Label();
             label2 = new Label();
             label1 = new Label();
             pnlEmail = new Panel();
             picEmailIcon = new PictureBox();
-            txtEmail = new TextBox();
+            txtFirstName = new TextBox();
             pnlPassword = new Panel();
             picPasswordIcon = new PictureBox();
             txtPassword = new TextBox();
             btnLogin = new Button();
             lblNoAccount = new Label();
             lnkRegister = new LinkLabel();
-            label5 = new Label();
-            panel1 = new Panel();
-            pictureBox1 = new PictureBox();
-            textBox1 = new TextBox();
-            label6 = new Label();
-            panel2 = new Panel();
-            pictureBox2 = new PictureBox();
-            textBox2 = new TextBox();
-            label7 = new Label();
-            panel3 = new Panel();
-            pictureBox3 = new PictureBox();
-            textBox3 = new TextBox();
             pnlLeft.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picIllustration).BeginInit();
             pnlRight.SuspendLayout();
+            panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
+            panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             pnlEmail.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picEmailIcon).BeginInit();
             pnlPassword.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picPasswordIcon).BeginInit();
-            panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
-            panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             SuspendLayout();
             // 
             // pnlLeft
@@ -135,6 +137,134 @@ namespace eShift_Logistics_System.Forms
             pnlRight.Name = "pnlRight";
             pnlRight.Size = new Size(376, 525);
             pnlRight.TabIndex = 0;
+            pnlRight.Paint += pnlRight_Paint;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Segoe UI", 9F);
+            label7.Location = new Point(40, 347);
+            label7.Name = "label7";
+            label7.Size = new Size(112, 15);
+            label7.TabIndex = 19;
+            label7.Text = "Confirm Password *";
+            // 
+            // panel3
+            // 
+            panel3.BackColor = Color.White;
+            panel3.BorderStyle = BorderStyle.FixedSingle;
+            panel3.Controls.Add(pictureBox3);
+            panel3.Controls.Add(txtConfirmPassword);
+            panel3.Location = new Point(43, 368);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(280, 42);
+            panel3.TabIndex = 18;
+            // 
+            // pictureBox3
+            // 
+            pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
+            pictureBox3.Location = new Point(9, 9);
+            pictureBox3.Name = "pictureBox3";
+            pictureBox3.Size = new Size(21, 22);
+            pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox3.TabIndex = 0;
+            pictureBox3.TabStop = false;
+            // 
+            // txtConfirmPassword
+            // 
+            txtConfirmPassword.BorderStyle = BorderStyle.None;
+            txtConfirmPassword.Font = new Font("Segoe UI", 10F);
+            txtConfirmPassword.Location = new Point(39, 11);
+            txtConfirmPassword.MaxLength = 10;
+            txtConfirmPassword.Name = "txtConfirmPassword";
+            txtConfirmPassword.PasswordChar = '*';
+            txtConfirmPassword.Size = new Size(228, 18);
+            txtConfirmPassword.TabIndex = 1;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Font = new Font("Segoe UI", 9F);
+            label6.Location = new Point(43, 282);
+            label6.Name = "label6";
+            label6.Size = new Size(65, 15);
+            label6.TabIndex = 17;
+            label6.Text = "Password *";
+            // 
+            // panel2
+            // 
+            panel2.BackColor = Color.White;
+            panel2.BorderStyle = BorderStyle.FixedSingle;
+            panel2.Controls.Add(pictureBox2);
+            panel2.Controls.Add(textBox2);
+            panel2.Location = new Point(46, 300);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(280, 42);
+            panel2.TabIndex = 16;
+            panel2.Paint += panel2_Paint;
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
+            pictureBox2.Location = new Point(9, 9);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(21, 22);
+            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox2.TabIndex = 0;
+            pictureBox2.TabStop = false;
+            // 
+            // textBox2
+            // 
+            textBox2.BorderStyle = BorderStyle.None;
+            textBox2.Font = new Font("Segoe UI", 10F);
+            textBox2.Location = new Point(39, 11);
+            textBox2.MaxLength = 10;
+            textBox2.Name = "textBox2";
+            textBox2.PasswordChar = '*';
+            textBox2.Size = new Size(228, 18);
+            textBox2.TabIndex = 1;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Segoe UI", 9F);
+            label5.Location = new Point(43, 215);
+            label5.Name = "label5";
+            label5.Size = new Size(96, 15);
+            label5.TabIndex = 15;
+            label5.Text = "Phone Number *";
+            // 
+            // panel1
+            // 
+            panel1.BackColor = Color.White;
+            panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(pictureBox1);
+            panel1.Controls.Add(txtPhoneNumber);
+            panel1.Location = new Point(46, 233);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(280, 42);
+            panel1.TabIndex = 14;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(9, 9);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(21, 22);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 0;
+            pictureBox1.TabStop = false;
+            // 
+            // txtPhoneNumber
+            // 
+            txtPhoneNumber.BorderStyle = BorderStyle.None;
+            txtPhoneNumber.Font = new Font("Segoe UI", 10F);
+            txtPhoneNumber.Location = new Point(39, 11);
+            txtPhoneNumber.MaxLength = 12;
+            txtPhoneNumber.Name = "txtPhoneNumber";
+            txtPhoneNumber.PasswordChar = '*';
+            txtPhoneNumber.Size = new Size(228, 18);
+            txtPhoneNumber.TabIndex = 1;
             // 
             // label3
             // 
@@ -171,7 +301,7 @@ namespace eShift_Logistics_System.Forms
             pnlEmail.BackColor = Color.White;
             pnlEmail.BorderStyle = BorderStyle.FixedSingle;
             pnlEmail.Controls.Add(picEmailIcon);
-            pnlEmail.Controls.Add(txtEmail);
+            pnlEmail.Controls.Add(txtFirstName);
             pnlEmail.Location = new Point(47, 92);
             pnlEmail.Name = "pnlEmail";
             pnlEmail.Size = new Size(280, 42);
@@ -189,15 +319,15 @@ namespace eShift_Logistics_System.Forms
             picEmailIcon.TabIndex = 0;
             picEmailIcon.TabStop = false;
             // 
-            // txtEmail
+            // txtFirstName
             // 
-            txtEmail.BorderStyle = BorderStyle.None;
-            txtEmail.Font = new Font("Segoe UI", 10F);
-            txtEmail.Location = new Point(39, 11);
-            txtEmail.MaxLength = 100;
-            txtEmail.Name = "txtEmail";
-            txtEmail.Size = new Size(228, 18);
-            txtEmail.TabIndex = 1;
+            txtFirstName.BorderStyle = BorderStyle.None;
+            txtFirstName.Font = new Font("Segoe UI", 10F);
+            txtFirstName.Location = new Point(39, 11);
+            txtFirstName.MaxLength = 100;
+            txtFirstName.Name = "txtFirstName";
+            txtFirstName.Size = new Size(228, 18);
+            txtFirstName.TabIndex = 1;
             // 
             // pnlPassword
             // 
@@ -264,133 +394,7 @@ namespace eShift_Logistics_System.Forms
             lnkRegister.TabIndex = 10;
             lnkRegister.TabStop = true;
             lnkRegister.Text = "Sign In";
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI", 9F);
-            label5.Location = new Point(43, 215);
-            label5.Name = "label5";
-            label5.Size = new Size(96, 15);
-            label5.TabIndex = 15;
-            label5.Text = "Phone Number *";
-            // 
-            // panel1
-            // 
-            panel1.BackColor = Color.White;
-            panel1.BorderStyle = BorderStyle.FixedSingle;
-            panel1.Controls.Add(pictureBox1);
-            panel1.Controls.Add(textBox1);
-            panel1.Location = new Point(46, 233);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(280, 42);
-            panel1.TabIndex = 14;
-            // 
-            // pictureBox1
-            // 
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(9, 9);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(21, 22);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 0;
-            pictureBox1.TabStop = false;
-            // 
-            // textBox1
-            // 
-            textBox1.BorderStyle = BorderStyle.None;
-            textBox1.Font = new Font("Segoe UI", 10F);
-            textBox1.Location = new Point(39, 11);
-            textBox1.MaxLength = 10;
-            textBox1.Name = "textBox1";
-            textBox1.PasswordChar = '*';
-            textBox1.Size = new Size(228, 18);
-            textBox1.TabIndex = 1;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI", 9F);
-            label6.Location = new Point(43, 282);
-            label6.Name = "label6";
-            label6.Size = new Size(65, 15);
-            label6.TabIndex = 17;
-            label6.Text = "Password *";
-            // 
-            // panel2
-            // 
-            panel2.BackColor = Color.White;
-            panel2.BorderStyle = BorderStyle.FixedSingle;
-            panel2.Controls.Add(pictureBox2);
-            panel2.Controls.Add(textBox2);
-            panel2.Location = new Point(46, 300);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(280, 42);
-            panel2.TabIndex = 16;
-            panel2.Paint += panel2_Paint;
-            // 
-            // pictureBox2
-            // 
-            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new Point(9, 9);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(21, 22);
-            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox2.TabIndex = 0;
-            pictureBox2.TabStop = false;
-            // 
-            // textBox2
-            // 
-            textBox2.BorderStyle = BorderStyle.None;
-            textBox2.Font = new Font("Segoe UI", 10F);
-            textBox2.Location = new Point(39, 11);
-            textBox2.MaxLength = 10;
-            textBox2.Name = "textBox2";
-            textBox2.PasswordChar = '*';
-            textBox2.Size = new Size(228, 18);
-            textBox2.TabIndex = 1;
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI", 9F);
-            label7.Location = new Point(40, 347);
-            label7.Name = "label7";
-            label7.Size = new Size(112, 15);
-            label7.TabIndex = 19;
-            label7.Text = "Confirm Password *";
-            // 
-            // panel3
-            // 
-            panel3.BackColor = Color.White;
-            panel3.BorderStyle = BorderStyle.FixedSingle;
-            panel3.Controls.Add(pictureBox3);
-            panel3.Controls.Add(textBox3);
-            panel3.Location = new Point(43, 368);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(280, 42);
-            panel3.TabIndex = 18;
-            // 
-            // pictureBox3
-            // 
-            pictureBox3.Image = (Image)resources.GetObject("pictureBox3.Image");
-            pictureBox3.Location = new Point(9, 9);
-            pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(21, 22);
-            pictureBox3.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox3.TabIndex = 0;
-            pictureBox3.TabStop = false;
-            // 
-            // textBox3
-            // 
-            textBox3.BorderStyle = BorderStyle.None;
-            textBox3.Font = new Font("Segoe UI", 10F);
-            textBox3.Location = new Point(39, 11);
-            textBox3.MaxLength = 10;
-            textBox3.Name = "textBox3";
-            textBox3.PasswordChar = '*';
-            textBox3.Size = new Size(228, 18);
-            textBox3.TabIndex = 1;
+            lnkRegister.LinkClicked += lnkRegister_LinkClicked;
             // 
             // CustomerRegisterForm
             // 
@@ -409,33 +413,33 @@ namespace eShift_Logistics_System.Forms
             ((System.ComponentModel.ISupportInitialize)picIllustration).EndInit();
             pnlRight.ResumeLayout(false);
             pnlRight.PerformLayout();
+            panel3.ResumeLayout(false);
+            panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             pnlEmail.ResumeLayout(false);
             pnlEmail.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)picEmailIcon).EndInit();
             pnlPassword.ResumeLayout(false);
             pnlPassword.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)picPasswordIcon).EndInit();
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
-            panel3.ResumeLayout(false);
-            panel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
-
+        // End of designer generated code
         private System.Windows.Forms.Panel pnlLeft;
         private System.Windows.Forms.PictureBox picIllustration;
         private System.Windows.Forms.Panel pnlRight;
         private System.Windows.Forms.Label lblAppName;
         private System.Windows.Forms.Panel pnlEmail;
         private System.Windows.Forms.PictureBox picEmailIcon;
-        private System.Windows.Forms.TextBox txtEmail;
+        private System.Windows.Forms.TextBox txtFirstName;
         private System.Windows.Forms.Panel pnlPassword;
         private System.Windows.Forms.PictureBox picPasswordIcon;
         private System.Windows.Forms.TextBox txtPassword;
@@ -453,10 +457,10 @@ namespace eShift_Logistics_System.Forms
         private Label label5;
         private Panel panel1;
         private PictureBox pictureBox1;
-        private TextBox textBox1;
+        private TextBox txtPhoneNumber;
         private Label label7;
         private Panel panel3;
         private PictureBox pictureBox3;
-        private TextBox textBox3;
+        private TextBox txtConfirmPassword;
     }
 }
