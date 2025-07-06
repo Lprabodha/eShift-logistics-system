@@ -7,28 +7,23 @@ using System.Threading.Tasks;
 namespace eShift_Logistics_System.Models
 {
     /// <summary>
-    /// Represents a user in the logistics system, which can be a customer, admin
+    /// Represents an assistant in the logistics system.
     /// </summary>
-    public class User
+    public class Assistant
     {
         public int Id { get; set; }
 
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
 
-        public string Email { get; set; } = string.Empty;
-        public string PasswordHash { get; set; } = string.Empty;
-
-        public UserType UserType { get; set; } = UserType.Customer;
-
         public string? Phone { get; set; }
         public string? Address { get; set; }
-        public string? CustomerNumber { get; set; }
+
+        public AssistantStatus Status { get; set; } = AssistantStatus.Available;
 
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public bool IsActive { get; set; } = true;
 
         public string FullName => $"{FirstName} {LastName}";
-
     }
 }
