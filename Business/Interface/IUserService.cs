@@ -7,19 +7,13 @@ using System.Threading.Tasks;
 
 namespace eShift_Logistics_System.Business.Interface
 {
-    public interface IUserService
+    internal interface IUserService
     {
         /// <summary>
         /// Adds a new user to the system.
         /// </summary>
         /// <param name="user">The user to add.</param>
         void AddUser(User user);
-        /// <summary>
-        /// Retrieves a user by their ID.
-        /// </summary>
-        /// <param name="id">The ID of the user.</param>
-        /// <returns>The user with the specified ID.</returns>
-        User GetUserById(int id);
         /// <summary>
         /// Updates an existing user's information.
         /// </summary>

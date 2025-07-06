@@ -1,4 +1,5 @@
-﻿using System;
+﻿using eShift_Logistics_System.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -24,39 +25,21 @@ namespace eShift_Logistics_System.Forms
 
         }
 
+        /// <summary>
+        /// Applies custom styles to the login form, such as font settings.
+        /// </summary>
         private void ApplyCustomStyles()
         {
             this.Font = new Font("Segoe UI", 9F);
         }
 
+        /// <summary>
+        /// Sets placeholder text for the input fields in the login form.
+        /// </summary>
         private void ApplyPlaceholderText()
         {
-            SetPlaceholder(txtEmail, "Enter your email");
-            SetPlaceholder(txtPassword, "Enter your Password", isPassword: true);
-        }
-
-        private void SetPlaceholder(TextBox textbox, string placeholder, bool isPassword = false)
-        {
-            textbox.Text = placeholder;
-            textbox.ForeColor = Color.Gray;
-            textbox.GotFocus += (s, e) =>
-            {
-                if (textbox.Text == placeholder)
-                {
-                    textbox.Text = "";
-                    textbox.ForeColor = Color.Black;
-                    if (isPassword) textbox.UseSystemPasswordChar = true;
-                }
-            };
-            textbox.LostFocus += (s, e) =>
-            {
-                if (string.IsNullOrWhiteSpace(textbox.Text))
-                {
-                    textbox.Text = placeholder;
-                    textbox.ForeColor = Color.Gray;
-                    if (isPassword) textbox.UseSystemPasswordChar = false;
-                }
-            };
+            PlaceholderHelper.SetPlaceholder(txtEmail, "Enter your email");
+            PlaceholderHelper.SetPlaceholder(txtPassword, "Enter your Password", isPassword: true);
         }
 
         private void pnlLeft_Paint(object sender, PaintEventArgs e)
@@ -64,6 +47,11 @@ namespace eShift_Logistics_System.Forms
 
         }
 
+        /// <summary>
+        /// Handles the link click event for the registration link.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void lnkRegister_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             CustomerRegisterForm registerForm = new CustomerRegisterForm();

@@ -1,5 +1,6 @@
 ﻿using eShift_Logistics_System.Business.Interface;
 using eShift_Logistics_System.Models;
+using eShift_Logistics_System.Repository.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,31 +9,36 @@ using System.Threading.Tasks;
 
 namespace eShift_Logistics_System.Business.Services
 {
-    public class UserService : IUserService
+    internal class UserService : IUserService
     {
+        private readonly IUserRepository _userService;
+
+        public UserService(IUserRepository userService)
+        {
+            _userService = userService;
+        }
+
         public void AddUser(User user)
         {
-            throw new NotImplementedException();
+            _userService.AddUser(user);
+
         }
 
         public void DeleteUser(int id)
         {
-            throw new NotImplementedException();
-        }
+            _userService.DeleteUser(id);
 
-        List<User> IUserService.GetAllUsers()
-        {
-            throw new NotImplementedException();
-        }
-
-        User IUserService.GetUserById(int id)
-        {
-            throw new NotImplementedException();
         }
 
         public void UpdateUser(User user)
         {
-            throw new NotImplementedException();
+            _userService.UpdateUser(user ?? throw new ArgumentNullException(nameof(user)));
         }
+
+        List<User> IUserService.GetAllUsers()
+        {
+            return _userService.GetAllUsers() ?? new List<User>();
+        }
+
     }
 }

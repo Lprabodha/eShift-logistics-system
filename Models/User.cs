@@ -14,14 +14,21 @@ namespace eShift_Logistics_System.Models
     {
         public int Id { get; set; }
 
+        [Required]
         public string FirstName { get; set; } = string.Empty;
-        public string LastName { get; set; } = string.Empty;
+        public string? LastName { get; set; } = string.Empty;
 
+        [Required]
         [StringLength(100)]
         [EmailAddress]
         public string Email { get; set; } = string.Empty;
+
+        [Required]
         public string PasswordHash { get; set; } = string.Empty;
 
+        public string ConfirmPassword { get; set; } = string.Empty;
+
+        [Required]
         public UserType UserType { get; set; } = UserType.Customer;
 
         public string? Phone { get; set; }

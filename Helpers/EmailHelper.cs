@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace eShift_Logistics_System.Helpers
 {
-    class EmailHelper
+    public class EmailHelper
     {
+
+
     }
 }

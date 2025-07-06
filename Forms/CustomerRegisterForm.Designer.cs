@@ -39,7 +39,7 @@ namespace eShift_Logistics_System.Forms
             label6 = new Label();
             panel2 = new Panel();
             pictureBox2 = new PictureBox();
-            textBox2 = new TextBox();
+            txtPassword = new TextBox();
             label5 = new Label();
             panel1 = new Panel();
             pictureBox1 = new PictureBox();
@@ -52,8 +52,8 @@ namespace eShift_Logistics_System.Forms
             txtFirstName = new TextBox();
             pnlPassword = new Panel();
             picPasswordIcon = new PictureBox();
-            txtPassword = new TextBox();
-            btnLogin = new Button();
+            txtEmail = new TextBox();
+            btnRegister = new Button();
             lblNoAccount = new Label();
             lnkRegister = new LinkLabel();
             pnlLeft.SuspendLayout();
@@ -129,7 +129,7 @@ namespace eShift_Logistics_System.Forms
             pnlRight.Controls.Add(label1);
             pnlRight.Controls.Add(pnlEmail);
             pnlRight.Controls.Add(pnlPassword);
-            pnlRight.Controls.Add(btnLogin);
+            pnlRight.Controls.Add(btnRegister);
             pnlRight.Controls.Add(lblNoAccount);
             pnlRight.Controls.Add(lnkRegister);
             pnlRight.Dock = DockStyle.Fill;
@@ -196,7 +196,7 @@ namespace eShift_Logistics_System.Forms
             panel2.BackColor = Color.White;
             panel2.BorderStyle = BorderStyle.FixedSingle;
             panel2.Controls.Add(pictureBox2);
-            panel2.Controls.Add(textBox2);
+            panel2.Controls.Add(txtPassword);
             panel2.Location = new Point(46, 300);
             panel2.Name = "panel2";
             panel2.Size = new Size(280, 42);
@@ -213,16 +213,16 @@ namespace eShift_Logistics_System.Forms
             pictureBox2.TabIndex = 0;
             pictureBox2.TabStop = false;
             // 
-            // textBox2
+            // txtPassword
             // 
-            textBox2.BorderStyle = BorderStyle.None;
-            textBox2.Font = new Font("Segoe UI", 10F);
-            textBox2.Location = new Point(39, 11);
-            textBox2.MaxLength = 10;
-            textBox2.Name = "textBox2";
-            textBox2.PasswordChar = '*';
-            textBox2.Size = new Size(228, 18);
-            textBox2.TabIndex = 1;
+            txtPassword.BorderStyle = BorderStyle.None;
+            txtPassword.Font = new Font("Segoe UI", 10F);
+            txtPassword.Location = new Point(39, 11);
+            txtPassword.MaxLength = 10;
+            txtPassword.Name = "txtPassword";
+            txtPassword.PasswordChar = '*';
+            txtPassword.Size = new Size(228, 18);
+            txtPassword.TabIndex = 1;
             // 
             // label5
             // 
@@ -262,7 +262,6 @@ namespace eShift_Logistics_System.Forms
             txtPhoneNumber.Location = new Point(39, 11);
             txtPhoneNumber.MaxLength = 12;
             txtPhoneNumber.Name = "txtPhoneNumber";
-            txtPhoneNumber.PasswordChar = '*';
             txtPhoneNumber.Size = new Size(228, 18);
             txtPhoneNumber.TabIndex = 1;
             // 
@@ -334,7 +333,7 @@ namespace eShift_Logistics_System.Forms
             pnlPassword.BackColor = Color.White;
             pnlPassword.BorderStyle = BorderStyle.FixedSingle;
             pnlPassword.Controls.Add(picPasswordIcon);
-            pnlPassword.Controls.Add(txtPassword);
+            pnlPassword.Controls.Add(txtEmail);
             pnlPassword.Location = new Point(47, 163);
             pnlPassword.Name = "pnlPassword";
             pnlPassword.Size = new Size(280, 42);
@@ -350,30 +349,30 @@ namespace eShift_Logistics_System.Forms
             picPasswordIcon.TabIndex = 0;
             picPasswordIcon.TabStop = false;
             // 
-            // txtPassword
+            // txtEmail
             // 
-            txtPassword.BorderStyle = BorderStyle.None;
-            txtPassword.Font = new Font("Segoe UI", 10F);
-            txtPassword.Location = new Point(39, 11);
-            txtPassword.MaxLength = 10;
-            txtPassword.Name = "txtPassword";
-            txtPassword.PasswordChar = '*';
-            txtPassword.Size = new Size(228, 18);
-            txtPassword.TabIndex = 1;
+            txtEmail.BorderStyle = BorderStyle.None;
+            txtEmail.Font = new Font("Segoe UI", 10F);
+            txtEmail.Location = new Point(39, 11);
+            txtEmail.MaxLength = 100;
+            txtEmail.Name = "txtEmail";
+            txtEmail.Size = new Size(228, 18);
+            txtEmail.TabIndex = 1;
             // 
-            // btnLogin
+            // btnRegister
             // 
-            btnLogin.BackColor = Color.FromArgb(65, 84, 241);
-            btnLogin.FlatAppearance.BorderSize = 0;
-            btnLogin.FlatStyle = FlatStyle.Flat;
-            btnLogin.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            btnLogin.ForeColor = Color.White;
-            btnLogin.Location = new Point(47, 426);
-            btnLogin.Name = "btnLogin";
-            btnLogin.Size = new Size(280, 47);
-            btnLogin.TabIndex = 8;
-            btnLogin.Text = "Create Account";
-            btnLogin.UseVisualStyleBackColor = false;
+            btnRegister.BackColor = Color.FromArgb(65, 84, 241);
+            btnRegister.FlatAppearance.BorderSize = 0;
+            btnRegister.FlatStyle = FlatStyle.Flat;
+            btnRegister.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            btnRegister.ForeColor = Color.White;
+            btnRegister.Location = new Point(47, 426);
+            btnRegister.Name = "btnRegister";
+            btnRegister.Size = new Size(280, 47);
+            btnRegister.TabIndex = 8;
+            btnRegister.Text = "Create Account";
+            btnRegister.UseVisualStyleBackColor = false;
+            btnRegister.Click += btnRegister_Click;
             // 
             // lblNoAccount
             // 
@@ -442,8 +441,8 @@ namespace eShift_Logistics_System.Forms
         private System.Windows.Forms.TextBox txtFirstName;
         private System.Windows.Forms.Panel pnlPassword;
         private System.Windows.Forms.PictureBox picPasswordIcon;
-        private System.Windows.Forms.TextBox txtPassword;
-        private System.Windows.Forms.Button btnLogin;
+        private System.Windows.Forms.TextBox txtEmail;
+        private System.Windows.Forms.Button btnRegister;
         private System.Windows.Forms.Label lblNoAccount;
         private System.Windows.Forms.LinkLabel lnkRegister;
         private Label label3;
@@ -453,7 +452,7 @@ namespace eShift_Logistics_System.Forms
         private Label label6;
         private Panel panel2;
         private PictureBox pictureBox2;
-        private TextBox textBox2;
+        private TextBox txtPassword;
         private Label label5;
         private Panel panel1;
         private PictureBox pictureBox1;

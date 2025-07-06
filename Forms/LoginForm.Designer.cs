@@ -126,7 +126,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(47, 86);
+            label3.Location = new Point(47, 78);
             label3.Name = "label3";
             label3.Size = new Size(130, 15);
             label3.TabIndex = 13;
@@ -157,7 +157,7 @@
             lblWelcome.AutoSize = true;
             lblWelcome.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblWelcome.ForeColor = Color.Gray;
-            lblWelcome.Location = new Point(44, 56);
+            lblWelcome.Location = new Point(44, 48);
             lblWelcome.Name = "lblWelcome";
             lblWelcome.Size = new Size(155, 30);
             lblWelcome.TabIndex = 0;

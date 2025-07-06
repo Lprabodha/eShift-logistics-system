@@ -1,4 +1,12 @@
-﻿using System;
+﻿using eShift_Logistics_System.Business.Interface;
+using eShift_Logistics_System.Business.Services;
+using eShift_Logistics_System.Helpers;
+using eShift_Logistics_System.Models;
+using eShift_Logistics_System.Repository.Interface;
+using eShift_Logistics_System.Repository.Service;
+using eShift_Logistics_System.Validators;
+using FluentValidation.Results;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,49 +20,37 @@ namespace eShift_Logistics_System.Forms
 {
     public partial class CustomerRegisterForm : Form
     {
+        private readonly IUserService _userService;
         public CustomerRegisterForm()
         {
             InitializeComponent();
             ApplyCustomStyles();
             ApplyPlaceholderText();
+
+            IUserRepository userRepository = new UserRepository();
+            _userService = new UserService(userRepository);
+
         }
 
+        /// <summary>
+        /// Applies custom styles to the registration form, such as font settings.
+        /// </summary>
         private void ApplyCustomStyles()
         {
             this.Font = new Font("Segoe UI", 9F);
         }
 
 
+        /// <summary>
+        /// Sets placeholder text for the input fields in the registration form.
+        /// </summary>
         private void ApplyPlaceholderText()
         {
-            SetPlaceholder(txtFirstName, "Enter your First Name");
-            SetPlaceholder(txtPhoneNumber, "Enter your phone number");
-            SetPlaceholder(txtPassword, "Enter your Password", isPassword: true);
-            SetPlaceholder(txtConfirmPassword, "Confirm your Password", isPassword: true);
-        }
-
-        private void SetPlaceholder(TextBox textbox, string placeholder, bool isPassword = false)
-        {
-            textbox.Text = placeholder;
-            textbox.ForeColor = Color.Gray;
-            textbox.GotFocus += (s, e) =>
-            {
-                if (textbox.Text == placeholder)
-                {
-                    textbox.Text = "";
-                    textbox.ForeColor = Color.Black;
-                    if (isPassword) textbox.UseSystemPasswordChar = true;
-                }
-            };
-            textbox.LostFocus += (s, e) =>
-            {
-                if (string.IsNullOrWhiteSpace(textbox.Text))
-                {
-                    textbox.Text = placeholder;
-                    textbox.ForeColor = Color.Gray;
-                    if (isPassword) textbox.UseSystemPasswordChar = false;
-                }
-            };
+            PlaceholderHelper.SetPlaceholder(txtFirstName, "Enter your First Name");
+            PlaceholderHelper.SetPlaceholder(txtPhoneNumber, "Enter your phone number");
+            PlaceholderHelper.SetPlaceholder(txtEmail, "Enter your Email");
+            PlaceholderHelper.SetPlaceholder(txtPassword, "Enter your Password", isPassword: true);
+            PlaceholderHelper.SetPlaceholder(txtConfirmPassword, "Confirm your Password", isPassword: true);
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
@@ -62,6 +58,11 @@ namespace eShift_Logistics_System.Forms
 
         }
 
+        /// <summary>
+        /// Handles the link click event for the registration link to navigate to the login form.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void lnkRegister_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             LoginForm loginForm = new LoginForm();
@@ -71,6 +72,54 @@ namespace eShift_Logistics_System.Forms
 
         private void pnlRight_Paint(object sender, PaintEventArgs e)
         {
+
+        }
+
+        /// <summary>
+        /// Handles the click event for the register button to validate and register a new user.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnRegister_Click(object sender, EventArgs e)
+        {
+
+            var user = new User
+            {
+                FirstName = PlaceholderHelper.GetInput(txtFirstName),
+                Phone = PlaceholderHelper.GetInput(txtPhoneNumber),
+                Email = PlaceholderHelper.GetInput(txtEmail),
+                PasswordHash = PlaceholderHelper.GetInput(txtPassword),
+                ConfirmPassword = PlaceholderHelper.GetInput(txtConfirmPassword),
+            };
+
+            UserValidator validator = new UserValidator();
+            ValidationResult results = validator.Validate(user);
+
+            if (!results.IsValid)
+            {
+
+                foreach (var failure in results.Errors)
+                {
+                    MessageBox.Show(failure.ErrorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    break;
+                }
+
+                return;
+
+            }
+
+            try
+            {
+                _userService.AddUser(user);
+                MessageBox.Show("Registration successful! You can now log in.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Hide();
+                LoginForm loginForm = new LoginForm();
+                loginForm.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred during registration: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
         }
     }
