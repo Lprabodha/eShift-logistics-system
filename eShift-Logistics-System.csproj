@@ -14,14 +14,15 @@
 
   <ItemGroup>
     <Compile Remove="Repository\NewFolder\**" />
+    <Compile Remove="Resources\**" />
     <EmbeddedResource Remove="Repository\NewFolder\**" />
+    <EmbeddedResource Remove="Resources\**" />
     <None Remove="Repository\NewFolder\**" />
+    <None Remove="Resources\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Assets\Fonts\" />
-    <Folder Include="Resources\Icons\" />
-    <Folder Include="Resources\Images\" />
   </ItemGroup>
 
   <ItemGroup>
