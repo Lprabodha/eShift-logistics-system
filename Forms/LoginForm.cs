@@ -39,7 +39,8 @@ namespace eShift_Logistics_System.Forms
         {
             textbox.Text = placeholder;
             textbox.ForeColor = Color.Gray;
-            textbox.GotFocus += (s, e) => {
+            textbox.GotFocus += (s, e) =>
+            {
                 if (textbox.Text == placeholder)
                 {
                     textbox.Text = "";
@@ -47,7 +48,8 @@ namespace eShift_Logistics_System.Forms
                     if (isPassword) textbox.UseSystemPasswordChar = true;
                 }
             };
-            textbox.LostFocus += (s, e) => {
+            textbox.LostFocus += (s, e) =>
+            {
                 if (string.IsNullOrWhiteSpace(textbox.Text))
                 {
                     textbox.Text = placeholder;
@@ -60,6 +62,13 @@ namespace eShift_Logistics_System.Forms
         private void pnlLeft_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void lnkRegister_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            CustomerRegisterForm registerForm = new CustomerRegisterForm();
+            this.Hide();
+            registerForm.Show();
         }
     }
 }

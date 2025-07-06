@@ -265,7 +265,7 @@
             // lblNoAccount
             // 
             lblNoAccount.AutoSize = true;
-            lblNoAccount.Location = new Point(96, 396);
+            lblNoAccount.Location = new Point(77, 396);
             lblNoAccount.Name = "lblNoAccount";
             lblNoAccount.Size = new Size(131, 15);
             lblNoAccount.TabIndex = 9;
@@ -275,12 +275,13 @@
             // 
             lnkRegister.AutoSize = true;
             lnkRegister.LinkColor = Color.FromArgb(65, 84, 241);
-            lnkRegister.Location = new Point(228, 396);
+            lnkRegister.Location = new Point(209, 396);
             lnkRegister.Name = "lnkRegister";
-            lnkRegister.Size = new Size(49, 15);
+            lnkRegister.Size = new Size(103, 15);
             lnkRegister.TabIndex = 10;
             lnkRegister.TabStop = true;
-            lnkRegister.Text = "Register";
+            lnkRegister.Text = "Create an account";
+            lnkRegister.LinkClicked += lnkRegister_LinkClicked;
             // 
             // LoginForm
             // 
@@ -293,7 +294,7 @@
             MaximizeBox = false;
             Name = "LoginForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Login";
+            Text = "e-Shift - Login";
             pnlLeft.ResumeLayout(false);
             pnlLeft.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)picIllustration).EndInit();
