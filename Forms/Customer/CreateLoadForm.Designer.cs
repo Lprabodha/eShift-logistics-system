@@ -1,6 +1,6 @@
 ﻿namespace eShift_Logistics_System.Forms.Customer
 {
-    partial class MyJobForm
+    partial class CreateLoadForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,19 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MyJobForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CreateLoadForm));
             SuspendLayout();
             // 
-            // MyJobForm
+            // CreateLoadForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(984, 511);
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
-            Name = "MyJobForm";
+            Name = "CreateLoadForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "MyJobForm";
+            Text = "CreateLoadForm";
             ResumeLayout(false);
         }
 

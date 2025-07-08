@@ -123,5 +123,10 @@ namespace eShift_Logistics_System.Forms
             }
 
         }
+
+        private void pnlLeft_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

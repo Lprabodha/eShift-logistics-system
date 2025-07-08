@@ -82,6 +82,7 @@ namespace eShift_Logistics_System.Forms
             pnlLeft.Name = "pnlLeft";
             pnlLeft.Size = new Size(394, 525);
             pnlLeft.TabIndex = 1;
+            pnlLeft.Paint += pnlLeft_Paint;
             // 
             // label4
             // 
@@ -403,6 +404,7 @@ namespace eShift_Logistics_System.Forms
             Controls.Add(pnlRight);
             Controls.Add(pnlLeft);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "CustomerRegisterForm";
             StartPosition = FormStartPosition.CenterScreen;
