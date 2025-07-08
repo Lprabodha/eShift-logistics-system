@@ -367,10 +367,11 @@
             Controls.Add(pnlMainContent);
             Controls.Add(pnlSidebar);
             Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            MaximizeBox = false;
             MinimumSize = new Size(1200, 719);
             Name = "AdminDashboardForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Admin Dashboard";
+            Text = "E-Shift - Admin Dashboard";
             Load += AdminDashboardForm_Load;
             pnlSidebar.ResumeLayout(false);
             pnlHelp.ResumeLayout(false);
