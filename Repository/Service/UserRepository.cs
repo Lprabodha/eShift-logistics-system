@@ -50,5 +50,66 @@ namespace eShift_Logistics_System.Repository.Service
         {
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// Checks if an email already exists in the database.
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public bool IsEmailExists(string email)
+        {
+            using var conn = DatabaseHelper.GetConnection();
+            string query = "SELECT COUNT(*) FROM users WHERE email = @email";
+            using var cmd = new MySqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@email", email);
+            return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
+        }
+
+        /// <summary>
+        /// Checks if a phone number already exists in the database.
+        /// </summary>
+        /// <param name="phone"></param>
+        /// <returns></returns>
+        public bool IsPhoneExists(string phone)
+        {
+            using var conn = DatabaseHelper.GetConnection();
+            string query = "SELECT COUNT(*) FROM users WHERE phone = @phone";
+            using var cmd = new MySqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@phone", phone);
+            return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
+        }
+
+        /// <summary>
+        /// Retrieves a user by their email address from the database.
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public User GetUserByEmail(string email)
+        {
+            const string query = "SELECT * FROM users WHERE email = @email LIMIT 1";
+
+            using (var conn = DatabaseHelper.GetConnection())
+            using (var cmd = new MySqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@email", email);
+
+                using var reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    return new User
+                    {
+                        Id = Convert.ToInt32(reader["id"]),
+                        FirstName = reader["first_name"].ToString(),
+                        Email = reader["email"].ToString(),
+                        Phone = reader["phone"]?.ToString(),
+                        PasswordHash = reader["password_hash"].ToString(),
+                        UserType = (UserType)Convert.ToInt32(reader["user_type"]),
+                        CustomerNumber = reader["customer_number"]?.ToString()
+                    };
+                }
+            }
+
+            return null;
+        }
     }
 }

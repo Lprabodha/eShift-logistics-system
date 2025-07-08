@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace eShift_Logistics_System.Repository.Interface
 {
-    internal interface IUserRepository
+    public interface IUserRepository
     {
         /// <summary>
         /// Retrieves all users from the repository.
@@ -32,6 +32,27 @@ namespace eShift_Logistics_System.Repository.Interface
         /// </summary>
         /// <param name="id"></param>
         void DeleteUser(int id);
+
+        /// <summary>
+        /// Checks if an email already exists in the repository.
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        bool IsEmailExists(string email);
+
+        /// <summary>
+        /// Checks if a phone number already exists in the repository.
+        /// </summary>
+        /// <param name="phone"></param>
+        /// <returns></returns>
+        bool IsPhoneExists(string phone);
+
+        /// <summary>
+        /// Retrieves a user by their email address from the repository.
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        User GetUserByEmail(string email);
 
     }
 }

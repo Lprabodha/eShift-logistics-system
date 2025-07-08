@@ -30,5 +30,10 @@ namespace eShift_Logistics_System.Helpers
             string dayCode = DateTime.Now.ToString("ddHH"); 
             return $"CUST{dayCode}";
         }
+
+        public static bool VerifyPassword(string inputPassword, string hashedPassword)
+        {
+            return HashPassword(inputPassword) == hashedPassword;
+        }
     }
 }

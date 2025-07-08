@@ -92,7 +92,8 @@ namespace eShift_Logistics_System.Forms
                 ConfirmPassword = PlaceholderHelper.GetInput(txtConfirmPassword),
             };
 
-            UserValidator validator = new UserValidator();
+            var userRepo = new UserRepository();
+            UserValidator validator = new UserValidator(userRepo);
             ValidationResult results = validator.Validate(user);
 
             if (!results.IsValid)
@@ -100,7 +101,7 @@ namespace eShift_Logistics_System.Forms
 
                 foreach (var failure in results.Errors)
                 {
-                    MessageBox.Show(failure.ErrorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(failure.ErrorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
                 }
 
@@ -120,6 +121,11 @@ namespace eShift_Logistics_System.Forms
             {
                 MessageBox.Show($"An error occurred during registration: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+        }
+
+        private void pnlLeft_Paint(object sender, PaintEventArgs e)
+        {
 
         }
     }
