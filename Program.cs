@@ -1,4 +1,5 @@
 using eShift_Logistics_System.Forms;
+using eShift_Logistics_System.Forms.Admin;
 
 namespace eShift_Logistics_System
 {
@@ -13,7 +14,7 @@ namespace eShift_Logistics_System
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new LoginForm());
+            Application.Run(new AdminDashboardForm());
         }
     }
 }
