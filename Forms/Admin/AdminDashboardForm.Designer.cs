@@ -19,19 +19,19 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AdminDashboardForm));
             pnlSidebar = new Panel();
-            pnlHelp = new Panel();
+            pnlReports = new Panel();
             imgHelp = new PictureBox();
             lblHelp = new Label();
-            pnlPromote = new Panel();
+            pnlProduct = new Panel();
             imgPromote = new PictureBox();
             lblPromote = new Label();
-            pnlIncome = new Panel();
+            pnlVehicle = new Panel();
             imgIncome = new PictureBox();
             lblIncome = new Label();
-            pnlCustomers = new Panel();
+            pnlJobs = new Panel();
             imgCustomers = new PictureBox();
             lblCustomers = new Label();
-            pnlProduct = new Panel();
+            pnlCustomer = new Panel();
             imgProduct = new PictureBox();
             lblProduct = new Label();
             pnlDashboard = new Panel();
@@ -46,15 +46,15 @@
             picAppLogo = new PictureBox();
             pnlMainContent = new Panel();
             pnlSidebar.SuspendLayout();
-            pnlHelp.SuspendLayout();
+            pnlReports.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)imgHelp).BeginInit();
-            pnlPromote.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)imgPromote).BeginInit();
-            pnlIncome.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)imgIncome).BeginInit();
-            pnlCustomers.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)imgCustomers).BeginInit();
             pnlProduct.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)imgPromote).BeginInit();
+            pnlVehicle.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)imgIncome).BeginInit();
+            pnlJobs.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)imgCustomers).BeginInit();
+            pnlCustomer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)imgProduct).BeginInit();
             pnlDashboard.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)imgDashboard).BeginInit();
@@ -67,11 +67,11 @@
             // pnlSidebar
             // 
             pnlSidebar.BackColor = Color.FromArgb(65, 84, 241);
-            pnlSidebar.Controls.Add(pnlHelp);
-            pnlSidebar.Controls.Add(pnlPromote);
-            pnlSidebar.Controls.Add(pnlIncome);
-            pnlSidebar.Controls.Add(pnlCustomers);
+            pnlSidebar.Controls.Add(pnlReports);
             pnlSidebar.Controls.Add(pnlProduct);
+            pnlSidebar.Controls.Add(pnlVehicle);
+            pnlSidebar.Controls.Add(pnlJobs);
+            pnlSidebar.Controls.Add(pnlCustomer);
             pnlSidebar.Controls.Add(pnlDashboard);
             pnlSidebar.Controls.Add(pnlUser);
             pnlSidebar.Controls.Add(pnlHeader);
@@ -81,16 +81,16 @@
             pnlSidebar.Size = new Size(260, 680);
             pnlSidebar.TabIndex = 0;
             // 
-            // pnlHelp
+            // pnlReports
             // 
-            pnlHelp.BackColor = Color.Transparent;
-            pnlHelp.Controls.Add(imgHelp);
-            pnlHelp.Controls.Add(lblHelp);
-            pnlHelp.Cursor = Cursors.Hand;
-            pnlHelp.Location = new Point(20, 420);
-            pnlHelp.Name = "pnlHelp";
-            pnlHelp.Size = new Size(220, 45);
-            pnlHelp.TabIndex = 6;
+            pnlReports.BackColor = Color.Transparent;
+            pnlReports.Controls.Add(imgHelp);
+            pnlReports.Controls.Add(lblHelp);
+            pnlReports.Cursor = Cursors.Hand;
+            pnlReports.Location = new Point(20, 420);
+            pnlReports.Name = "pnlReports";
+            pnlReports.Size = new Size(220, 45);
+            pnlReports.TabIndex = 6;
             // 
             // imgHelp
             // 
@@ -113,16 +113,16 @@
             lblHelp.TabIndex = 0;
             lblHelp.Text = "Reports";
             // 
-            // pnlPromote
+            // pnlProduct
             // 
-            pnlPromote.BackColor = Color.Transparent;
-            pnlPromote.Controls.Add(imgPromote);
-            pnlPromote.Controls.Add(lblPromote);
-            pnlPromote.Cursor = Cursors.Hand;
-            pnlPromote.Location = new Point(20, 360);
-            pnlPromote.Name = "pnlPromote";
-            pnlPromote.Size = new Size(220, 45);
-            pnlPromote.TabIndex = 5;
+            pnlProduct.BackColor = Color.Transparent;
+            pnlProduct.Controls.Add(imgPromote);
+            pnlProduct.Controls.Add(lblPromote);
+            pnlProduct.Cursor = Cursors.Hand;
+            pnlProduct.Location = new Point(20, 360);
+            pnlProduct.Name = "pnlProduct";
+            pnlProduct.Size = new Size(220, 45);
+            pnlProduct.TabIndex = 5;
             // 
             // imgPromote
             // 
@@ -145,16 +145,16 @@
             lblPromote.TabIndex = 0;
             lblPromote.Text = "Product Management";
             // 
-            // pnlIncome
+            // pnlVehicle
             // 
-            pnlIncome.BackColor = Color.Transparent;
-            pnlIncome.Controls.Add(imgIncome);
-            pnlIncome.Controls.Add(lblIncome);
-            pnlIncome.Cursor = Cursors.Hand;
-            pnlIncome.Location = new Point(20, 300);
-            pnlIncome.Name = "pnlIncome";
-            pnlIncome.Size = new Size(220, 45);
-            pnlIncome.TabIndex = 4;
+            pnlVehicle.BackColor = Color.Transparent;
+            pnlVehicle.Controls.Add(imgIncome);
+            pnlVehicle.Controls.Add(lblIncome);
+            pnlVehicle.Cursor = Cursors.Hand;
+            pnlVehicle.Location = new Point(20, 300);
+            pnlVehicle.Name = "pnlVehicle";
+            pnlVehicle.Size = new Size(220, 45);
+            pnlVehicle.TabIndex = 4;
             // 
             // imgIncome
             // 
@@ -177,16 +177,16 @@
             lblIncome.TabIndex = 0;
             lblIncome.Text = "Vehicle Management";
             // 
-            // pnlCustomers
+            // pnlJobs
             // 
-            pnlCustomers.BackColor = Color.Transparent;
-            pnlCustomers.Controls.Add(imgCustomers);
-            pnlCustomers.Controls.Add(lblCustomers);
-            pnlCustomers.Cursor = Cursors.Hand;
-            pnlCustomers.Location = new Point(20, 240);
-            pnlCustomers.Name = "pnlCustomers";
-            pnlCustomers.Size = new Size(220, 45);
-            pnlCustomers.TabIndex = 3;
+            pnlJobs.BackColor = Color.Transparent;
+            pnlJobs.Controls.Add(imgCustomers);
+            pnlJobs.Controls.Add(lblCustomers);
+            pnlJobs.Cursor = Cursors.Hand;
+            pnlJobs.Location = new Point(20, 240);
+            pnlJobs.Name = "pnlJobs";
+            pnlJobs.Size = new Size(220, 45);
+            pnlJobs.TabIndex = 3;
             // 
             // imgCustomers
             // 
@@ -209,16 +209,16 @@
             lblCustomers.TabIndex = 0;
             lblCustomers.Text = "Job Management";
             // 
-            // pnlProduct
+            // pnlCustomer
             // 
-            pnlProduct.BackColor = Color.Transparent;
-            pnlProduct.Controls.Add(imgProduct);
-            pnlProduct.Controls.Add(lblProduct);
-            pnlProduct.Cursor = Cursors.Hand;
-            pnlProduct.Location = new Point(20, 180);
-            pnlProduct.Name = "pnlProduct";
-            pnlProduct.Size = new Size(220, 45);
-            pnlProduct.TabIndex = 2;
+            pnlCustomer.BackColor = Color.Transparent;
+            pnlCustomer.Controls.Add(imgProduct);
+            pnlCustomer.Controls.Add(lblProduct);
+            pnlCustomer.Cursor = Cursors.Hand;
+            pnlCustomer.Location = new Point(20, 180);
+            pnlCustomer.Name = "pnlCustomer";
+            pnlCustomer.Size = new Size(220, 45);
+            pnlCustomer.TabIndex = 2;
             // 
             // imgProduct
             // 
@@ -367,6 +367,7 @@
             Controls.Add(pnlMainContent);
             Controls.Add(pnlSidebar);
             Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             MinimumSize = new Size(1200, 719);
             Name = "AdminDashboardForm";
@@ -374,20 +375,20 @@
             Text = "E-Shift - Admin Dashboard";
             Load += AdminDashboardForm_Load;
             pnlSidebar.ResumeLayout(false);
-            pnlHelp.ResumeLayout(false);
-            pnlHelp.PerformLayout();
+            pnlReports.ResumeLayout(false);
+            pnlReports.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)imgHelp).EndInit();
-            pnlPromote.ResumeLayout(false);
-            pnlPromote.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)imgPromote).EndInit();
-            pnlIncome.ResumeLayout(false);
-            pnlIncome.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)imgIncome).EndInit();
-            pnlCustomers.ResumeLayout(false);
-            pnlCustomers.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)imgCustomers).EndInit();
             pnlProduct.ResumeLayout(false);
             pnlProduct.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)imgPromote).EndInit();
+            pnlVehicle.ResumeLayout(false);
+            pnlVehicle.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)imgIncome).EndInit();
+            pnlJobs.ResumeLayout(false);
+            pnlJobs.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)imgCustomers).EndInit();
+            pnlCustomer.ResumeLayout(false);
+            pnlCustomer.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)imgProduct).EndInit();
             pnlDashboard.ResumeLayout(false);
             pnlDashboard.PerformLayout();
@@ -415,19 +416,19 @@
         private System.Windows.Forms.Panel pnlDashboard;
         private System.Windows.Forms.Label lblDashboard;
         private System.Windows.Forms.PictureBox imgDashboard;
-        private System.Windows.Forms.Panel pnlHelp;
+        private System.Windows.Forms.Panel pnlReports;
         private System.Windows.Forms.PictureBox imgHelp;
         private System.Windows.Forms.Label lblHelp;
-        private System.Windows.Forms.Panel pnlPromote;
+        private System.Windows.Forms.Panel pnlProduct;
         private System.Windows.Forms.PictureBox imgPromote;
         private System.Windows.Forms.Label lblPromote;
-        private System.Windows.Forms.Panel pnlIncome;
+        private System.Windows.Forms.Panel pnlVehicle;
         private System.Windows.Forms.PictureBox imgIncome;
         private System.Windows.Forms.Label lblIncome;
-        private System.Windows.Forms.Panel pnlCustomers;
+        private System.Windows.Forms.Panel pnlJobs;
         private System.Windows.Forms.PictureBox imgCustomers;
         private System.Windows.Forms.Label lblCustomers;
-        private System.Windows.Forms.Panel pnlProduct;
+        private System.Windows.Forms.Panel pnlCustomer;
         private System.Windows.Forms.PictureBox imgProduct;
         private System.Windows.Forms.Label lblProduct;
         private System.Windows.Forms.Panel pnlMainContent;

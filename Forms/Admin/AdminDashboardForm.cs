@@ -31,7 +31,7 @@ namespace eShift_Logistics_System.Forms.Admin
         {
             menuPanels = new List<Panel>
             {
-                pnlDashboard, pnlProduct, pnlCustomers, pnlIncome, pnlPromote, pnlHelp
+                pnlDashboard, pnlCustomer, pnlJobs, pnlVehicle, pnlProduct, pnlReports
             };
 
             // Assign event handlers for panel and their child controls
@@ -108,16 +108,16 @@ namespace eShift_Logistics_System.Forms.Admin
             // Load appropriate form based on the panel clicked
             if (clickedPanel == pnlDashboard)
                 LoadFormIntoPanel(new DashboardViewForm());
-            else if (clickedPanel == pnlCustomers)
-                LoadFormIntoPanel(new CustomersForm());
-            else if (clickedPanel == pnlProduct)
-                LoadFormIntoPanel(new TrucksForm());
-            else if (clickedPanel == pnlIncome)
+            else if (clickedPanel == pnlJobs)
                 LoadFormIntoPanel(new JobsForm());
-            else if (clickedPanel == pnlPromote)
-                LoadFormIntoPanel(new ReportsForm());
-            else if (clickedPanel == pnlHelp)
+            else if (clickedPanel == pnlCustomer)
+                LoadFormIntoPanel(new CustomersForm());
+            else if (clickedPanel == pnlVehicle)
+                LoadFormIntoPanel(new TrucksForm());
+            else if (clickedPanel == pnlProduct)
                 LoadFormIntoPanel(new AssistantsForm());
+            else if (clickedPanel == pnlReports)
+                LoadFormIntoPanel(new ReportsForm());
         }
 
         /// <summary>
