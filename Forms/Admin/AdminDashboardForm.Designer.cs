@@ -313,7 +313,7 @@
             picUserAvatar.Image = (Image)resources.GetObject("picUserAvatar.Image");
             picUserAvatar.Location = new Point(10, 10);
             picUserAvatar.Name = "picUserAvatar";
-            picUserAvatar.Size = new Size(40, 40);
+            picUserAvatar.Size = new Size(36, 36);
             picUserAvatar.SizeMode = PictureBoxSizeMode.Zoom;
             picUserAvatar.TabIndex = 0;
             picUserAvatar.TabStop = false;
