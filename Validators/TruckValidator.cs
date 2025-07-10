@@ -19,11 +19,11 @@ namespace eShift_Logistics_System.Validators
             _truckRepository = truckRepository;
 
             RuleFor(truck => truck.TruckNumber)
-           .NotEmpty().WithMessage("Truck number is required.")
-           .MaximumLength(50).WithMessage("Truck number must be under 50 characters.")
-           .Matches(@"^[a-zA-Z0-9\-]+$").WithMessage("Truck number can only contain letters, digits, and dashes.")
-           .Must(BeUniqueTruckNumber)
-           .WithMessage("This truck number is already registered.");
+               .NotEmpty().WithMessage("Truck number is required.")
+               .MaximumLength(50).WithMessage("Truck number must be under 50 characters.")
+               .Matches(@"^[a-zA-Z0-9\-]+$").WithMessage("Truck number can only contain letters, digits, and dashes.")
+               .Must((truck, number) => BeUniqueTruckNumber(truck, number))
+               .WithMessage("This truck number is already registered.");
 
             RuleFor(truck => truck.Model)
                 .NotEmpty().WithMessage("Model is required.")
@@ -40,9 +40,9 @@ namespace eShift_Logistics_System.Validators
 
         }
 
-        private bool BeUniqueTruckNumber( string number)
+        private bool BeUniqueTruckNumber(Truck truck, string number)
         {
-            return !_truckRepository.IsTruckNumberExists(number);
+            return !_truckRepository.IsTruckNumberExists(number, truck.Id);
         }
     }
 }

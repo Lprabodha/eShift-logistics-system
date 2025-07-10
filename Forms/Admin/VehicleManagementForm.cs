@@ -1,4 +1,8 @@
-﻿using eShift_Logistics_System.Models;
+﻿using eShift_Logistics_System.Business.Interface;
+using eShift_Logistics_System.Business.Services;
+using eShift_Logistics_System.Models;
+using eShift_Logistics_System.Repository.Interface;
+using eShift_Logistics_System.Repository.Service;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,10 +17,13 @@ namespace eShift_Logistics_System.Forms.Admin
 {
     public partial class VehicleManagementForm : Form
     {
+        private readonly ITruckService _truckService;
         private List<Truck> _allTrucks; // This will hold the master list of trucks
 
         public VehicleManagementForm()
         {
+            ITruckRepository truckRepository = new TruckRepositroy();
+            _truckService = new TruckService(truckRepository);
             InitializeComponent();
         }
 
@@ -54,17 +61,16 @@ namespace eShift_Logistics_System.Forms.Admin
 
         private void LoadTrucksData()
         {
-            // In a real app, get this list from a service.
-            _allTrucks = new List<Truck>
+            try
             {
-                new Truck { Id = 1, LicensePlate = "CBE-1234", Model = "Isuzu Elf", Capacity = 2500, Status = TruckStatus.Available },
-                new Truck { Id = 2, LicensePlate = "CBA-5678", Model = "Mitsubishi Canter", Capacity = 3000, Status = TruckStatus.OnJob },
-                new Truck { Id = 3, LicensePlate = "CAB-9012", Model = "Toyota Dyna", Capacity = 2000, Status = TruckStatus.InMaintenance },
-                new Truck { Id = 4, LicensePlate = "CBC-3456", Model = "Fuso Fighter", Capacity = 5000, Status = TruckStatus.Available }
-            };
-
-            // Bind the full list to the grid
-            BindDataToGrid(_allTrucks);
+                _allTrucks = _truckService.GetAllTrucks();
+                BindDataToGrid(_allTrucks);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to load truck data.\n\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _allTrucks = new List<Truck>(); 
+            }
         }
 
         // A new helper method to bind any list of trucks to the grid

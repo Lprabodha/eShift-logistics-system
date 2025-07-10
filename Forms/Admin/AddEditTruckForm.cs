@@ -63,22 +63,9 @@ namespace eShift_Logistics_System.Forms.Admin
 
         private void LoadTruckData()
         {
-            // In a real app, you would get this from a service:
-            // var truck = _truckService.GetTruckById(_truckId.Value);
+             var truck = _truckService.GetTruckById(_truckId.Value);
 
-            // Using placeholder data for demonstration
-            var truck = new Truck
-            {
-                Id = _truckId.Value,
-                TruckNumber = "TRK-002",
-                Model = "Mitsubishi Canter",
-                LicensePlate = "CBA-5678",
-                Capacity = 3000,
-                Status = TruckStatus.OnJob,
-                IsActive = true
-            };
 
-            // Populate form controls
             txtTruckNumber.Text = truck.TruckNumber;
             txtModel.Text = truck.Model;
             txtLicensePlate.Text = truck.LicensePlate;
@@ -98,6 +85,11 @@ namespace eShift_Logistics_System.Forms.Admin
                 Status = (TruckStatus)cboStatus.SelectedItem,
                 IsActive = chkIsActive.Checked
             };
+
+            if (_truckId.HasValue)
+            {
+                truck.Id = _truckId.Value; 
+            }
 
             var validator = new TruckValidator(new TruckRepositroy()); 
             var results = validator.Validate(truck);
