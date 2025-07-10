@@ -269,7 +269,35 @@ namespace eShift_Logistics_System.Forms.Admin
         private void dgvAssistants_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
-            // Add Edit/Delete logic here...
+
+            int assistantId = Convert.ToInt32(dgvAssistants.Rows[e.RowIndex].Cells["Id"].Value);
+            string assistantName = dgvAssistants.Rows[e.RowIndex].Cells["Name"].Value.ToString();
+
+            if (dgvAssistants.Columns[e.ColumnIndex].Name == "Edit")
+            {
+                var editForm = new AddEditAssistantForm(assistantId);
+
+                if (editForm.ShowDialog() == DialogResult.OK)
+                {
+                    LoadAssistantsData();
+                }
+            }
+            else if (dgvAssistants.Columns[e.ColumnIndex].Name == "Delete")
+            {
+                var confirmResult = MessageBox.Show($"Are you sure you want to delete assistant {assistantName}?",
+                                             "Confirm Deletion",
+                                             MessageBoxButtons.YesNo,
+                                             MessageBoxIcon.Warning);
+
+                if (confirmResult == DialogResult.Yes)
+                {
+                     _assistantService.DeleteAssistant(assistantId);
+
+                    MessageBox.Show($"Assistant {assistantName} has been deleted.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    LoadAssistantsData();
+                }
+            }
         }
 
         private void btnAddNewAssistant_Click(object sender, EventArgs e)
