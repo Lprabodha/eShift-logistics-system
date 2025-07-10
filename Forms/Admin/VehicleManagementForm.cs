@@ -13,30 +13,45 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace eShift_Logistics_System.Forms.Admin
 {
     public partial class VehicleManagementForm : Form
     {
+        /// <summary>
+        /// Represents the services used for managing trucks, drivers, assistants, and transport units.
+        /// </summary>
         private readonly ITruckService _truckService;
         private readonly IDriverService _driverService;
         private readonly IAssistantService _assistantService;
         private readonly IUnitService _unitService;
 
-        private List<Truck> _allTrucks; // This will hold the master list of trucks
+        /// <summary>
+        /// Lists to hold all trucks, drivers, assistants, and transport units loaded from the database.
+        /// </summary>
+        private List<Truck> _allTrucks; 
         private List<Driver> _allDrivers;
         private List<Assistant> _allAssistants;
         private List<TransportUnit> _allUnits;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VehicleManagementForm"/> class.
+        /// </summary>
         public VehicleManagementForm()
         {
             _truckService = new TruckService(new TruckRepositroy());
             _driverService = new DriverService(new DriverRepository());
             _assistantService = new AssistantService(new AssistantRepository());
-            //_unitService = new UnitService(new UnitRepository());
+            _unitService = new UnitService(new UnitRepository());
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Handles the Load event of the VehicleManagementForm.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void VehicleManagementForm_Load(object sender, EventArgs e)
         {
             SetupTrucksGrid();
@@ -66,6 +81,9 @@ namespace eShift_Logistics_System.Forms.Admin
             this.dgvUnits.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUnits_CellClick);
         }
 
+        /// <summary>
+        /// Loads all data from the database for trucks, drivers, assistants, and transport units.
+        /// </summary>
         private void LoadAllData()
         {
             LoadTrucksData();
@@ -192,6 +210,9 @@ namespace eShift_Logistics_System.Forms.Admin
             BindDataToGrid(filteredList);
         }
 
+        /// <summary>
+        /// Sets up the DataGridView for displaying drivers with appropriate columns and properties.
+        /// </summary>
         private void SetupDriversGrid()
         {
             dgvDrivers.Columns.Clear();
@@ -205,18 +226,30 @@ namespace eShift_Logistics_System.Forms.Admin
                                         new DataGridViewButtonColumn { Name = "Delete", HeaderText = "Delete", Text = "Delete", UseColumnTextForButtonValue = true, Width = 80 });
         }
 
+        /// <summary>
+        /// Loads all drivers from the service and binds them to the DataGridView.
+        /// </summary>
         private void LoadDriversData()
         {
             _allDrivers = _driverService.GetAllDrivers();
             BindDataToGrid(_allDrivers);
         }
 
+        /// <summary>
+        /// Binds the provided list of drivers to the DataGridView.
+        /// </summary>
+        /// <param name="drivers"></param>
         private void BindDataToGrid(List<Driver> drivers)
         {
             dgvDrivers.DataSource = null;
             dgvDrivers.DataSource = drivers;
         }
 
+        /// <summary>
+        /// Handles the click event for the driver search button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnDriverSearch_Click(object sender, EventArgs e)
         {
             var searchText = txtDriverSearch.Text.Trim().ToLower();
@@ -224,6 +257,11 @@ namespace eShift_Logistics_System.Forms.Admin
             BindDataToGrid(filteredList);
         }
 
+        /// <summary>
+        /// Handles cell clicks in the DataGridView for editing or deleting drivers.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgvDrivers_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
@@ -253,6 +291,12 @@ namespace eShift_Logistics_System.Forms.Admin
             }
         }
 
+        /// <summary>
+        /// Handles the click event for the "Add New Driver" button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
         private void btnAddNewDriver_Click(object sender, EventArgs e)
         {
             var addForm = new AddEditDriverForm();
@@ -262,6 +306,9 @@ namespace eShift_Logistics_System.Forms.Admin
             }
         }
 
+        /// <summary>
+        /// Sets up the DataGridView for displaying assistants with appropriate columns and properties.
+        /// </summary>
         private void SetupAssistantsGrid()
         {
             dgvAssistants.Columns.Clear();
@@ -274,17 +321,30 @@ namespace eShift_Logistics_System.Forms.Admin
                                            new DataGridViewButtonColumn { Name = "Delete", HeaderText = "Delete", Text = "Delete", UseColumnTextForButtonValue = true, Width = 80 });
         }
 
+        /// <summary>
+        /// Loads all assistants from the service and binds them to the DataGridView.
+        /// </summary>
         private void LoadAssistantsData()
         {
             _allAssistants = _assistantService.GetAllAssistants();
             BindDataToGrid(_allAssistants);
         }
 
+        /// <summary>
+        /// Binds the provided list of assistants to the DataGridView.
+        /// </summary>
+        /// <param name="assistants"></param>
         private void BindDataToGrid(List<Assistant> assistants)
         {
             dgvAssistants.DataSource = null;
             dgvAssistants.DataSource = assistants;
         }
+
+        /// <summary>
+        /// Handles the click event for the assistant search button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 
         private void btnAssistantSearch_Click(object sender, EventArgs e)
         {
@@ -293,6 +353,11 @@ namespace eShift_Logistics_System.Forms.Admin
             BindDataToGrid(filteredList);
         }
 
+        /// <summary>
+        /// Handles cell clicks in the DataGridView for editing or deleting assistants.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgvAssistants_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
@@ -327,6 +392,11 @@ namespace eShift_Logistics_System.Forms.Admin
             }
         }
 
+        /// <summary>
+        /// Handles the click event for the "Add New Assistant" button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAddNewAssistant_Click(object sender, EventArgs e)
         {
             var addForm = new AddEditAssistantForm();
@@ -336,6 +406,9 @@ namespace eShift_Logistics_System.Forms.Admin
             }
         }
 
+        /// <summary>
+        /// Sets up the DataGridView for displaying transport units with appropriate columns and properties.
+        /// </summary>
         private void SetupUnitsGrid()
         {
             dgvUnits.Columns.Clear();
@@ -350,11 +423,19 @@ namespace eShift_Logistics_System.Forms.Admin
                                       new DataGridViewButtonColumn { Name = "Delete", HeaderText = "Delete", Text = "Delete", UseColumnTextForButtonValue = true, Width = 80 });
         }
 
+        /// <summary>
+        /// Loads all transport units from the service and binds them to the DataGridView.
+        /// </summary>
         private void LoadUnitsData()
         {
-            //_allUnits = _unitService.GetAllUnits(); // This service method should eager load Truck, Driver, Assistant
-            //BindDataToGrid(_allUnits);
+            _allUnits = _unitService.GetAllUnits(); 
+            BindDataToGrid(_allUnits);
         }
+
+        /// <summary>
+        /// Binds the provided list of transport units to the DataGridView.
+        /// </summary>
+        /// <param name="units"></param>
 
         private void BindDataToGrid(List<TransportUnit> units)
         {
@@ -371,23 +452,89 @@ namespace eShift_Logistics_System.Forms.Admin
             dgvUnits.DataSource = displayList;
         }
 
+        /// <summary>
+        /// Handles the click event for the unit search button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnUnitSearch_Click(object sender, EventArgs e)
         {
             var searchText = txtUnitSearch.Text.Trim().ToLower();
+
             var filteredList = _allUnits.Where(u =>
                 u.UnitNumber.ToLower().Contains(searchText) ||
-                (u.Truck?.LicensePlate.ToLower().Contains(searchText) ?? false) ||
-                (u.Driver?.Name.ToLower().Contains(searchText) ?? false)
+
+                (u.Truck?.LicensePlate ?? "").ToLower().Contains(searchText) ||
+                (u.Driver?.Name ?? "").ToLower().Contains(searchText) ||
+                (u.Assistant?.Name ?? "").ToLower().Contains(searchText)
+
             ).ToList();
+
             BindDataToGrid(filteredList);
         }
 
+        /// <summary>
+        /// Handles cell clicks in the DataGridView for editing or deleting transport units.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgvUnits_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
-            // Add Edit/Delete logic here...
+
+            int unitId = Convert.ToInt32(dgvUnits.Rows[e.RowIndex].Cells["Id"].Value);
+            var status = (TransportUnitStatus)dgvUnits.Rows[e.RowIndex].Cells["Status"].Value;
+            string unitNumber = dgvUnits.Rows[e.RowIndex].Cells["UnitNumber"].Value.ToString();
+
+            if (dgvUnits.Columns[e.ColumnIndex].Name == "Edit")
+            {
+
+                if (status == TransportUnitStatus.OnJob || status == TransportUnitStatus.Assigned)
+                {
+                    MessageBox.Show($"This Transport Unit cannot be edited because it is currently '{status}'.",
+                            "Edit Not Allowed",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                    return;
+
+                }
+
+                var editForm = new AddEditTransportUnitForm(unitId);
+                if (editForm.ShowDialog() == DialogResult.OK)
+                {
+                    LoadUnitsData();
+                }
+            }
+            else if (dgvUnits.Columns[e.ColumnIndex].Name == "Delete")
+            {
+
+                if(status == TransportUnitStatus.OnJob || status == TransportUnitStatus.Assigned)
+                {
+                    MessageBox.Show($"This Transport Unit cannot be deleted because it is currently '{status}'.",
+                            "Delete Not Allowed",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                    return;
+                }
+
+                var confirmResult = MessageBox.Show($"Are you sure you want to delete transport unit {unitNumber}?",
+                                             "Confirm Deletion",
+                                             MessageBoxButtons.YesNo,
+                                             MessageBoxIcon.Warning);
+                if (confirmResult == DialogResult.Yes)
+                {
+                    _unitService.DeleteUnit(unitId);
+                    MessageBox.Show($"Transport unit {unitNumber} has been deleted.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadUnitsData();
+                }
+            }
         }
 
+        /// <summary>
+        /// Handles the click event for the "Add New Transport Unit" button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAddNewUnit_Click(object sender, EventArgs e)
         {
 

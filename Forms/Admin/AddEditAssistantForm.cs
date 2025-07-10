@@ -16,11 +16,18 @@ using System.Windows.Forms;
 
 namespace eShift_Logistics_System.Forms.Admin
 {
+    /// <summary>
+    /// Form for adding or editing an assistant in the logistics system.
+    /// </summary>
     public partial class AddEditAssistantForm : Form
     {
         private readonly int? _assistantId;
         private readonly IAssistantService _assistantService;
 
+        /// <summary>
+        /// Constructor for the AddEditAssistantForm.
+        /// </summary>
+        /// <param name="assistantId"></param>
         public AddEditAssistantForm(int? assistantId = null)
         {
             InitializeComponent();
@@ -30,6 +37,11 @@ namespace eShift_Logistics_System.Forms.Admin
             _assistantService = new AssistantService(assistantRepository);
         }
 
+        /// <summary>
+        /// Handles the Load event of the AddEditAssistantForm.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddEditAssistantForm_Load(object sender, EventArgs e)
         {
             cboStatus.DataSource = Enum.GetValues(typeof(AssistantStatus));
@@ -46,6 +58,9 @@ namespace eShift_Logistics_System.Forms.Admin
             }
         }
 
+        /// <summary>
+        /// Loads the assistant data into the form fields for editing.
+        /// </summary>
         private void LoadAssistantData()
         {
             var assistant = _assistantService.GetAssistantById(_assistantId.Value);
@@ -64,6 +79,11 @@ namespace eShift_Logistics_System.Forms.Admin
             chkIsActive.Checked = assistant.IsActive;
         }
 
+        /// <summary>
+        /// Handles the Click event of the Save button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSave_Click(object sender, EventArgs e)
         {
 
@@ -92,9 +112,7 @@ namespace eShift_Logistics_System.Forms.Admin
                     MessageBox.Show(failure.ErrorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
                 }
-
                 return;
-
             }
 
             try

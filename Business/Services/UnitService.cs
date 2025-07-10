@@ -13,8 +13,15 @@ namespace eShift_Logistics_System.Business.Services
 {
     public class UnitService : IUnitService
     {
-
+        /// <summary>
+        /// Service for managing transport units in the logistics system.
+        /// </summary>
         private readonly IUnitRepository _unitService;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UnitService"/> class.
+        /// </summary>
+        /// <param name="unitRepository"></param>
         public UnitService(IUnitRepository unitRepository)
         {
 
@@ -22,34 +29,64 @@ namespace eShift_Logistics_System.Business.Services
 
         }
 
+        /// <summary>
+        /// Adds a new transport unit to the system.
+        /// </summary>
+        /// <param name="unit"></param>
         public void AddUnit(TransportUnit unit)
         {
             _unitService.AddUnit(unit);
         }
+
+        /// <summary>
+        /// Updates an existing transport unit in the system.
+        /// </summary>
+        /// <param name="unit"></param>
 
         public void UpdateUnit(TransportUnit unit)
         {
             _unitService.UpdateUnit(unit);
         }
 
+        /// <summary>
+        /// Deletes a transport unit from the system by its ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+
         public bool DeleteUnit(int id)
         {
             return _unitService.DeleteUnit(id);
         }
 
+        /// <summary>
+        /// Retrieves all transport units from the system.
+        /// </summary>
+        /// <returns></returns>
         public List<TransportUnit> GetAllUnits()
         {
             return _unitService.GetAllUnits();
         }
+
+        /// <summary>
+        /// Retrieves a transport unit by its ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
 
         public TransportUnit GetUnitById(int id)
         {
             return _unitService.GetUnitById(id);
         }
 
-        public int GetTotalUnitCount()
+        /// <summary>
+        /// Retrieves the last transport unit ID from the system.
+        /// </summary>
+        /// <returns></returns>
+
+        public int GetLastUnitId()
         {
-            return _unitService.GetTotalUnitCount();
+            return _unitService.GetLastUnitId();
         }
 
     }

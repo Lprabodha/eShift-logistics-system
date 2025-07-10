@@ -116,9 +116,7 @@ namespace eShift_Logistics_System.Forms.Admin
                     MessageBox.Show(failure.ErrorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
                 }
-
                 return;
-
             }
 
             if (_truckId.HasValue)

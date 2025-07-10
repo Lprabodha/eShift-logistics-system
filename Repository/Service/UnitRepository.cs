@@ -13,7 +13,10 @@ namespace eShift_Logistics_System.Repository.Service
 {
     public class UnitRepository : IUnitRepository
     {
-
+        /// <summary>
+        /// Adds a new transport unit to the database.
+        /// </summary>
+        /// <param name="unit"></param>
         public void AddUnit(TransportUnit unit)
         {
             string query = @"
@@ -30,6 +33,10 @@ namespace eShift_Logistics_System.Repository.Service
             });
         }
 
+        /// <summary>
+        /// Updates an existing transport unit in the database.
+        /// </summary>
+        /// <param name="unit"></param>
         public void UpdateUnit(TransportUnit unit)
         {
             string query = @"
@@ -49,6 +56,11 @@ namespace eShift_Logistics_System.Repository.Service
             });
         }
 
+        /// <summary>
+        /// Deletes a transport unit from the database by its ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public bool DeleteUnit(int id)
         {
             string query = "DELETE FROM transport_units WHERE id = @id";
@@ -59,6 +71,11 @@ namespace eShift_Logistics_System.Repository.Service
             return rowsAffected > 0;
         }
 
+        /// <summary>
+        /// Retrieves a transport unit by its ID from the database.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TransportUnit GetUnitById(int id)
         {
             string query = "SELECT * FROM transport_units WHERE id = @id";
@@ -88,46 +105,72 @@ namespace eShift_Logistics_System.Repository.Service
             return null;
         }
 
+        /// <summary>
+        /// Retrieves all transport units from the database.
+        /// </summary>
+        /// <returns></returns>
         public List<TransportUnit> GetAllUnits()
         {
-            List<TransportUnit> units = new List<TransportUnit>();
-            string query = "SELECT * FROM transport_units";
-            using (var conn = DatabaseHelper.GetConnection())
-            {
-                try
-                {
-                    using (var cmd = new MySqlCommand(query, conn))
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            units.Add(new TransportUnit
-                            {
-                                Id = reader.GetInt32("id"),
-                                UnitNumber = reader.GetString("unit_number"),
-                                TruckId = reader.GetInt32("truck_id"),
-                                DriverId = reader.GetInt32("driver_id"),
-                                AssistantId = reader.GetInt32("assistant_id"),
-                                Status = (TransportUnitStatus)reader.GetInt32("status"),
-                                IsActive = reader.GetBoolean("is_active")
-                            });
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("Error retrieving units: " + ex.Message);
-                }
-            }
-            return units;
+            string query = @"
+            SELECT 
+                tu.id, tu.unit_number, tu.status, tu.is_active,
+                tu.truck_id, tu.driver_id, tu.assistant_id,
+                t.license_plate,
+                d.name as driver_name,
+                a.name as assistant_name
+            FROM transport_units tu
+            INNER JOIN trucks t ON tu.truck_id = t.id
+            INNER JOIN drivers d ON tu.driver_id = d.id
+            LEFT JOIN assistants a ON tu.assistant_id = a.id"; 
 
+            return DatabaseHelper.ExecuteReader(query, reader =>
+            {
+                return new TransportUnit
+                {
+                    Id = Convert.ToInt32(reader["id"]),
+                    UnitNumber = reader.GetString("unit_number"),
+                    Status = (TransportUnitStatus)reader.GetInt32("status"),
+                    IsActive = reader.GetBoolean("is_active"),
+                    TruckId = Convert.ToInt32(reader["truck_id"]),
+                    DriverId = Convert.ToInt32(reader["driver_id"]),
+                    AssistantId = reader.GetInt32("assistant_id"),
+
+                    Truck = new Truck
+                    {
+                        Id = Convert.ToInt32(reader["truck_id"]),
+                        LicensePlate = reader.GetString("license_plate")
+                    },
+
+                    Driver = new Driver
+                    {
+                        Id = Convert.ToInt32(reader["driver_id"]),
+                        Name = reader.GetString("driver_name")
+                    },
+
+                    Assistant = new Assistant
+                    {
+                        Id = reader.GetInt32("assistant_id"),
+                        Name = reader.GetString("assistant_name")
+                    }
+                };
+            });
         }
 
-        public int GetTotalUnitCount()
+        /// <summary>
+        /// Retrieves the last transport unit ID from the database.
+        /// </summary>
+        /// <returns></returns>
+        public int GetLastUnitId()
         {
-            string query = "SELECT COUNT(id) FROM transport_units";
+            string query = "SELECT MAX(id) FROM transport_units";
+
             object result = DatabaseHelper.ExecuteScalar(query);
-            return Convert.ToInt32(result);
+
+            if (result != DBNull.Value && result != null)
+            {
+                return Convert.ToInt32(result);
+            }
+            return 0;
         }
     }
  }

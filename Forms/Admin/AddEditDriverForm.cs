@@ -15,11 +15,18 @@ using System.Windows.Forms;
 
 namespace eShift_Logistics_System.Forms.Admin
 {
+    /// <summary>
+    /// Form for adding or editing a driver in the logistics system.
+    /// </summary>
     public partial class AddEditDriverForm : Form
     {
         private readonly int? _driverId;
-         private readonly IDriverService _driverService; 
+         private readonly IDriverService _driverService;
 
+        /// <summary>
+        /// Constructor for the AddEditDriverForm.
+        /// </summary>
+        /// <param name="driverId"></param>
         public AddEditDriverForm(int? driverId = null)
         {
             InitializeComponent();
@@ -27,6 +34,11 @@ namespace eShift_Logistics_System.Forms.Admin
              _driverService = new DriverService(new DriverRepository());
         }
 
+        /// <summary>
+        /// Handles the Load event of the AddEditDriverForm.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddEditDriverForm_Load(object sender, EventArgs e)
         {
             cboStatus.DataSource = Enum.GetValues(typeof(DriverStatus));
@@ -43,6 +55,9 @@ namespace eShift_Logistics_System.Forms.Admin
             }
         }
 
+        /// <summary>
+        /// Loads the driver data into the form fields for editing.
+        /// </summary>
         private void LoadDriverData()
         {
              var driver = _driverService.GetDriverById(_driverId.Value);
@@ -61,6 +76,12 @@ namespace eShift_Logistics_System.Forms.Admin
             cboStatus.SelectedItem = driver.Status;
             chkIsActive.Checked = driver.IsActive;
         }
+
+        /// <summary>
+        /// Handles the Save button click event to add or update driver details.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
 
         private void btnSave_Click(object sender, EventArgs e)
         {
@@ -91,9 +112,7 @@ namespace eShift_Logistics_System.Forms.Admin
                     MessageBox.Show(failure.ErrorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     break;
                 }
-
                 return;
-
             }
 
 

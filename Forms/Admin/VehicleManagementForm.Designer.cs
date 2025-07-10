@@ -487,6 +487,8 @@
             dgvUnits.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvUnits.Size = new Size(912, 287);
             dgvUnits.TabIndex = 4;
+            dgvUnits.DefaultCellStyle.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular);
+
             // 
             // pnlUnitSearch
             // 

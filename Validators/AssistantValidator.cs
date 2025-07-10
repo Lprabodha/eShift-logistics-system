@@ -4,10 +4,17 @@ using FluentValidation;
 
 namespace eShift_Logistics_System.Validators
 {
+    /// <summary>
+    /// Validator for the Assistant model.
+    /// </summary>
     public class AssistantValidator : AbstractValidator<Assistant>
     {
         private readonly IAssistantRepository _assistantRepository;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AssistantValidator"/> class.
+        /// </summary>
+        /// <param name="assistantRepository"></param>
         public AssistantValidator(IAssistantRepository assistantRepository)
         {
             _assistantRepository = assistantRepository;
