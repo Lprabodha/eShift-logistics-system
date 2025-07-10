@@ -65,30 +65,33 @@ namespace eShift_Logistics_System.Helpers
         }
 
         /// <summary>
-        /// Executes a query that returns a list of results, mapping each row to an object of type T using the provided mapping function.
+        /// Executes a query and returns a list of objects, safely handling parameters.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="query"></param>
-        /// <param name="mapFunc"></param>
-        /// <returns></returns>
-        public static List<T> ExecuteReader<T>(string query, Func<MySqlDataReader, T> mapFunc)
+        public static List<T> ExecuteReader<T>(string query, Func<MySqlDataReader, T> mapFunc, params MySqlParameter[] parameters)
         {
             var results = new List<T>();
-
-            using (var conn = GetConnection())
-            using (var cmd = new MySqlCommand(query, conn))
+            try
             {
-                conn.Open();
-
-                using (var reader = cmd.ExecuteReader())
+                using (var conn = GetConnection())
+                using (var cmd = new MySqlCommand(query, conn))
                 {
-                    while (reader.Read())
+                    if (parameters != null)
                     {
-                        results.Add(mapFunc(reader));
+                        cmd.Parameters.AddRange(parameters);
+                    }
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            results.Add(mapFunc(reader));
+                        }
                     }
                 }
             }
-
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Database query failed: {ex.Message}", "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             return results;
         }
 }

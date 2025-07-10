@@ -21,6 +21,7 @@
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
             lblTitle = new Label();
             tabMain = new TabControl();
             tabPageTrucks = new TabPage();
@@ -356,6 +357,14 @@
             dataGridViewCellStyle3.ForeColor = Color.White;
             dgvAssistants.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvAssistants.ColumnHeadersHeight = 35;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = SystemColors.Window;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9.75F);
+            dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle4.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
+            dgvAssistants.DefaultCellStyle = dataGridViewCellStyle4;
             dgvAssistants.Dock = DockStyle.Fill;
             dgvAssistants.EnableHeadersVisualStyles = false;
             dgvAssistants.Location = new Point(10, 115);
@@ -363,7 +372,6 @@
             dgvAssistants.ReadOnly = true;
             dgvAssistants.RowHeadersVisible = false;
             dgvAssistants.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvAssistants.DefaultCellStyle.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular);
             dgvAssistants.Size = new Size(912, 287);
             dgvAssistants.TabIndex = 3;
             // 
@@ -464,11 +472,11 @@
             dgvUnits.BackgroundColor = Color.White;
             dgvUnits.BorderStyle = BorderStyle.None;
             dgvUnits.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = Color.FromArgb(45, 52, 54);
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            dataGridViewCellStyle4.ForeColor = Color.White;
-            dgvUnits.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = Color.FromArgb(45, 52, 54);
+            dataGridViewCellStyle5.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            dataGridViewCellStyle5.ForeColor = Color.White;
+            dgvUnits.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dgvUnits.ColumnHeadersHeight = 35;
             dgvUnits.Dock = DockStyle.Fill;
             dgvUnits.EnableHeadersVisualStyles = false;
@@ -546,6 +554,7 @@
             btnAddNewUnit.TabIndex = 1;
             btnAddNewUnit.Text = "+ Add New Unit";
             btnAddNewUnit.UseVisualStyleBackColor = false;
+            btnAddNewUnit.Click += btnAddNewUnit_Click_1;
             // 
             // label5
             // 

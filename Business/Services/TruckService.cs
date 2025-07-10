@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace eShift_Logistics_System.Business.Services
 {
-   public class TruckService : ITruckService
+    public class TruckService : ITruckService
     {
         /// <summary>
         /// Service class for managing truck operations.
@@ -72,6 +72,11 @@ namespace eShift_Logistics_System.Business.Services
         public Truck GetTruckById(int id)
         {
             return _truckService.GetTruckById(id);
+        }
+
+        public List<Truck> GetAvailableTrucks(int? currentTruckId = null)
+        {
+            return _truckService.GetAvailableTrucks(currentTruckId);
         }
 
     }

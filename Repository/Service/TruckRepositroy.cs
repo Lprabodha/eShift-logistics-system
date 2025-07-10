@@ -192,5 +192,46 @@ namespace eShift_Logistics_System.Repository.Service
             return null;
         }
 
-}
+        /// <summary>
+        /// Checks if a license plate already exists in the system, excluding a specific truck ID.
+        /// </summary>
+        /// <param name="licensePlate"></param>
+        /// <param name="truckIdToExclude"></param>
+        /// <returns></returns>
+
+        public bool IsLicensePlateExists(string licensePlate, int truckIdToExclude)
+        {
+            string query = "SELECT COUNT(1) FROM trucks WHERE license_plate = @licensePlate AND id != @id";
+
+            object result = DatabaseHelper.ExecuteScalar(query,
+                new MySqlParameter("@licensePlate", licensePlate),
+                new MySqlParameter("@id", truckIdToExclude));
+
+            return Convert.ToInt64(result) > 0;
+        }
+
+        /// <summary>
+        /// Retrieves a list of available trucks.
+        /// </summary>
+        /// <returns></returns>
+        public List<Truck> GetAvailableTrucks(int? currentTruckId = null)
+        {
+
+            string query = @"
+                SELECT * FROM trucks 
+                WHERE is_active = true AND (id NOT IN (SELECT truck_id FROM transport_units WHERE truck_id IS NOT NULL) 
+                OR id = @currentTruckId)";
+
+            return DatabaseHelper.ExecuteReader(query, reader =>
+            {
+                return new Truck
+                {
+                    Id = Convert.ToInt32(reader["id"]),
+                    LicensePlate = reader["license_plate"].ToString()
+                };
+            },
+            new MySqlParameter("@currentTruckId", currentTruckId ?? (object)DBNull.Value));
+        }
+
+    }
 }
