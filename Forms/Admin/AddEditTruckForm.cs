@@ -19,11 +19,12 @@ namespace eShift_Logistics_System.Forms.Admin
 {
     public partial class AddEditTruckForm : Form
     {
-        private readonly int? _truckId; // Nullable int. If null = Add Mode, if has value = Edit Mode.
+        private readonly int? _truckId; 
         private readonly ITruckService _truckService;
 
-
-        // Constructor for ADD mode
+        /// <summary>
+        /// Constructor for Add mode.
+        /// </summary>
         public AddEditTruckForm()
         {
             InitializeComponent();
@@ -32,7 +33,7 @@ namespace eShift_Logistics_System.Forms.Admin
             _truckService = new TruckService(truckRepository);
         }
 
-        // Constructor for EDIT mode
+        //  for EDIT mode
         public AddEditTruckForm(int truckId)
         {
             InitializeComponent();
@@ -42,6 +43,11 @@ namespace eShift_Logistics_System.Forms.Admin
             _truckService = new TruckService(truckRepository);
         }
 
+        /// <summary>
+        /// Form Load event handler to initialize the form based on whether it's in Add or Edit mode.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddEditTruckForm_Load(object sender, EventArgs e)
         {
             // Populate the status combobox from the enum
@@ -61,6 +67,9 @@ namespace eShift_Logistics_System.Forms.Admin
             }
         }
 
+        /// <summary>
+        /// Loads the truck data into the form fields for editing.
+        /// </summary>
         private void LoadTruckData()
         {
              var truck = _truckService.GetTruckById(_truckId.Value);
@@ -74,6 +83,11 @@ namespace eShift_Logistics_System.Forms.Admin
             chkIsActive.Checked = truck.IsActive;
         }
 
+        /// <summary>
+        /// Handles the Save button click event to validate and save the truck data.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSave_Click(object sender, EventArgs e)
         {
             Truck truck = new Truck

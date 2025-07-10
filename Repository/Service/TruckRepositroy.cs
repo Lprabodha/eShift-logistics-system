@@ -12,6 +12,10 @@ namespace eShift_Logistics_System.Repository.Service
 {
    public class TruckRepositroy : ITruckRepository
     {
+        /// <summary>
+        /// Repository class for managing truck operations.
+        /// </summary>
+        /// <param name="truck"></param>
         public void AddTruck(Truck truck)
         {
             string query = @"
@@ -31,10 +35,36 @@ namespace eShift_Logistics_System.Repository.Service
             });
 
         }
+
+        /// <summary>
+        /// Deletes a truck from the system by its ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public bool DeleteTruck(int id)
         {
-            throw new NotImplementedException();
+
+            string query = "DELETE FROM trucks WHERE id = @id";
+            try
+            {
+                DatabaseHelper.ExecuteNonQuery(query, command =>
+                {
+                    command.Parameters.AddWithValue("@id", id);
+                });
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error deleting truck from the database.", ex);
+            }
         }
+
+        /// <summary>
+        /// Retrieves all trucks from the system.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public List<Truck> GetAllTrucks()
         {
             List<Truck> trucks = new List<Truck>();
@@ -71,7 +101,10 @@ namespace eShift_Logistics_System.Repository.Service
             }
         }
 
-
+        /// <summary>
+        /// Updates an existing truck in the system.
+        /// </summary>
+        /// <param name="truck"></param>
         public void UpdateTruck(Truck truck)
         {
 
@@ -96,6 +129,12 @@ namespace eShift_Logistics_System.Repository.Service
             });
         }
 
+        /// <summary>
+        /// Checks if a truck number already exists in the system, excluding a specific truck ID.
+        /// </summary>
+        /// <param name="truckNumber"></param>
+        /// <param name="truckIdToExclude"></param>
+        /// <returns></returns>
         public bool IsTruckNumberExists(string truckNumber, int truckIdToExclude)
         {
             const string query = "SELECT COUNT(1) FROM trucks WHERE truck_number = @truckNumber AND id != @truckId";
@@ -111,6 +150,12 @@ namespace eShift_Logistics_System.Repository.Service
             }
         }
 
+        /// <summary>
+        /// Retrieves a truck by its ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public Truck GetTruckById(int id)
         {
             const string query = "SELECT * FROM trucks WHERE id = @id LIMIT 1";

@@ -12,7 +12,9 @@ namespace eShift_Logistics_System.Validators
 {
     public class TruckValidator : AbstractValidator<Truck>
     {
-
+        /// <summary>
+        /// Validator for Truck model to ensure data integrity and business rules are followed.
+        /// </summary>
         private readonly ITruckRepository _truckRepository;
         public TruckValidator(ITruckRepository truckRepository) {
 
@@ -40,6 +42,12 @@ namespace eShift_Logistics_System.Validators
 
         }
 
+        /// <summary>
+        /// Checks if the truck number is unique in the system, excluding the current truck's ID if it exists.
+        /// </summary>
+        /// <param name="truck"></param>
+        /// <param name="number"></param>
+        /// <returns></returns>
         private bool BeUniqueTruckNumber(Truck truck, string number)
         {
             return !_truckRepository.IsTruckNumberExists(number, truck.Id);

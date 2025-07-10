@@ -9,16 +9,44 @@ namespace eShift_Logistics_System.Repository.Interface
 {
     public interface ITruckRepository
     {
-
+        /// <summary>
+        /// Repository interface for managing truck operations.
+        /// </summary>
+        /// <param name="truck"></param>
         void AddTruck(Truck truck);
+
+        /// <summary>
+        /// Updates an existing truck in the system.
+        /// </summary>
+        /// <param name="truck"></param>
         void UpdateTruck(Truck truck);
 
+        /// <summary>
+        /// Deletes a truck from the system by its ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         bool DeleteTruck(int id);
 
+        /// <summary>
+        /// Retrieves all trucks from the system.
+        /// </summary>
+        /// <returns></returns>
         List<Truck> GetAllTrucks();
 
+        /// <summary>
+        /// Checks if a truck number already exists in the system, excluding a specific truck ID.
+        /// </summary>
+        /// <param name="truckNumber"></param>
+        /// <param name="truckIdToExclude"></param>
+        /// <returns></returns>
         bool IsTruckNumberExists(string truckNumber, int truckIdToExclude);
 
+        /// <summary>
+        /// Retrieves a truck by its ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         Truck GetTruckById(int id);
 
     }

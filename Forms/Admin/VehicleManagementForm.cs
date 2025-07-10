@@ -38,27 +38,30 @@ namespace eShift_Logistics_System.Forms.Admin
             this.btnTruckSearch.Click += new EventHandler(this.btnTruckSearch_Click);
         }
 
+        /// <summary>
+        /// Sets up the DataGridView for displaying trucks with appropriate columns and properties.
+        /// </summary>
         private void SetupTrucksGrid()
         {
             dgvTrucks.Columns.Clear();
             dgvTrucks.AutoGenerateColumns = false;
 
-            // Add hidden ID column
             dgvTrucks.Columns.Add(new DataGridViewTextBoxColumn { Name = "Id", DataPropertyName = "Id", Visible = false });
 
-            // Add visible data columns
             dgvTrucks.Columns.Add(new DataGridViewTextBoxColumn { Name = "LicensePlate", HeaderText = "License Plate", DataPropertyName = "LicensePlate", Width = 120 });
             dgvTrucks.Columns.Add(new DataGridViewTextBoxColumn { Name = "Model", HeaderText = "Make & Model", DataPropertyName = "Model", AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
             dgvTrucks.Columns.Add(new DataGridViewTextBoxColumn { Name = "Capacity", HeaderText = "Capacity (kg)", DataPropertyName = "Capacity", Width = 120 });
             dgvTrucks.Columns.Add(new DataGridViewTextBoxColumn { Name = "Status", HeaderText = "Status", DataPropertyName = "Status", Width = 100 });
 
-            // Add action buttons
             var btnEdit = new DataGridViewButtonColumn { Name = "Edit", HeaderText = "Edit", Text = "Edit", UseColumnTextForButtonValue = true, Width = 80 };
             var btnDelete = new DataGridViewButtonColumn { Name = "Delete", HeaderText = "Delete", Text = "Delete", UseColumnTextForButtonValue = true, Width = 80 };
 
             dgvTrucks.Columns.AddRange(new DataGridViewColumn[] { btnEdit, btnDelete });
         }
 
+        /// <summary>
+        /// Loads all trucks from the service and binds them to the DataGridView.
+        /// </summary>
         private void LoadTrucksData()
         {
             try
@@ -73,13 +76,21 @@ namespace eShift_Logistics_System.Forms.Admin
             }
         }
 
-        // A new helper method to bind any list of trucks to the grid
+        /// <summary>
+        /// Binds the provided list of trucks to the DataGridView.
+        /// </summary>
+        /// <param name="trucks"></param>
         private void BindDataToGrid(List<Truck> trucks)
         {
             dgvTrucks.DataSource = null;
             dgvTrucks.DataSource = trucks;
         }
 
+        /// <summary>
+        /// Handles cell clicks in the DataGridView for editing or deleting trucks.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgvTrucks_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
@@ -100,13 +111,18 @@ namespace eShift_Logistics_System.Forms.Admin
                 var confirmResult = MessageBox.Show($"Delete truck {licensePlate}?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (confirmResult == DialogResult.Yes)
                 {
-                    // _truckService.DeleteTruck(truckId);
+                     _truckService.DeleteTruck(truckId);
                     MessageBox.Show($"Truck {licensePlate} deleted.");
                     LoadTrucksData();
                 }
             }
         }
 
+        /// <summary>
+        /// Handles the click event for the "Add New Truck" button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAddNewTruck_Click(object sender, EventArgs e)
         {
             var addForm = new AddEditTruckForm();
@@ -116,13 +132,18 @@ namespace eShift_Logistics_System.Forms.Admin
             }
         }
 
+        /// <summary>
+        /// Handles the click event for the truck search button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnTruckSearch_Click(object sender, EventArgs e)
         {
             string searchText = txtTruckSearch.Text.Trim().ToLower();
 
             if (string.IsNullOrEmpty(searchText))
             {
-                BindDataToGrid(_allTrucks); // If search is empty, show all trucks
+                BindDataToGrid(_allTrucks); 
                 return;
             }
 
