@@ -96,13 +96,19 @@ namespace eShift_Logistics_System.Repository.Service
             });
         }
 
-        public bool IsTruckNumberExists(string number)
+        public bool IsTruckNumberExists(string truckNumber, int truckIdToExclude)
         {
-            using var conn = DatabaseHelper.GetConnection();
-            string query = "SELECT COUNT(*) FROM trucks WHERE truck_number = @number";
-            using var cmd = new MySqlCommand(query, conn);
-            cmd.Parameters.AddWithValue("@number", number);
-            return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
+            const string query = "SELECT COUNT(1) FROM trucks WHERE truck_number = @truckNumber AND id != @truckId";
+
+            using (var conn = DatabaseHelper.GetConnection())
+            using (var cmd = new MySqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@truckNumber", truckNumber);
+                cmd.Parameters.AddWithValue("@truckId", truckIdToExclude);
+
+                var count = Convert.ToInt64(cmd.ExecuteScalar());
+                return count > 0;
+            }
         }
 
         public Truck GetTruckById(int id)

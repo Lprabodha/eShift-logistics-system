@@ -17,7 +17,7 @@ namespace eShift_Logistics_System.Repository.Interface
 
         List<Truck> GetAllTrucks();
 
-        bool IsTruckNumberExists(string number);
+        bool IsTruckNumberExists(string truckNumber, int truckIdToExclude);
 
         Truck GetTruckById(int id);
 

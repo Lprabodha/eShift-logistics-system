@@ -86,6 +86,11 @@ namespace eShift_Logistics_System.Forms.Admin
                 IsActive = chkIsActive.Checked
             };
 
+            if (_truckId.HasValue)
+            {
+                truck.Id = _truckId.Value; 
+            }
+
             var validator = new TruckValidator(new TruckRepositroy()); 
             var results = validator.Validate(truck);
 
