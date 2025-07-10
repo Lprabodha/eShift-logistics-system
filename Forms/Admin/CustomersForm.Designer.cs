@@ -109,6 +109,7 @@ namespace eShift_Logistics_System.Forms.Admin
             btnSearch.TabIndex = 2;
             btnSearch.Text = "Search";
             btnSearch.UseVisualStyleBackColor = false;
+            btnSearch.Click += btnSearch_Click;
             // 
             // cboFilterStatus
             // 
@@ -120,6 +121,7 @@ namespace eShift_Logistics_System.Forms.Admin
             cboFilterStatus.Name = "cboFilterStatus";
             cboFilterStatus.Size = new Size(200, 29);
             cboFilterStatus.TabIndex = 1;
+            cboFilterStatus.SelectedIndexChanged += cboFilterStatus_SelectedIndexChanged;
             // 
             // txtSearch
             // 

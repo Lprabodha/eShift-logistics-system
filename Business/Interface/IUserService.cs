@@ -29,5 +29,12 @@ namespace eShift_Logistics_System.Business.Interface
         /// </summary>
         /// <returns>A list of all users.</returns>
         List<User> GetAllUsers();
+
+        /// <summary>
+        /// Retrieves a user by their ID.
+        /// </summary>
+        /// <param name="customerNumber"></param>
+        /// <returns></returns>
+        bool ToggleUserStatus(string customerNumber);
     }
 }

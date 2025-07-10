@@ -48,7 +48,43 @@ namespace eShift_Logistics_System.Repository.Service
 
         List<User> IUserRepository.GetAllUsers()
         {
-            throw new NotImplementedException();
+            List<User>  users = new List<User>();
+            string query = "SELECT * FROM users WHERE user_type=1";
+
+            using (var conn = DatabaseHelper.GetConnection())
+            {
+                try
+                {
+
+                    using(var cmd = new MySqlCommand(query, conn))
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            users.Add(new User
+                            {
+                                Id = Convert.ToInt32(reader["id"]),
+                                FirstName = reader["first_name"].ToString(),
+                                Email = reader["email"].ToString(),
+                                Phone = reader["phone"]?.ToString(),
+                                PasswordHash = reader["password_hash"].ToString(),
+                                UserType = (UserType)Convert.ToInt32(reader["user_type"]),
+                                CustomerNumber = reader["customer_number"]?.ToString(),
+                                IsActive = Convert.ToInt32(reader["is_active"]) == 1
+
+                            });
+                        }
+                    }
+                    return users;
+
+                }
+                catch(Exception ex)
+                {
+                    throw new Exception("Error retrieving users from the database.", ex);
+                }
+            }
+
+
         }
 
         /// <summary>
@@ -111,5 +147,20 @@ namespace eShift_Logistics_System.Repository.Service
 
             return null;
         }
+
+
+        public bool ToggleUserStatus(string customerNumber)
+        {
+            string query = "UPDATE users SET is_active = IF(is_active = 1, 0, 1) WHERE customer_number = @customerNumber";
+
+            using (var conn = DatabaseHelper.GetConnection())
+            using (var cmd = new MySqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@customerNumber", customerNumber);
+                int rowsAffected = cmd.ExecuteNonQuery();
+                return rowsAffected > 0;
+            }
+        }
+
     }
 }

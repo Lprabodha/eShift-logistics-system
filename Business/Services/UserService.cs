@@ -1,6 +1,7 @@
 ﻿using eShift_Logistics_System.Business.Interface;
 using eShift_Logistics_System.Models;
 using eShift_Logistics_System.Repository.Interface;
+using eShift_Logistics_System.Repository.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +39,11 @@ namespace eShift_Logistics_System.Business.Services
         List<User> IUserService.GetAllUsers()
         {
             return _userService.GetAllUsers() ?? new List<User>();
+        }
+
+        public bool ToggleUserStatus(string customerNumber)
+        {
+            return _userService.ToggleUserStatus(customerNumber);
         }
 
     }

@@ -54,5 +54,13 @@ namespace eShift_Logistics_System.Repository.Interface
         /// <returns></returns>
         User GetUserByEmail(string email);
 
+        /// <summary>
+        /// Toggles the status of a user (active/inactive) based on their customer number.
+        /// </summary>
+        /// <param name="customerNumber"></param>
+        /// <returns></returns>
+        bool ToggleUserStatus(string customerNumber);
+
+
     }
 }

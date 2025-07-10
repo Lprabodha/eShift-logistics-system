@@ -138,6 +138,24 @@ namespace eShift_Logistics_System.Forms.Admin
         {
 
         }
+
+        private void lblUserRole_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+
+            var confirmResult = MessageBox.Show("Are you sure you want to logout?", "Confirm Logout", MessageBoxButtons.YesNo);
+            if (confirmResult == DialogResult.Yes)
+            {
+                this.Hide();
+                LoginForm loginForm = new LoginForm(); 
+                loginForm.FormClosed += (s, args) => this.Close();
+                loginForm.Show();
+            }
+        }
     }
 
 }
