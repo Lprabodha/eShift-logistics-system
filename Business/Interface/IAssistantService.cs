@@ -40,5 +40,7 @@ namespace eShift_Logistics_System.Business.Interface
         /// <param name="id"></param>
         /// <returns></returns>
         Assistant GetAssistantById(int id);
+
+        List<Assistant> GetAvailableAssistants(int? currentAssistantId = null);
     }
 }

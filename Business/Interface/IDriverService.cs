@@ -40,5 +40,7 @@ namespace eShift_Logistics_System.Business.Interface
         /// <param name="id"></param>
         /// <returns></returns>
         Driver GetDriverById(int id);
+
+        List<Driver> GetAvailableDrivers(int? currentDrivertId = null);
     }
 }

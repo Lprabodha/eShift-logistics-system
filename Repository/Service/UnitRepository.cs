@@ -77,7 +77,7 @@ namespace eShift_Logistics_System.Repository.Service
                                 UnitNumber = reader.GetString("unit_number"),
                                 TruckId = reader.GetInt32("truck_id"),
                                 DriverId = reader.GetInt32("driver_id"),
-                                AssistantId = reader.IsDBNull("assistant_id") ? (int?)null : reader.GetInt32("assistant_id"),
+                                AssistantId = reader.GetInt32("assistant_id"),
                                 Status = (TransportUnitStatus)reader.GetInt32("status"),
                                 IsActive = reader.GetBoolean("is_active")
                             };
@@ -107,7 +107,7 @@ namespace eShift_Logistics_System.Repository.Service
                                 UnitNumber = reader.GetString("unit_number"),
                                 TruckId = reader.GetInt32("truck_id"),
                                 DriverId = reader.GetInt32("driver_id"),
-                                AssistantId = reader.IsDBNull("assistant_id") ? (int?)null : reader.GetInt32("assistant_id"),
+                                AssistantId = reader.GetInt32("assistant_id"),
                                 Status = (TransportUnitStatus)reader.GetInt32("status"),
                                 IsActive = reader.GetBoolean("is_active")
                             });
@@ -121,6 +121,13 @@ namespace eShift_Logistics_System.Repository.Service
             }
             return units;
 
+        }
+
+        public int GetTotalUnitCount()
+        {
+            string query = "SELECT COUNT(id) FROM transport_units";
+            object result = DatabaseHelper.ExecuteScalar(query);
+            return Convert.ToInt32(result);
         }
     }
  }

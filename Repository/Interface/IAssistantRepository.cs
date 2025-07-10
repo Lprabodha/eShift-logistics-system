@@ -45,5 +45,7 @@ namespace eShift_Logistics_System.Repository.Interface
         /// <param name="assitantIdToExclude"></param>
         /// <returns></returns>
         bool IsPhoneNumberExists(string phoneNumber, int assitantIdToExclude);
+
+        List<Assistant> GetAvailableAssistants(int? currentAssistantId = null);
     }
 }

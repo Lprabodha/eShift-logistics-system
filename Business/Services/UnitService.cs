@@ -1,6 +1,7 @@
 ﻿using eShift_Logistics_System.Business.Interface;
 using eShift_Logistics_System.Models;
 using eShift_Logistics_System.Repository.Interface;
+using eShift_Logistics_System.Repository.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,6 +46,12 @@ namespace eShift_Logistics_System.Business.Services
         {
             return _unitService.GetUnitById(id);
         }
+
+        public int GetTotalUnitCount()
+        {
+            return _unitService.GetTotalUnitCount();
+        }
+
     }
 
 }

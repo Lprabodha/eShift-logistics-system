@@ -18,25 +18,36 @@ namespace eShift_Logistics_System.Business.Services
             _assistantService = assistantService;
         }
 
-        public void AddAssistant(Assistant assistant) {
+        public void AddAssistant(Assistant assistant)
+        {
 
             _assistantService.AddAssistant(assistant);
         }
-         public void UpdateAssistant(Assistant assistant) {
+        public void UpdateAssistant(Assistant assistant)
+        {
 
             _assistantService.UpdateAssistant(assistant);
         }
-         public bool DeleteAssistant(int id) {
+        public bool DeleteAssistant(int id)
+        {
 
             return _assistantService.DeleteAssistant(id);
         }
-         public List<Assistant> GetAllAssistants() {
+        public List<Assistant> GetAllAssistants()
+        {
 
             return _assistantService.GetAllAssistants();
         }
-         public Assistant GetAssistantById(int id) {
+        public Assistant GetAssistantById(int id)
+        {
 
             return _assistantService.GetAssistantById(id);
+        }
+
+
+        public List<Assistant> GetAvailableAssistants(int? currentAssistantId = null)
+        {
+            return _assistantService.GetAvailableAssistants(currentAssistantId);
         }
     }
 }

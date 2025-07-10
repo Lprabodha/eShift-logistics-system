@@ -36,5 +36,7 @@ namespace eShift_Logistics_System.Business.Interface
         /// <param name="id"></param>
         /// <returns></returns>
         TransportUnit GetUnitById(int id);
+
+        int GetTotalUnitCount();
     }
 }
