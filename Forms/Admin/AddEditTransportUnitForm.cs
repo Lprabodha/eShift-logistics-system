@@ -18,33 +18,51 @@ namespace eShift_Logistics_System.Forms.Admin
 {
     public partial class AddEditTransportUnitForm : Form
     {
+        /// <summary>
+        /// Optional ID of the transport unit being edited. If null, a new unit will be created.
+        /// </summary>
         private readonly int? _unitId;
-        private TransportUnit _editingUnit; 
+        private TransportUnit _editingUnit;
 
-         private readonly IUnitService _unitService;
+        /// <summary>
+        /// Service for managing transport units in the logistics system.
+        /// </summary>
+        private readonly IUnitService _unitService;
         private readonly ITruckService _truckService;
         private readonly IAssistantService _assistantService;
         private readonly IDriverService _driverService;
 
+        /// <summary>
+        /// Constructor for the AddEditTransportUnitForm.
+        /// </summary>
+        /// <param name="unitId"></param>
         public AddEditTransportUnitForm(int? unitId = null)
         {
             InitializeComponent();
             _unitId = unitId;
+ 
             _unitService = new UnitService(new UnitRepository());
             _truckService = new TruckService(new TruckRepositroy());
             _assistantService = new AssistantService(new AssistantRepository());
             _driverService = new DriverService(new DriverRepository());
         }
 
+        /// <summary>
+        /// Handles the Load event of the AddEditUnitForm.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddEditUnitForm_Load(object sender, EventArgs e)
         {
+            cboStatus.DataSource = Enum.GetValues(typeof(TransportUnitStatus));
 
             if (_unitId.HasValue)
             {
+                LoadUnitData();
+
                 lblTitle.Text = "Edit Transport Unit";
                 LoadComboBoxData(_editingUnit.TruckId, _editingUnit.DriverId, _editingUnit.AssistantId);
                 SetSelectedValues();
-                LoadUnitData();
             }
             else
             {
@@ -57,11 +75,14 @@ namespace eShift_Logistics_System.Forms.Admin
             cboStatus.DataSource = Enum.GetValues(typeof(TransportUnitStatus));
         }
 
+        /// <summary>
+        /// Generates a new unit number based on the current year and the last unit ID in the database.
+        /// </summary>
         private void GenerateUnitNumber()
         {
             try
             {
-                int unitCount = _unitService.GetTotalUnitCount();
+                int unitCount = _unitService.GetLastUnitId();
                 int nextId = unitCount + 1;
                 string year = DateTime.Now.ToString("yyyy");
 
@@ -72,6 +93,10 @@ namespace eShift_Logistics_System.Forms.Admin
                 MessageBox.Show($"Could not generate unit number: {ex.Message}", "Error");
             }
         }
+
+        /// <summary>
+        /// Sets the selected values for the combo boxes based on the editing unit's properties.
+        /// </summary>
 
         private void SetSelectedValues()
         {
@@ -86,6 +111,12 @@ namespace eShift_Logistics_System.Forms.Admin
             chkIsActive.Checked = _editingUnit.IsActive;
         }
 
+        /// <summary>
+        /// Loads data into the combo boxes for trucks, drivers, and assistants.
+        /// </summary>
+        /// <param name="currentTruckId"></param>
+        /// <param name="currentDriverId"></param>
+        /// <param name="currentAssistantId"></param>
         private void LoadComboBoxData(int? currentTruckId = null, int? currentDriverId = null, int? currentAssistantId = null)
         {
 
@@ -121,11 +152,13 @@ namespace eShift_Logistics_System.Forms.Admin
             }
         }
 
+        /// <summary>
+        /// Loads the transport unit data into the form controls for editing.
+        /// </summary>
         private void LoadUnitData()
         {
              _editingUnit = _unitService.GetUnitById(_unitId.Value);
 
-            // Populate controls from the loaded object
             cboTruck.SelectedValue = _editingUnit.TruckId;
             cboDriver.SelectedValue = _editingUnit.DriverId;
             cboAssistant.SelectedValue = _editingUnit.AssistantId;
@@ -133,6 +166,11 @@ namespace eShift_Logistics_System.Forms.Admin
             chkIsActive.Checked = _editingUnit.IsActive;
         }
 
+        /// <summary>
+        /// Handles the Save button click event to save the transport unit data.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnSave_Click(object sender, EventArgs e)
         {
             _editingUnit.TruckId = (int)cboTruck.SelectedValue;

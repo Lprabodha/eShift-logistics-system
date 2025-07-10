@@ -37,6 +37,10 @@ namespace eShift_Logistics_System.Business.Interface
         /// <returns></returns>
         TransportUnit GetUnitById(int id);
 
-        int GetTotalUnitCount();
+        /// <summary>
+        /// Retrieves the last unit ID from the service.
+        /// </summary>
+        /// <returns></returns>
+        int GetLastUnitId();
     }
 }
