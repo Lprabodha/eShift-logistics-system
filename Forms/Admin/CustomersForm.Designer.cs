@@ -94,6 +94,7 @@ namespace eShift_Logistics_System.Forms.Admin
             btnClear.TabIndex = 3;
             btnClear.Text = "Clear";
             btnClear.UseVisualStyleBackColor = false;
+            btnClear.Click += btnClear_Click;
             // 
             // btnSearch
             // 

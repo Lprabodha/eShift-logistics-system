@@ -36,9 +36,16 @@ namespace eShift_Logistics_System.Repository.Service
             });
         }
 
-        public void DeleteUser(int id)
+        public bool DeleteUser(int userId)
         {
-            throw new NotImplementedException();
+            using (var conn = DatabaseHelper.GetConnection())
+            {
+                string query = "DELETE FROM users WHERE id = @id";
+                using var cmd = new MySqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@id", userId);
+
+                return cmd.ExecuteNonQuery() > 0;
+            }
         }
 
         public void UpdateUser(User user)

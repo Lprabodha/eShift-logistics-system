@@ -23,7 +23,8 @@ namespace eShift_Logistics_System.Business.Interface
         /// Deletes a user by their ID.
         /// </summary>
         /// <param name="id">The ID of the user to delete.</param>
-        void DeleteUser(int id);
+        bool DeleteUser(string customerNumber);
+
         /// <summary>
         /// Retrieves all users in the system.
         /// </summary>
@@ -36,5 +37,7 @@ namespace eShift_Logistics_System.Business.Interface
         /// <param name="customerNumber"></param>
         /// <returns></returns>
         bool ToggleUserStatus(string customerNumber);
+
+
     }
 }

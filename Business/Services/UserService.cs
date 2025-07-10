@@ -25,10 +25,13 @@ namespace eShift_Logistics_System.Business.Services
 
         }
 
-        public void DeleteUser(int id)
+        public bool DeleteUser(string customerNumber)
         {
-            _userService.DeleteUser(id);
+            var user = _userService.GetAllUsers()
+                                      .FirstOrDefault(u => u.CustomerNumber == customerNumber);
+            if (user == null) return false;
 
+            return _userService.DeleteUser(user.Id);
         }
 
         public void UpdateUser(User user)

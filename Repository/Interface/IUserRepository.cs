@@ -31,7 +31,7 @@ namespace eShift_Logistics_System.Repository.Interface
         /// Deletes a user from the repository by their ID.
         /// </summary>
         /// <param name="id"></param>
-        void DeleteUser(int id);
+        bool DeleteUser(int userId);
 
         /// <summary>
         /// Checks if an email already exists in the repository.
