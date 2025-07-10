@@ -363,6 +363,7 @@
             dgvAssistants.ReadOnly = true;
             dgvAssistants.RowHeadersVisible = false;
             dgvAssistants.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvAssistants.DefaultCellStyle.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular);
             dgvAssistants.Size = new Size(912, 287);
             dgvAssistants.TabIndex = 3;
             // 

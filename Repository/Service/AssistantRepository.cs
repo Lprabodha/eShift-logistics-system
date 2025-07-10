@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace eShift_Logistics_System.Repository.Service
 {
-   public class AssistantRepository: IAssistantRepository
+    public class AssistantRepository : IAssistantRepository
     {
 
         public void AddAssistant(Assistant assistant)
@@ -94,9 +94,43 @@ namespace eShift_Logistics_System.Repository.Service
             }
         }
 
-        Assistant IAssistantRepository.GetAssistantById(int id)
+
+        public Assistant GetAssistantById(int id)
         {
-            throw new NotImplementedException();
+            string query = "SELECT * FROM assistants WHERE id = @id";
+            using (var conn = DatabaseHelper.GetConnection())
+            {
+                using (var cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return new Assistant
+                            {
+                                Id = Convert.ToInt32(reader["id"]),
+                                Name = reader["name"].ToString(),
+                                Phone = reader["phone"]?.ToString(),
+                                Address = reader["address"]?.ToString(),
+                                Status = (AssistantStatus)Convert.ToInt32(reader["status"]),
+                                IsActive = Convert.ToInt32(reader["is_active"]) == 1
+                            };
+                        }
+                    }
+                }
+            }
+            return null;
         }
+
+        public bool IsPhoneNumberExists(string phoneNumber, int assitantIdToExclude)
+        {
+            string query = "SELECT COUNT(*) FROM assistants WHERE phone = @phone AND id != @id";
+            object result = DatabaseHelper.ExecuteScalar(query,
+                new MySqlParameter("@phone", phoneNumber),
+                new MySqlParameter("@id", assitantIdToExclude));
+            return Convert.ToInt32(result) > 0;
+        }
+
     }
 }
