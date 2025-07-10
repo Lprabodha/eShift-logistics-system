@@ -19,5 +19,7 @@ namespace eShift_Logistics_System.Repository.Interface
 
         bool IsTruckNumberExists(string number);
 
+        Truck GetTruckById(int id);
+
     }
 }

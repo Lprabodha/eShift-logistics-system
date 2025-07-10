@@ -15,5 +15,7 @@ namespace eShift_Logistics_System.Business.Interface
         bool DeleteTruck(int id);
         List<Truck> GetAllTrucks();
 
+        Truck GetTruckById(int id);
+
     }
 }
