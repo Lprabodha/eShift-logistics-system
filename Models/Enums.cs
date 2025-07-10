@@ -44,7 +44,8 @@ namespace eShift_Logistics_System.Models
     public enum TransportUnitStatus
     {
         Free = 1,
-        OnJob = 2
+        OnJob = 2,
+        Assigned = 3
     }
 
     /// <summary>

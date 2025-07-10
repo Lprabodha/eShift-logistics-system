@@ -31,7 +31,7 @@ namespace eShift_Logistics_System.Forms.Admin
         public VehicleManagementForm()
         {
             _truckService = new TruckService(new TruckRepositroy());
-            //_driverService = new DriverService(new DriverRepository());
+            _driverService = new DriverService(new DriverRepository());
             _assistantService = new AssistantService(new AssistantRepository());
             //_unitService = new UnitService(new UnitRepository());
             InitializeComponent();
@@ -197,7 +197,7 @@ namespace eShift_Logistics_System.Forms.Admin
             dgvDrivers.Columns.Clear();
             dgvDrivers.AutoGenerateColumns = false;
             dgvDrivers.Columns.Add(new DataGridViewTextBoxColumn { Name = "Id", DataPropertyName = "Id", Visible = false });
-            dgvDrivers.Columns.Add(new DataGridViewTextBoxColumn { Name = "FullName", HeaderText = "Full Name", DataPropertyName = "FullName", AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
+            dgvDrivers.Columns.Add(new DataGridViewTextBoxColumn { Name = "Name", HeaderText = "Name", DataPropertyName = "Name", AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
             dgvDrivers.Columns.Add(new DataGridViewTextBoxColumn { Name = "LicenseNumber", HeaderText = "License No.", DataPropertyName = "LicenseNumber", Width = 150 });
             dgvDrivers.Columns.Add(new DataGridViewTextBoxColumn { Name = "Phone", HeaderText = "Phone", DataPropertyName = "Phone", Width = 120 });
             dgvDrivers.Columns.Add(new DataGridViewTextBoxColumn { Name = "Status", HeaderText = "Status", DataPropertyName = "Status", Width = 100 });
@@ -207,8 +207,8 @@ namespace eShift_Logistics_System.Forms.Admin
 
         private void LoadDriversData()
         {
-            //_allDrivers = _driverService.GetAllDrivers();
-            //BindDataToGrid(_allDrivers);
+            _allDrivers = _driverService.GetAllDrivers();
+            BindDataToGrid(_allDrivers);
         }
 
         private void BindDataToGrid(List<Driver> drivers)
@@ -220,19 +220,46 @@ namespace eShift_Logistics_System.Forms.Admin
         private void btnDriverSearch_Click(object sender, EventArgs e)
         {
             var searchText = txtDriverSearch.Text.Trim().ToLower();
-            var filteredList = _allDrivers.Where(d => d.FullName.ToLower().Contains(searchText) || d.LicenseNumber.ToLower().Contains(searchText)).ToList();
+            var filteredList = _allDrivers.Where(d => d.Name.ToLower().Contains(searchText) || d.LicenseNumber.ToLower().Contains(searchText)).ToList();
             BindDataToGrid(filteredList);
         }
 
         private void dgvDrivers_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
-            // Add Edit/Delete logic here...
+
+            int driverId = Convert.ToInt32(dgvDrivers.Rows[e.RowIndex].Cells["Id"].Value);
+            string driverName = dgvDrivers.Rows[e.RowIndex].Cells["Name"].Value.ToString();
+            if (dgvDrivers.Columns[e.ColumnIndex].Name == "Edit")
+            {
+                var editForm = new AddEditDriverForm(driverId);
+                if (editForm.ShowDialog() == DialogResult.OK)
+                {
+                    LoadDriversData();
+                }
+            }
+            else if (dgvDrivers.Columns[e.ColumnIndex].Name == "Delete")
+            {
+                var confirmResult = MessageBox.Show($"Are you sure you want to delete driver {driverName}?",
+                                             "Confirm Deletion",
+                                             MessageBoxButtons.YesNo,
+                                             MessageBoxIcon.Warning);
+                if (confirmResult == DialogResult.Yes)
+                {
+                    _driverService.DeleteDriver(driverId);
+                    MessageBox.Show($"Driver {driverName} has been deleted.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadDriversData();
+                }
+            }
         }
 
         private void btnAddNewDriver_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Opening Add/Edit Driver form...");
+            var addForm = new AddEditDriverForm();
+            if (addForm.ShowDialog() == DialogResult.OK)
+            {
+                LoadDriversData();
+            }
         }
 
         private void SetupAssistantsGrid()
@@ -337,7 +364,7 @@ namespace eShift_Logistics_System.Forms.Admin
                 u.Id,
                 u.UnitNumber,
                 Truck = u.Truck?.LicensePlate ?? "N/A",
-                Driver = u.Driver?.FullName ?? "N/A",
+                Driver = u.Driver?.Name ?? "N/A",
                 Assistant = u.Assistant?.Name ?? "N/A",
                 u.Status
             }).ToList();
@@ -350,7 +377,7 @@ namespace eShift_Logistics_System.Forms.Admin
             var filteredList = _allUnits.Where(u =>
                 u.UnitNumber.ToLower().Contains(searchText) ||
                 (u.Truck?.LicensePlate.ToLower().Contains(searchText) ?? false) ||
-                (u.Driver?.FullName.ToLower().Contains(searchText) ?? false)
+                (u.Driver?.Name.ToLower().Contains(searchText) ?? false)
             ).ToList();
             BindDataToGrid(filteredList);
         }
