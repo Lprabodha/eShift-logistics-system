@@ -17,167 +17,170 @@
 
         private void InitializeComponent()
         {
-            this.lblTitle = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtName = new System.Windows.Forms.TextBox();
-            this.txtPhone = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txtAddress = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.cboStatus = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.chkIsActive = new System.Windows.Forms.CheckBox();
-            this.btnSave = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.SuspendLayout();
+            lblTitle = new Label();
+            label1 = new Label();
+            txtName = new TextBox();
+            txtPhone = new TextBox();
+            label2 = new Label();
+            txtAddress = new TextBox();
+            label3 = new Label();
+            cboStatus = new ComboBox();
+            label5 = new Label();
+            chkIsActive = new CheckBox();
+            btnSave = new Button();
+            btnCancel = new Button();
+            SuspendLayout();
             // 
             // lblTitle
             // 
-            this.lblTitle.AutoSize = true;
-            this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Bold);
-            this.lblTitle.Location = new System.Drawing.Point(25, 20);
-            this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(201, 30);
-            this.lblTitle.TabIndex = 0;
-            this.lblTitle.Text = "Add New Assistant";
+            lblTitle.AutoSize = true;
+            lblTitle.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold);
+            lblTitle.Location = new Point(25, 20);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(199, 30);
+            lblTitle.TabIndex = 0;
+            lblTitle.Text = "Add New Assistant";
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(27, 83);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(64, 15);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Full Name";
+            label1.AutoSize = true;
+            label1.Location = new Point(27, 83);
+            label1.Name = "label1";
+            label1.Size = new Size(61, 15);
+            label1.TabIndex = 1;
+            label1.Text = "Full Name";
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(140, 80);
-            this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(230, 23);
-            this.txtName.TabIndex = 0;
+            txtName.Location = new Point(140, 80);
+            txtName.MaxLength = 200;
+            txtName.Name = "txtName";
+            txtName.Size = new Size(230, 23);
+            txtName.TabIndex = 0;
             // 
             // txtPhone
             // 
-            this.txtPhone.Location = new System.Drawing.Point(140, 115);
-            this.txtPhone.Name = "txtPhone";
-            this.txtPhone.Size = new System.Drawing.Size(230, 23);
-            this.txtPhone.TabIndex = 1;
+            txtPhone.Location = new Point(140, 115);
+            txtPhone.MaxLength = 15;
+            txtPhone.Name = "txtPhone";
+            txtPhone.Size = new Size(230, 23);
+            txtPhone.TabIndex = 1;
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(27, 118);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(41, 15);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Phone";
+            label2.AutoSize = true;
+            label2.Location = new Point(27, 118);
+            label2.Name = "label2";
+            label2.Size = new Size(41, 15);
+            label2.TabIndex = 3;
+            label2.Text = "Phone";
             // 
             // txtAddress
             // 
-            this.txtAddress.Location = new System.Drawing.Point(140, 150);
-            this.txtAddress.Multiline = true;
-            this.txtAddress.Name = "txtAddress";
-            this.txtAddress.Size = new System.Drawing.Size(230, 60);
-            this.txtAddress.TabIndex = 2;
+            txtAddress.Location = new Point(140, 150);
+            txtAddress.MaxLength = 1000;
+            txtAddress.Multiline = true;
+            txtAddress.Name = "txtAddress";
+            txtAddress.Size = new Size(230, 60);
+            txtAddress.TabIndex = 2;
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(27, 153);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(49, 15);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Address";
+            label3.AutoSize = true;
+            label3.Location = new Point(27, 153);
+            label3.Name = "label3";
+            label3.Size = new Size(49, 15);
+            label3.TabIndex = 5;
+            label3.Text = "Address";
             // 
             // cboStatus
             // 
-            this.cboStatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboStatus.FormattingEnabled = true;
-            this.cboStatus.Location = new System.Drawing.Point(140, 221);
-            this.cboStatus.Name = "cboStatus";
-            this.cboStatus.Size = new System.Drawing.Size(230, 23);
-            this.cboStatus.TabIndex = 3;
+            cboStatus.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboStatus.FormattingEnabled = true;
+            cboStatus.Location = new Point(140, 221);
+            cboStatus.Name = "cboStatus";
+            cboStatus.Size = new Size(230, 23);
+            cboStatus.TabIndex = 3;
             // 
             // label5
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(27, 224);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(39, 15);
-            this.label5.TabIndex = 9;
-            this.label5.Text = "Status";
+            label5.AutoSize = true;
+            label5.Location = new Point(27, 224);
+            label5.Name = "label5";
+            label5.Size = new Size(39, 15);
+            label5.TabIndex = 9;
+            label5.Text = "Status";
             // 
             // chkIsActive
             // 
-            this.chkIsActive.AutoSize = true;
-            this.chkIsActive.Checked = true;
-            this.chkIsActive.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkIsActive.Location = new System.Drawing.Point(140, 260);
-            this.chkIsActive.Name = "chkIsActive";
-            this.chkIsActive.Size = new System.Drawing.Size(68, 19);
-            this.chkIsActive.TabIndex = 4;
-            this.chkIsActive.Text = "Is Active";
-            this.chkIsActive.UseVisualStyleBackColor = true;
+            chkIsActive.AutoSize = true;
+            chkIsActive.Checked = true;
+            chkIsActive.CheckState = CheckState.Checked;
+            chkIsActive.Location = new Point(140, 260);
+            chkIsActive.Name = "chkIsActive";
+            chkIsActive.Size = new Size(70, 19);
+            chkIsActive.TabIndex = 4;
+            chkIsActive.Text = "Is Active";
+            chkIsActive.UseVisualStyleBackColor = true;
             // 
             // btnSave
             // 
-            this.btnSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(84)))), ((int)(((byte)(241)))));
-            this.btnSave.FlatAppearance.BorderSize = 0;
-            this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSave.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
-            this.btnSave.ForeColor = System.Drawing.Color.White;
-            this.btnSave.Location = new System.Drawing.Point(250, 300);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(120, 40);
-            this.btnSave.TabIndex = 5;
-            this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = false;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            btnSave.BackColor = Color.FromArgb(65, 84, 241);
+            btnSave.FlatAppearance.BorderSize = 0;
+            btnSave.FlatStyle = FlatStyle.Flat;
+            btnSave.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            btnSave.ForeColor = Color.White;
+            btnSave.Location = new Point(250, 300);
+            btnSave.Name = "btnSave";
+            btnSave.Size = new Size(120, 40);
+            btnSave.TabIndex = 5;
+            btnSave.Text = "Save";
+            btnSave.UseVisualStyleBackColor = false;
+            btnSave.Click += btnSave_Click;
             // 
             // btnCancel
             // 
-            this.btnCancel.BackColor = System.Drawing.Color.Gainsboro;
-            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.FlatAppearance.BorderSize = 0;
-            this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCancel.Location = new System.Drawing.Point(140, 300);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(104, 40);
-            this.btnCancel.TabIndex = 6;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = false;
+            btnCancel.BackColor = Color.Gainsboro;
+            btnCancel.DialogResult = DialogResult.Cancel;
+            btnCancel.FlatAppearance.BorderSize = 0;
+            btnCancel.FlatStyle = FlatStyle.Flat;
+            btnCancel.Location = new Point(140, 300);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(104, 40);
+            btnCancel.TabIndex = 6;
+            btnCancel.Text = "Cancel";
+            btnCancel.UseVisualStyleBackColor = false;
             // 
             // AddEditAssistantForm
             // 
-            this.AcceptButton = this.btnSave;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(404, 361);
-            this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.chkIsActive);
-            this.Controls.Add(this.cboStatus);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.txtAddress);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.txtPhone);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.txtName);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.lblTitle);
-            this.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "AddEditAssistantForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Assistant Details";
-            this.Load += new System.EventHandler(this.AddEditAssistantForm_Load);
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AcceptButton = btnSave;
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.White;
+            CancelButton = btnCancel;
+            ClientSize = new Size(404, 361);
+            Controls.Add(btnCancel);
+            Controls.Add(btnSave);
+            Controls.Add(chkIsActive);
+            Controls.Add(cboStatus);
+            Controls.Add(label5);
+            Controls.Add(txtAddress);
+            Controls.Add(label3);
+            Controls.Add(txtPhone);
+            Controls.Add(label2);
+            Controls.Add(txtName);
+            Controls.Add(label1);
+            Controls.Add(lblTitle);
+            Font = new Font("Segoe UI", 9F);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "AddEditAssistantForm";
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "Assistant Details";
+            Load += AddEditAssistantForm_Load;
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

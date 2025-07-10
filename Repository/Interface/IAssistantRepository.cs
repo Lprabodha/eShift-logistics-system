@@ -38,6 +38,12 @@ namespace eShift_Logistics_System.Repository.Interface
         /// <returns>The assistant with the specified ID, or null if not found.</returns>
         Assistant GetAssistantById(int id);
 
+        /// <summary>
+        /// Checks if a phone number already exists in the repository, excluding a specific assistant ID.
+        /// </summary>
+        /// <param name="phoneNumber"></param>
+        /// <param name="assitantIdToExclude"></param>
+        /// <returns></returns>
         bool IsPhoneNumberExists(string phoneNumber, int assitantIdToExclude);
     }
 }

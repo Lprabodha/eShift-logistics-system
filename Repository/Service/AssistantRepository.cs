@@ -12,7 +12,10 @@ namespace eShift_Logistics_System.Repository.Service
 {
     public class AssistantRepository : IAssistantRepository
     {
-
+        /// <summary>
+        /// Adds a new assistant to the repository.
+        /// </summary>
+        /// <param name="assistant"></param>
         public void AddAssistant(Assistant assistant)
         {
             string query = @"
@@ -31,6 +34,10 @@ namespace eShift_Logistics_System.Repository.Service
             });
         }
 
+        /// <summary>
+        /// Updates an existing assistant in the repository.
+        /// </summary>
+        /// <param name="assistant"></param>
         public void UpdateAssistant(Assistant assistant)
         {
             string query = @"
@@ -49,6 +56,11 @@ namespace eShift_Logistics_System.Repository.Service
             });
         }
 
+        /// <summary>
+        /// Deletes an assistant from the repository by its ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public bool DeleteAssistant(int id)
         {
             string query = "DELETE FROM assistants WHERE id = @id";
@@ -59,6 +71,11 @@ namespace eShift_Logistics_System.Repository.Service
             return rowsAffected > 0;
         }
 
+        /// <summary>
+        /// Retrieves all assistants from the repository.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public List<Assistant> GetAllAssistants()
         {
             List<Assistant> trucks = new List<Assistant>();
@@ -94,7 +111,11 @@ namespace eShift_Logistics_System.Repository.Service
             }
         }
 
-
+        /// <summary>
+        /// Retrieves an assistant by its ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Assistant GetAssistantById(int id)
         {
             string query = "SELECT * FROM assistants WHERE id = @id";
@@ -123,6 +144,12 @@ namespace eShift_Logistics_System.Repository.Service
             return null;
         }
 
+        /// <summary>
+        /// Checks if a phone number already exists in the repository, excluding a specific assistant ID.
+        /// </summary>
+        /// <param name="phoneNumber"></param>
+        /// <param name="assitantIdToExclude"></param>
+        /// <returns></returns>
         public bool IsPhoneNumberExists(string phoneNumber, int assitantIdToExclude)
         {
             string query = "SELECT COUNT(*) FROM assistants WHERE phone = @phone AND id != @id";

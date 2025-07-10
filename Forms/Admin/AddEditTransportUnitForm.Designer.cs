@@ -1,6 +1,6 @@
 ﻿namespace eShift_Logistics_System.Forms.Admin
 {
-    partial class UnitsForm
+    partial class AddEditTransportUnitForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,20 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UnitsForm));
-            SuspendLayout();
-            // 
-            // UnitsForm
-            // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(984, 511);
-            Icon = (Icon)resources.GetObject("$this.Icon");
-            MaximizeBox = false;
-            Name = "UnitsForm";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "UnitsForm";
-            ResumeLayout(false);
+            this.components = new System.ComponentModel.Container();
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Text = "AddEditTransportUnitForm";
         }
 
         #endregion
