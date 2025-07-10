@@ -3,6 +3,7 @@ using eShift_Logistics_System.Business.Services;
 using eShift_Logistics_System.Models;
 using eShift_Logistics_System.Repository.Interface;
 using eShift_Logistics_System.Repository.Service;
+using eShift_Logistics_System.Validators;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,8 +26,6 @@ namespace eShift_Logistics_System.Forms.Admin
             InitializeComponent();
             _assistantId = assistantId;
 
-            // In a real app with Dependency Injection, this would be injected.
-            // For now, we create the instances directly.
             IAssistantRepository assistantRepository = new AssistantRepository();
             _assistantService = new AssistantService(assistantRepository);
         }
@@ -67,11 +66,6 @@ namespace eShift_Logistics_System.Forms.Admin
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtName.Text))
-            {
-                MessageBox.Show("Assistant Name cannot be empty.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
 
             var assistant = new Assistant
             {
@@ -82,11 +76,31 @@ namespace eShift_Logistics_System.Forms.Admin
                 IsActive = chkIsActive.Checked
             };
 
+            if (_assistantId.HasValue)
+            {
+                assistant.Id = _assistantId.Value;
+            }
+
+            var validator = new AssistantValidator(new AssistantRepository());
+            var results = validator.Validate(assistant);
+
+            if (!results.IsValid)
+            {
+
+                foreach (var failure in results.Errors)
+                {
+                    MessageBox.Show(failure.ErrorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                }
+
+                return;
+
+            }
+
             try
             {
                 if (_assistantId.HasValue)
                 {
-                    assistant.Id = _assistantId.Value;
                     _assistantService.UpdateAssistant(assistant);
                     MessageBox.Show("Assistant details updated successfully!", "Success");
                 }

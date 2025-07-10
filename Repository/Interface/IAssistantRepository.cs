@@ -37,5 +37,7 @@ namespace eShift_Logistics_System.Repository.Interface
         /// <param name="id">The ID of the assistant to retrieve.</param>
         /// <returns>The assistant with the specified ID, or null if not found.</returns>
         Assistant GetAssistantById(int id);
+
+        bool IsPhoneNumberExists(string phoneNumber, int assitantIdToExclude);
     }
 }
