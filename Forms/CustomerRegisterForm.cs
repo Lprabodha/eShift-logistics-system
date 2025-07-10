@@ -128,5 +128,10 @@ namespace eShift_Logistics_System.Forms
         {
 
         }
+
+        private void CustomerRegisterForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

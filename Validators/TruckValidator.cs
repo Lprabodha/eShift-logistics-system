@@ -1,0 +1,48 @@
+﻿using eShift_Logistics_System.Models;
+using eShift_Logistics_System.Repository.Interface;
+using eShift_Logistics_System.Repository.Service;
+using FluentValidation;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace eShift_Logistics_System.Validators
+{
+    public class TruckValidator : AbstractValidator<Truck>
+    {
+
+        private readonly ITruckRepository _truckRepository;
+        public TruckValidator(ITruckRepository truckRepository) {
+
+            _truckRepository = truckRepository;
+
+            RuleFor(truck => truck.TruckNumber)
+           .NotEmpty().WithMessage("Truck number is required.")
+           .MaximumLength(50).WithMessage("Truck number must be under 50 characters.")
+           .Matches(@"^[a-zA-Z0-9\-]+$").WithMessage("Truck number can only contain letters, digits, and dashes.")
+           .Must(BeUniqueTruckNumber)
+           .WithMessage("This truck number is already registered.");
+
+            RuleFor(truck => truck.Model)
+                .NotEmpty().WithMessage("Model is required.")
+                .MaximumLength(100).WithMessage("Model must be under 100 characters.");
+
+            RuleFor(truck => truck.Capacity)
+                .GreaterThan(0).WithMessage("Capacity must be greater than zero.")
+                .LessThanOrEqualTo(10000).WithMessage("Capacity cannot exceed 10,000 kg.")
+                .Must(capacity => capacity % 1 == 0).WithMessage("Capacity must be a whole number.");
+
+            RuleFor(truck => truck.LicensePlate)
+                .MaximumLength(50).WithMessage("License plate must be under 50 characters.")
+                .When(truck => !string.IsNullOrEmpty(truck.LicensePlate));
+
+        }
+
+        private bool BeUniqueTruckNumber( string number)
+        {
+            return !_truckRepository.IsTruckNumberExists(number);
+        }
+    }
+}

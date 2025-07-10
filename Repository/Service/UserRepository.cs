@@ -53,6 +53,11 @@ namespace eShift_Logistics_System.Repository.Service
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Retrieves all users from the database.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         List<User> IUserRepository.GetAllUsers()
         {
             List<User>  users = new List<User>();
@@ -156,6 +161,11 @@ namespace eShift_Logistics_System.Repository.Service
         }
 
 
+        /// <summary>
+        /// Toggles the status of a user (active/inactive) based on their customer number.
+        /// </summary>
+        /// <param name="customerNumber"></param>
+        /// <returns></returns>
         public bool ToggleUserStatus(string customerNumber)
         {
             string query = "UPDATE users SET is_active = IF(is_active = 1, 0, 1) WHERE customer_number = @customerNumber";

@@ -409,6 +409,7 @@ namespace eShift_Logistics_System.Forms
             Name = "CustomerRegisterForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "e-Shift - Register";
+            Load += CustomerRegisterForm_Load;
             pnlLeft.ResumeLayout(false);
             pnlLeft.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)picIllustration).EndInit();
