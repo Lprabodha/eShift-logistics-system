@@ -9,9 +9,18 @@ namespace eShift_Logistics_System.Business.Interface
 {
    public interface IProductService
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="product"></param>
         void AddProduct(Product product);
+        void UpdateProduct(Product product);
 
+        bool DeleteProduct(int id);
 
+        List<Product> GetAllProducts();
+
+        Product GetProductById(int id);
 
     }
 }
