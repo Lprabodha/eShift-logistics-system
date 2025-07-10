@@ -57,5 +57,7 @@ namespace eShift_Logistics_System.Repository.Interface
         /// <param name="driverIdToExclude"></param>
         /// <returns></returns>
         bool IsLicenseNumberExists(string licenseNumber, int driverIdToExclude);
+
+        List<Driver> GetAvailableDrivers(int? currentDrivertId = null);
     }
 }

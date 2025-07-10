@@ -3,6 +3,7 @@ using eShift_Logistics_System.Business.Services;
 using eShift_Logistics_System.Models;
 using eShift_Logistics_System.Repository.Interface;
 using eShift_Logistics_System.Repository.Service;
+using eShift_Logistics_System.Validators;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,6 +23,8 @@ namespace eShift_Logistics_System.Forms.Admin
 
          private readonly IUnitService _unitService;
         private readonly ITruckService _truckService;
+        private readonly IAssistantService _assistantService;
+        private readonly IDriverService _driverService;
 
         public AddEditTransportUnitForm(int? unitId = null)
         {
@@ -29,6 +32,8 @@ namespace eShift_Logistics_System.Forms.Admin
             _unitId = unitId;
             _unitService = new UnitService(new UnitRepository());
             _truckService = new TruckService(new TruckRepositroy());
+            _assistantService = new AssistantService(new AssistantRepository());
+            _driverService = new DriverService(new DriverRepository());
         }
 
         private void AddEditUnitForm_Load(object sender, EventArgs e)
@@ -56,8 +61,7 @@ namespace eShift_Logistics_System.Forms.Admin
         {
             try
             {
-                // In a real app, get count from _unitService.GetTotalUnitCount();
-                int unitCount = 12; 
+                int unitCount = _unitService.GetTotalUnitCount();
                 int nextId = unitCount + 1;
                 string year = DateTime.Now.ToString("yyyy");
 
@@ -85,74 +89,91 @@ namespace eShift_Logistics_System.Forms.Admin
         private void LoadComboBoxData(int? currentTruckId = null, int? currentDriverId = null, int? currentAssistantId = null)
         {
 
-            var availableTrucks = _truckService.GetAvailableTrucks(currentTruckId);
-            cboTruck.DataSource = availableTrucks;
-            cboTruck.DisplayMember = "LicensePlate";
-            cboTruck.ValueMember = "Id";
+            try
+            {
+                var availableTrucks = _truckService.GetAvailableTrucks(currentTruckId);
+                var placeholderTruck = new Truck { Id = 0, LicensePlate = "--- Select a Truck ---" };
+                availableTrucks.Insert(0, placeholderTruck);
 
+                cboTruck.DataSource = availableTrucks;
+                cboTruck.DisplayMember = "LicensePlate";
+                cboTruck.ValueMember = "Id";
 
-            // ... Load Drivers and Assistants
-            var availableDrivers = new List<Driver> { new Driver { Id = 2, Name = "John Doe" }, new Driver { Id = 3, Name = "Jane Smith" } };
-            cboDriver.DataSource = availableDrivers;
-            cboDriver.DisplayMember = "Name";
-            cboDriver.ValueMember = "Id";
-            var availableAssistants = new List<Assistant> { new Assistant { Id = 5, Name = "Mike Johnson" }, new Assistant { Id = 6, Name = "Sara Connor" } };
-            cboAssistant.DataSource = availableAssistants;
-            cboAssistant.DisplayMember = "Name";
-            cboAssistant.ValueMember = "Id";
+                var availableDrivers = _driverService.GetAvailableDrivers(currentDriverId);
+                var placeholderDriver = new Driver { Id = 0, Name = "--- Select a Driver ---" };
+                availableDrivers.Insert(0, placeholderDriver);
+
+                cboDriver.DataSource = availableDrivers;
+                cboDriver.DisplayMember = "Name";
+                cboDriver.ValueMember = "Id";
+
+                var availableAssistants = _assistantService.GetAvailableAssistants(currentAssistantId);
+                var placeholderAssitant = new Assistant  { Id = 0, Name = "--- Select a Assistant ---" };
+
+                availableAssistants.Insert(0, placeholderAssitant);
+                cboAssistant.DataSource = availableAssistants;
+                cboAssistant.DisplayMember = "Name";
+                cboAssistant.ValueMember = "Id";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading data for dropdowns: {ex.Message}", "Error");
+            }
         }
 
         private void LoadUnitData()
         {
              _editingUnit = _unitService.GetUnitById(_unitId.Value);
-            // Placeholder data for an existing unit
-            _editingUnit = new TransportUnit
-            {
-                Id = _unitId.Value,
-                UnitNumber = "UNIT-2024-005",
-                TruckId = 1,
-                DriverId = 2,
-                AssistantId = null,
-                Status = TransportUnitStatus.Assigned,
-                IsActive = true
-            };
 
             // Populate controls from the loaded object
             cboTruck.SelectedValue = _editingUnit.TruckId;
             cboDriver.SelectedValue = _editingUnit.DriverId;
-            cboAssistant.SelectedValue = _editingUnit.AssistantId ?? (object)DBNull.Value;
+            cboAssistant.SelectedValue = _editingUnit.AssistantId;
             cboStatus.SelectedItem = _editingUnit.Status;
             chkIsActive.Checked = _editingUnit.IsActive;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if (cboTruck.SelectedItem == null || cboDriver.SelectedItem == null)
-            {
-                MessageBox.Show("A Truck and a Driver must be selected.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            // Populate the existing unit object with data from the form
             _editingUnit.TruckId = (int)cboTruck.SelectedValue;
             _editingUnit.DriverId = (int)cboDriver.SelectedValue;
-            _editingUnit.AssistantId = (int?)cboAssistant.SelectedValue;
+            _editingUnit.AssistantId = (int)cboAssistant.SelectedValue;
             _editingUnit.Status = (TransportUnitStatus)cboStatus.SelectedItem;
             _editingUnit.IsActive = chkIsActive.Checked;
 
-            if (_unitId.HasValue)
+            var validator = new TransportUnitValidator(new UnitRepository());
+            var results = validator.Validate(_editingUnit);
+
+            if (!results.IsValid)
             {
-                // _unitService.UpdateUnit(_editingUnit);
-                MessageBox.Show("Transport Unit updated successfully!", "Success");
-            }
-            else
-            {
-                // _unitService.AddUnit(_editingUnit);
-                MessageBox.Show($"New Transport Unit {_editingUnit.UnitNumber} added successfully!", "Success");
+                foreach (var failure in results.Errors)
+                {
+                    MessageBox.Show(failure.ErrorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                }
+                return;
             }
 
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+            try
+            {
+                if (_unitId.HasValue)
+                {
+                    _unitService.UpdateUnit(_editingUnit);
+                    MessageBox.Show("Transport Unit updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    _unitService.AddUnit(_editingUnit);
+                    MessageBox.Show($"New Transport Unit {_editingUnit.UnitNumber} added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while saving: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

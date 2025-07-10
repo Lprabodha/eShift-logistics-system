@@ -14,7 +14,7 @@ namespace eShift_Logistics_System.Business.Services
         /// <summary>
         /// Represents the driver repository used by the service.
         /// </summary>
-        private readonly IDriverRepository   _assistantService;
+        private readonly IDriverRepository   _driverService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DriverService"/> class.
@@ -22,7 +22,7 @@ namespace eShift_Logistics_System.Business.Services
         /// <param name="driverService"></param>
         public DriverService(IDriverRepository driverService)
         {
-            _assistantService = driverService;
+            _driverService = driverService;
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace eShift_Logistics_System.Business.Services
         /// <param name="driver"></param>
         public void AddDriver(Driver driver)
         {
-            _assistantService.AddDriver(driver);
+            _driverService.AddDriver(driver);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace eShift_Logistics_System.Business.Services
         /// <param name="driver"></param>
         public void UpdateDriver(Driver driver)
         {
-            _assistantService.UpdateDriver(driver);
+            _driverService.UpdateDriver(driver);
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace eShift_Logistics_System.Business.Services
         /// <returns></returns>
         public bool DeleteDriver(int id)
         {
-            return _assistantService.DeleteDriver(id);
+            return _driverService.DeleteDriver(id);
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace eShift_Logistics_System.Business.Services
         /// <returns></returns>
         public List<Driver> GetAllDrivers()
         {
-            return _assistantService.GetAllDrivers();
+            return _driverService.GetAllDrivers();
         }
 
         /// <summary>
@@ -69,7 +69,13 @@ namespace eShift_Logistics_System.Business.Services
         /// <returns></returns>
         public Driver GetDriverById(int id)
         {
-            return _assistantService.GetDriverById(id);
+            return _driverService.GetDriverById(id);
+        }
+
+
+        public List<Driver> GetAvailableDrivers(int? currentDrivertId = null)
+        {
+            return _driverService.GetAvailableDrivers(currentDrivertId);
         }
     }
 }

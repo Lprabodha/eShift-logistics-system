@@ -182,5 +182,25 @@ namespace eShift_Logistics_System.Repository.Service
 
             return Convert.ToInt64(result) > 0;
         }
+
+
+        public List<Driver> GetAvailableDrivers(int? currentDrivertId = null)
+        {
+
+            string query = @"
+                SELECT * FROM drivers 
+                WHERE is_active = true AND (id NOT IN (SELECT truck_id FROM transport_units WHERE driver_id IS NOT NULL) 
+                OR id = @currentDrivertId)";
+
+            return DatabaseHelper.ExecuteReader(query, reader =>
+            {
+                return new Driver
+                {
+                    Id = Convert.ToInt32(reader["id"]),
+                    Name = reader["name"].ToString()
+                };
+            },
+            new MySqlParameter("@currentDrivertId", currentDrivertId ?? (object)DBNull.Value));
+        }
     }
 }

@@ -18,7 +18,7 @@ namespace eShift_Logistics_System.Models
 
         public int TruckId { get; set; }
         public int DriverId { get; set; }
-        public int? AssistantId { get; set; }
+        public int AssistantId { get; set; }
 
         public TransportUnitStatus Status { get; set; } = TransportUnitStatus.Free;
 

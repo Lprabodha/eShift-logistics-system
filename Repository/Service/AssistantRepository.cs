@@ -159,5 +159,24 @@ namespace eShift_Logistics_System.Repository.Service
             return Convert.ToInt32(result) > 0;
         }
 
+        public List<Assistant> GetAvailableAssistants(int? currentAssistantId = null)
+        {
+
+            string query = @"
+                SELECT * FROM assistants 
+                WHERE is_active = true AND (id NOT IN (SELECT assistant_id FROM transport_units WHERE assistant_id IS NOT NULL) 
+                OR id = @currentAssistantId)";
+
+            return DatabaseHelper.ExecuteReader(query, reader =>
+            {
+                return new Assistant
+                {
+                    Id = Convert.ToInt32(reader["id"]),
+                    Name = reader["name"].ToString()
+                };
+            },
+            new MySqlParameter("@currentAssistantId", currentAssistantId ?? (object)DBNull.Value));
+        }
+
     }
 }
