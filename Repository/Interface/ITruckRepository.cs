@@ -49,5 +49,20 @@ namespace eShift_Logistics_System.Repository.Interface
         /// <returns></returns>
         Truck GetTruckById(int id);
 
+        /// <summary>
+        /// Checks if a license plate already exists in the system, excluding a specific truck ID.
+        /// </summary>
+        /// <param name="licensePlate"></param>
+        /// <param name="truckIdToExclude"></param>
+        /// <returns></returns>
+        bool IsLicensePlateExists(string licensePlate, int truckIdToExclude);
+
+        /// <summary>
+        /// Retrieves a list of available trucks, optionally excluding a specific truck ID.
+        /// </summary>
+        /// <param name="currentTruckId"></param>
+        /// <returns></returns>
+
+        List<Truck> GetAvailableTrucks(int? currentTruckId = null);
     }
 }

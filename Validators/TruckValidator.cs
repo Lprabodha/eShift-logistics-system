@@ -37,8 +37,10 @@ namespace eShift_Logistics_System.Validators
                 .Must(capacity => capacity % 1 == 0).WithMessage("Capacity must be a whole number.");
 
             RuleFor(truck => truck.LicensePlate)
-                .MaximumLength(50).WithMessage("License plate must be under 50 characters.")
-                .When(truck => !string.IsNullOrEmpty(truck.LicensePlate));
+               .NotEmpty().WithMessage("License plate is required.")
+               .MaximumLength(50).WithMessage("License plate must be under 50 characters.")
+               .Must((truck, license) => BeUniqueLicensePlate(truck, license))
+               .WithMessage("This license plate is already registered.");
 
         }
 
@@ -51,6 +53,17 @@ namespace eShift_Logistics_System.Validators
         private bool BeUniqueTruckNumber(Truck truck, string number)
         {
             return !_truckRepository.IsTruckNumberExists(number, truck.Id);
+        }
+
+        /// <summary>
+        /// Checks if the license plate is unique in the system, excluding the current truck's ID if it exists.
+        /// </summary>
+        /// <param name="truck"></param>
+        /// <param name="licensePlate"></param>
+        /// <returns></returns>
+        private bool BeUniqueLicensePlate(Truck truck, string licensePlate)
+        {
+            return !_truckRepository.IsLicensePlateExists(licensePlate, truck.Id);
         }
     }
 }

@@ -318,7 +318,7 @@ namespace eShift_Logistics_System.Forms.Admin
 
                 if (confirmResult == DialogResult.Yes)
                 {
-                     _assistantService.DeleteAssistant(assistantId);
+                    _assistantService.DeleteAssistant(assistantId);
 
                     MessageBox.Show($"Assistant {assistantName} has been deleted.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -390,10 +390,21 @@ namespace eShift_Logistics_System.Forms.Admin
 
         private void btnAddNewUnit_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Opening Add/Edit Transport Unit form...");
+
+            var addForm = new AddEditTransportUnitForm();
+            if (addForm.ShowDialog() == DialogResult.OK)
+            {
+                LoadUnitsData();
+            }
+
         }
 
         private void lblTitle_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnAddNewUnit_Click_1(object sender, EventArgs e)
         {
 
         }

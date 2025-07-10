@@ -41,5 +41,7 @@ namespace eShift_Logistics_System.Business.Interface
         /// <returns></returns>
         Truck GetTruckById(int id);
 
+        List<Truck> GetAvailableTrucks(int? currentTruckId = null);
+
     }
 }
