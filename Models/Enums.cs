@@ -13,8 +13,9 @@ namespace eShift_Logistics_System.Models
     public enum TruckStatus
     {
         Available = 1,
-        Assigned = 2,
-        InMaintenance = 3
+        OnJob = 2,
+        InMaintenance = 3,
+        OutOfService = 4
     }
 
     /// <summary>

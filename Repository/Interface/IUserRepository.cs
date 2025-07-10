@@ -31,7 +31,7 @@ namespace eShift_Logistics_System.Repository.Interface
         /// Deletes a user from the repository by their ID.
         /// </summary>
         /// <param name="id"></param>
-        void DeleteUser(int id);
+        bool DeleteUser(int userId);
 
         /// <summary>
         /// Checks if an email already exists in the repository.
@@ -53,6 +53,14 @@ namespace eShift_Logistics_System.Repository.Interface
         /// <param name="email"></param>
         /// <returns></returns>
         User GetUserByEmail(string email);
+
+        /// <summary>
+        /// Toggles the status of a user (active/inactive) based on their customer number.
+        /// </summary>
+        /// <param name="customerNumber"></param>
+        /// <returns></returns>
+        bool ToggleUserStatus(string customerNumber);
+
 
     }
 }

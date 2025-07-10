@@ -38,7 +38,7 @@
             imgDashboard = new PictureBox();
             lblDashboard = new Label();
             pnlUser = new Panel();
-            lblUserRole = new Label();
+            btnLogout = new Label();
             lblUserName = new Label();
             picUserAvatar = new PictureBox();
             pnlHeader = new Panel();
@@ -278,7 +278,7 @@
             // 
             pnlUser.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             pnlUser.BackColor = Color.Transparent;
-            pnlUser.Controls.Add(lblUserRole);
+            pnlUser.Controls.Add(btnLogout);
             pnlUser.Controls.Add(lblUserName);
             pnlUser.Controls.Add(picUserAvatar);
             pnlUser.Location = new Point(20, 600);
@@ -286,16 +286,17 @@
             pnlUser.Size = new Size(220, 60);
             pnlUser.TabIndex = 0;
             // 
-            // lblUserRole
+            // btnLogout
             // 
-            lblUserRole.AutoSize = true;
-            lblUserRole.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblUserRole.ForeColor = Color.FromArgb(200, 200, 255);
-            lblUserRole.Location = new Point(60, 32);
-            lblUserRole.Name = "lblUserRole";
-            lblUserRole.Size = new Size(44, 13);
-            lblUserRole.TabIndex = 2;
-            lblUserRole.Text = "Logout";
+            btnLogout.AutoSize = true;
+            btnLogout.Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnLogout.ForeColor = Color.FromArgb(200, 200, 255);
+            btnLogout.Location = new Point(60, 32);
+            btnLogout.Name = "btnLogout";
+            btnLogout.Size = new Size(44, 13);
+            btnLogout.TabIndex = 2;
+            btnLogout.Text = "Logout";
+            btnLogout.Click += btnLogout_Click;
             // 
             // lblUserName
             // 
@@ -313,7 +314,7 @@
             picUserAvatar.Image = (Image)resources.GetObject("picUserAvatar.Image");
             picUserAvatar.Location = new Point(10, 10);
             picUserAvatar.Name = "picUserAvatar";
-            picUserAvatar.Size = new Size(40, 40);
+            picUserAvatar.Size = new Size(36, 36);
             picUserAvatar.SizeMode = PictureBoxSizeMode.Zoom;
             picUserAvatar.TabIndex = 0;
             picUserAvatar.TabStop = false;
@@ -411,7 +412,7 @@
         private System.Windows.Forms.PictureBox picAppLogo;
         private System.Windows.Forms.Panel pnlUser;
         private System.Windows.Forms.PictureBox picUserAvatar;
-        private System.Windows.Forms.Label lblUserRole;
+        private System.Windows.Forms.Label btnLogout;
         private System.Windows.Forms.Label lblUserName;
         private System.Windows.Forms.Panel pnlDashboard;
         private System.Windows.Forms.Label lblDashboard;

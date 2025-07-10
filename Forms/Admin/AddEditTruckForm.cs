@@ -1,0 +1,134 @@
+﻿using eShift_Logistics_System.Business.Interface;
+using eShift_Logistics_System.Business.Services;
+using eShift_Logistics_System.Models;
+using eShift_Logistics_System.Repository.Interface;
+using eShift_Logistics_System.Repository.Service;
+using eShift_Logistics_System.Validators;
+using MySqlX.XDevAPI.Common;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace eShift_Logistics_System.Forms.Admin
+{
+    public partial class AddEditTruckForm : Form
+    {
+        private readonly int? _truckId; // Nullable int. If null = Add Mode, if has value = Edit Mode.
+        private readonly ITruckService _truckService;
+
+
+        // Constructor for ADD mode
+        public AddEditTruckForm()
+        {
+            InitializeComponent();
+            _truckId = null; // Ensure truckId is null for Add mode
+            ITruckRepository truckRepository = new TruckRepositroy();
+            _truckService = new TruckService(truckRepository);
+        }
+
+        // Constructor for EDIT mode
+        public AddEditTruckForm(int truckId)
+        {
+            InitializeComponent();
+            _truckId = truckId;
+
+            ITruckRepository truckRepository = new TruckRepositroy();
+            _truckService = new TruckService(truckRepository);
+        }
+
+        private void AddEditTruckForm_Load(object sender, EventArgs e)
+        {
+            // Populate the status combobox from the enum
+            cboStatus.DataSource = Enum.GetValues(typeof(TruckStatus));
+
+            if (_truckId.HasValue)
+            {
+                // EDIT MODE
+                lblTitle.Text = "Edit Truck";
+                LoadTruckData();
+            }
+            else
+            {
+                // ADD MODE
+                lblTitle.Text = "Add New Truck";
+                cboStatus.SelectedItem = TruckStatus.Available;
+            }
+        }
+
+        private void LoadTruckData()
+        {
+            // In a real app, you would get this from a service:
+            // var truck = _truckService.GetTruckById(_truckId.Value);
+
+            // Using placeholder data for demonstration
+            var truck = new Truck
+            {
+                Id = _truckId.Value,
+                TruckNumber = "TRK-002",
+                Model = "Mitsubishi Canter",
+                LicensePlate = "CBA-5678",
+                Capacity = 3000,
+                Status = TruckStatus.OnJob,
+                IsActive = true
+            };
+
+            // Populate form controls
+            txtTruckNumber.Text = truck.TruckNumber;
+            txtModel.Text = truck.Model;
+            txtLicensePlate.Text = truck.LicensePlate;
+            numCapacity.Value = truck.Capacity;
+            cboStatus.SelectedItem = truck.Status;
+            chkIsActive.Checked = truck.IsActive;
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            Truck truck = new Truck
+            {
+                TruckNumber = txtTruckNumber.Text.Trim(),
+                Model = txtModel.Text.Trim(),
+                LicensePlate = txtLicensePlate.Text.Trim(),
+                Capacity = (int)numCapacity.Value,
+                Status = (TruckStatus)cboStatus.SelectedItem,
+                IsActive = chkIsActive.Checked
+            };
+
+            var validator = new TruckValidator(new TruckRepositroy()); 
+            var results = validator.Validate(truck);
+
+            if (!results.IsValid)
+            {
+
+                foreach (var failure in results.Errors)
+                {
+                    MessageBox.Show(failure.ErrorMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    break;
+                }
+
+                return;
+
+            }
+
+            if (_truckId.HasValue)
+            {
+                truck.Id = _truckId.Value;
+                _truckService.UpdateTruck(truck);  
+                MessageBox.Show("Truck details updated successfully!", "Success");
+            }
+            else
+            {
+                _truckService.AddTruck(truck);
+                MessageBox.Show("New truck added successfully!", "Success");
+            }
+
+            this.DialogResult = DialogResult.OK; 
+            this.Close();
+        }
+    }
+}

@@ -63,5 +63,33 @@ namespace eShift_Logistics_System.Helpers
                 return cmd.ExecuteScalar();
             }
         }
-    }
+
+        /// <summary>
+        /// Executes a query that returns a list of results, mapping each row to an object of type T using the provided mapping function.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="query"></param>
+        /// <param name="mapFunc"></param>
+        /// <returns></returns>
+        public static List<T> ExecuteReader<T>(string query, Func<MySqlDataReader, T> mapFunc)
+        {
+            var results = new List<T>();
+
+            using (var conn = GetConnection())
+            using (var cmd = new MySqlCommand(query, conn))
+            {
+                conn.Open();
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        results.Add(mapFunc(reader));
+                    }
+                }
+            }
+
+            return results;
+        }
+}
 }

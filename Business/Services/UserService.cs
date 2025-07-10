@@ -1,6 +1,7 @@
 ﻿using eShift_Logistics_System.Business.Interface;
 using eShift_Logistics_System.Models;
 using eShift_Logistics_System.Repository.Interface;
+using eShift_Logistics_System.Repository.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,10 +25,13 @@ namespace eShift_Logistics_System.Business.Services
 
         }
 
-        public void DeleteUser(int id)
+        public bool DeleteUser(string customerNumber)
         {
-            _userService.DeleteUser(id);
+            var user = _userService.GetAllUsers()
+                                      .FirstOrDefault(u => u.CustomerNumber == customerNumber);
+            if (user == null) return false;
 
+            return _userService.DeleteUser(user.Id);
         }
 
         public void UpdateUser(User user)
@@ -38,6 +42,11 @@ namespace eShift_Logistics_System.Business.Services
         List<User> IUserService.GetAllUsers()
         {
             return _userService.GetAllUsers() ?? new List<User>();
+        }
+
+        public bool ToggleUserStatus(string customerNumber)
+        {
+            return _userService.ToggleUserStatus(customerNumber);
         }
 
     }

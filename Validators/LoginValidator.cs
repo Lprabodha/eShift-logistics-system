@@ -10,6 +10,9 @@ namespace eShift_Logistics_System.Validators
 {
     public class LoginValidator: AbstractValidator<User>
     {
+        /// <summary>
+        /// Validator for user login credentials.
+        /// </summary>
         public LoginValidator()
         {
 

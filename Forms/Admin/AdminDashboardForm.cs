@@ -113,7 +113,7 @@ namespace eShift_Logistics_System.Forms.Admin
             else if (clickedPanel == pnlCustomer)
                 LoadFormIntoPanel(new CustomersForm());
             else if (clickedPanel == pnlVehicle)
-                LoadFormIntoPanel(new TrucksForm());
+                LoadFormIntoPanel(new VehicleManagementForm());
             else if (clickedPanel == pnlProduct)
                 LoadFormIntoPanel(new AssistantsForm());
             else if (clickedPanel == pnlReports)
@@ -137,6 +137,24 @@ namespace eShift_Logistics_System.Forms.Admin
         private void lblDashboard_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void lblUserRole_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+
+            var confirmResult = MessageBox.Show("Are you sure you want to logout?", "Confirm Logout", MessageBoxButtons.YesNo);
+            if (confirmResult == DialogResult.Yes)
+            {
+                this.Hide();
+                LoginForm loginForm = new LoginForm(); 
+                loginForm.FormClosed += (s, args) => this.Close();
+                loginForm.Show();
+            }
         }
     }
 
