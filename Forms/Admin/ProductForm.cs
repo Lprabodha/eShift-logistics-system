@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace eShift_Logistics_System.Forms.Admin
 {
-    public partial class AssistantsForm: Form
+    public partial class ProductForm: Form
     {
-        public AssistantsForm()
+        public ProductForm()
         {
             InitializeComponent();
         }

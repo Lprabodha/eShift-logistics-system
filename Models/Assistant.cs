@@ -13,8 +13,7 @@ namespace eShift_Logistics_System.Models
     {
         public int Id { get; set; }
 
-        public string FirstName { get; set; } = string.Empty;
-        public string LastName { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
 
         public string? Phone { get; set; }
         public string? Address { get; set; }
@@ -24,6 +23,5 @@ namespace eShift_Logistics_System.Models
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public bool IsActive { get; set; } = true;
 
-        public string FullName => $"{FirstName} {LastName}";
     }
 }
