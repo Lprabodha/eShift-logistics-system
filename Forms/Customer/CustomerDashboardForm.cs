@@ -68,15 +68,15 @@ namespace eShift_Logistics_System.Forms.Customer
             int customerId = 1;
 
 
-        SetSelectedPanel(clickedPanel);
+            SetSelectedPanel(clickedPanel);
 
             // Load the correct form into the main panel
             if (clickedPanel == pnlDashboard)
                 LoadFormIntoPanel(new CustomerDashboardViewForm());
             // else if (clickedPanel == pnlMyJobs)
             //     LoadFormIntoPanel(new MyJobsForm()); 
-            // else if (clickedPanel == pnlRequestPickup)
-            //     LoadFormIntoPanel(new RequestPickupForm());
+            else if (clickedPanel == pnlRequestPickup)
+                LoadFormIntoPanel(new RequestPickupForm(customerId));
             else if (clickedPanel == pnlMyProfile)
                 LoadFormIntoPanel(new MyProfileForm(customerId));
         }
@@ -135,6 +135,16 @@ namespace eShift_Logistics_System.Forms.Customer
             {
                 panel.BackColor = Color.Transparent;
             }
+        }
+
+        private void lblRequestPickup_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pnlRequestPickup_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
