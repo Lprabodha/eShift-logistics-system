@@ -111,6 +111,7 @@
             pnlRequestPickup.Name = "pnlRequestPickup";
             pnlRequestPickup.Size = new Size(220, 45);
             pnlRequestPickup.TabIndex = 3;
+            pnlRequestPickup.Paint += pnlRequestPickup_Paint;
             // 
             // picRequestPickup
             // 
@@ -132,6 +133,7 @@
             lblRequestPickup.Size = new Size(116, 20);
             lblRequestPickup.TabIndex = 0;
             lblRequestPickup.Text = "Request Pickup";
+            lblRequestPickup.Click += lblRequestPickup_Click;
             // 
             // pnlMyJobs
             // 
@@ -291,6 +293,7 @@
             Controls.Add(pnlMainContent);
             Controls.Add(pnlSidebar);
             Font = new Font("Segoe UI", 9F);
+            MinimizeBox = false;
             Name = "CustomerDashboardForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "E-Shift Customer Dashboard";
