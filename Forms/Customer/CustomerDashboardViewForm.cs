@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace eShift_Logistics_System.Forms.Customer
 {
-    public partial class ProfileForm: Form
+    public partial class CustomerDashboardViewForm : Form
     {
-        public ProfileForm()
+        public CustomerDashboardViewForm()
         {
             InitializeComponent();
+        }
+
+        private void CustomerDashboardViewForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

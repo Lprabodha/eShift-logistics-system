@@ -10,9 +10,9 @@ namespace eShift_Logistics_System.Models
     {
 
         public int Id { get; set; }
-        public string Name { get; set; }  
-        public float Size { get; set; }
-        public float Weight { get; set; } 
-        public string Description { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public decimal? DefaultWeight { get; set; }
+        public string? DefaultDimensions { get; set; }
+        public bool IsFragile { get; set; }
     }
 }

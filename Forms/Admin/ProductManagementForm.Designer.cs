@@ -17,145 +17,145 @@
 
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.pnlHeader = new System.Windows.Forms.Panel();
-            this.btnAddNewProduct = new System.Windows.Forms.Button();
-            this.lblTitle = new System.Windows.Forms.Label();
-            this.pnlSearch = new System.Windows.Forms.Panel();
-            this.btnSearch = new System.Windows.Forms.Button();
-            this.txtSearch = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.dgvProducts = new System.Windows.Forms.DataGridView();
-            this.pnlHeader.SuspendLayout();
-            this.pnlSearch.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvProducts)).BeginInit();
-            this.SuspendLayout();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            pnlHeader = new Panel();
+            btnAddNewProduct = new Button();
+            lblTitle = new Label();
+            pnlSearch = new Panel();
+            btnSearch = new Button();
+            txtSearch = new TextBox();
+            label2 = new Label();
+            dgvProducts = new DataGridView();
+            pnlHeader.SuspendLayout();
+            pnlSearch.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvProducts).BeginInit();
+            SuspendLayout();
             // 
             // pnlHeader
             // 
-            this.pnlHeader.Controls.Add(this.btnAddNewProduct);
-            this.pnlHeader.Controls.Add(this.lblTitle);
-            this.pnlHeader.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlHeader.Location = new System.Drawing.Point(20, 20);
-            this.pnlHeader.Name = "pnlHeader";
-            this.pnlHeader.Size = new System.Drawing.Size(960, 50);
-            this.pnlHeader.TabIndex = 0;
+            pnlHeader.Controls.Add(btnAddNewProduct);
+            pnlHeader.Controls.Add(lblTitle);
+            pnlHeader.Dock = DockStyle.Top;
+            pnlHeader.Location = new Point(20, 20);
+            pnlHeader.Name = "pnlHeader";
+            pnlHeader.Size = new Size(960, 50);
+            pnlHeader.TabIndex = 0;
             // 
             // btnAddNewProduct
             // 
-            this.btnAddNewProduct.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddNewProduct.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(65)))), ((int)(((byte)(84)))), ((int)(((byte)(241)))));
-            this.btnAddNewProduct.FlatAppearance.BorderSize = 0;
-            this.btnAddNewProduct.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAddNewProduct.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
-            this.btnAddNewProduct.ForeColor = System.Drawing.Color.White;
-            this.btnAddNewProduct.Location = new System.Drawing.Point(800, 5);
-            this.btnAddNewProduct.Name = "btnAddNewProduct";
-            this.btnAddNewProduct.Size = new System.Drawing.Size(160, 40);
-            this.btnAddNewProduct.TabIndex = 1;
-            this.btnAddNewProduct.Text = "+ Add New Product";
-            this.btnAddNewProduct.UseVisualStyleBackColor = false;
+            btnAddNewProduct.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnAddNewProduct.BackColor = Color.FromArgb(65, 84, 241);
+            btnAddNewProduct.FlatAppearance.BorderSize = 0;
+            btnAddNewProduct.FlatStyle = FlatStyle.Flat;
+            btnAddNewProduct.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            btnAddNewProduct.ForeColor = Color.White;
+            btnAddNewProduct.Location = new Point(800, 5);
+            btnAddNewProduct.Name = "btnAddNewProduct";
+            btnAddNewProduct.Size = new Size(160, 40);
+            btnAddNewProduct.TabIndex = 1;
+            btnAddNewProduct.Text = "+ Add New Product";
+            btnAddNewProduct.UseVisualStyleBackColor = false;
             // 
             // lblTitle
             // 
-            this.lblTitle.AutoSize = true;
-            this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 21.75F, System.Drawing.FontStyle.Bold);
-            this.lblTitle.Location = new System.Drawing.Point(-7, 5);
-            this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(315, 40);
-            this.lblTitle.TabIndex = 0;
-            this.lblTitle.Text = "Product Management";
+            lblTitle.AutoSize = true;
+            lblTitle.Font = new Font("Segoe UI", 21.75F, FontStyle.Bold);
+            lblTitle.Location = new Point(-7, 5);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(318, 40);
+            lblTitle.TabIndex = 0;
+            lblTitle.Text = "Product Management";
             // 
             // pnlSearch
             // 
-            this.pnlSearch.BackColor = System.Drawing.Color.White;
-            this.pnlSearch.Controls.Add(this.btnSearch);
-            this.pnlSearch.Controls.Add(this.txtSearch);
-            this.pnlSearch.Controls.Add(this.label2);
-            this.pnlSearch.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlSearch.Location = new System.Drawing.Point(20, 70);
-            this.pnlSearch.Name = "pnlSearch";
-            this.pnlSearch.Padding = new System.Windows.Forms.Padding(0, 5, 0, 10);
-            this.pnlSearch.Size = new System.Drawing.Size(960, 50);
-            this.pnlSearch.TabIndex = 1;
+            pnlSearch.BackColor = Color.White;
+            pnlSearch.Controls.Add(btnSearch);
+            pnlSearch.Controls.Add(txtSearch);
+            pnlSearch.Controls.Add(label2);
+            pnlSearch.Dock = DockStyle.Top;
+            pnlSearch.Location = new Point(20, 70);
+            pnlSearch.Name = "pnlSearch";
+            pnlSearch.Padding = new Padding(0, 5, 0, 10);
+            pnlSearch.Size = new Size(960, 50);
+            pnlSearch.TabIndex = 1;
             // 
             // btnSearch
             // 
-            this.btnSearch.BackColor = System.Drawing.Color.DarkGray;
-            this.btnSearch.FlatAppearance.BorderSize = 0;
-            this.btnSearch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSearch.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.btnSearch.ForeColor = System.Drawing.Color.White;
-            this.btnSearch.Location = new System.Drawing.Point(400, 10);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(85, 29);
-            this.btnSearch.TabIndex = 2;
-            this.btnSearch.Text = "Search";
-            this.btnSearch.UseVisualStyleBackColor = false;
+            btnSearch.BackColor = Color.DarkGray;
+            btnSearch.FlatAppearance.BorderSize = 0;
+            btnSearch.FlatStyle = FlatStyle.Flat;
+            btnSearch.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnSearch.ForeColor = Color.White;
+            btnSearch.Location = new Point(400, 10);
+            btnSearch.Name = "btnSearch";
+            btnSearch.Size = new Size(85, 29);
+            btnSearch.TabIndex = 2;
+            btnSearch.Text = "Search";
+            btnSearch.UseVisualStyleBackColor = false;
+            btnSearch.Click += btnSearch_Click;
             // 
             // txtSearch
             // 
-            this.txtSearch.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.txtSearch.Location = new System.Drawing.Point(68, 10);
-            this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(326, 29);
-            this.txtSearch.TabIndex = 1;
+            txtSearch.Font = new Font("Segoe UI", 12F);
+            txtSearch.Location = new Point(68, 10);
+            txtSearch.Name = "txtSearch";
+            txtSearch.Size = new Size(326, 29);
+            txtSearch.TabIndex = 1;
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(13, 16);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(49, 17);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Search:";
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label2.Location = new Point(13, 16);
+            label2.Name = "label2";
+            label2.Size = new Size(50, 17);
+            label2.TabIndex = 0;
+            label2.Text = "Search:";
             // 
             // dgvProducts
             // 
-            this.dgvProducts.AllowUserToAddRows = false;
-            this.dgvProducts.AllowUserToDeleteRows = false;
-            this.dgvProducts.BackgroundColor = System.Drawing.Color.White;
-            this.dgvProducts.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dgvProducts.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(52)))), ((int)(((byte)(54)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            this.dgvProducts.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvProducts.ColumnHeadersHeight = 35;
-            // FIX: This ensures the DataGridView fills all available space.
-            this.dgvProducts.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvProducts.EnableHeadersVisualStyles = false;
-            this.dgvProducts.Location = new System.Drawing.Point(20, 120);
-            this.dgvProducts.Name = "dgvProducts";
-            this.dgvProducts.ReadOnly = true;
-            this.dgvProducts.RowHeadersVisible = false;
-            this.dgvProducts.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvProducts.Size = new System.Drawing.Size(960, 410);
-            this.dgvProducts.TabIndex = 2;
+            dgvProducts.AllowUserToAddRows = false;
+            dgvProducts.AllowUserToDeleteRows = false;
+            dgvProducts.BackgroundColor = Color.White;
+            dgvProducts.BorderStyle = BorderStyle.None;
+            dgvProducts.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(45, 52, 54);
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = Color.White;
+            dgvProducts.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dgvProducts.ColumnHeadersHeight = 35;
+            dgvProducts.Dock = DockStyle.Fill;
+            dgvProducts.EnableHeadersVisualStyles = false;
+            dgvProducts.Location = new Point(20, 120);
+            dgvProducts.Name = "dgvProducts";
+            dgvProducts.ReadOnly = true;
+            dgvProducts.RowHeadersVisible = false;
+            dgvProducts.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvProducts.Size = new Size(960, 410);
+            dgvProducts.TabIndex = 2;
             // 
             // ProductManagementForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(248)))), ((int)(((byte)(255)))));
-            this.ClientSize = new System.Drawing.Size(1000, 550);
-            this.Controls.Add(this.dgvProducts);
-            this.Controls.Add(this.pnlSearch);
-            this.Controls.Add(this.pnlHeader);
-            this.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "ProductManagementForm";
-            this.Padding = new System.Windows.Forms.Padding(20);
-            this.Text = "ProductManagementForm";
-            this.Load += new System.EventHandler(this.ProductManagementForm_Load);
-            this.pnlHeader.ResumeLayout(false);
-            this.pnlHeader.PerformLayout();
-            this.pnlSearch.ResumeLayout(false);
-            this.pnlSearch.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvProducts)).EndInit();
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(247, 248, 255);
+            ClientSize = new Size(1000, 550);
+            Controls.Add(dgvProducts);
+            Controls.Add(pnlSearch);
+            Controls.Add(pnlHeader);
+            Font = new Font("Segoe UI", 9F);
+            FormBorderStyle = FormBorderStyle.None;
+            Name = "ProductManagementForm";
+            Padding = new Padding(20);
+            Text = "ProductManagementForm";
+            Load += ProductManagementForm_Load;
+            pnlHeader.ResumeLayout(false);
+            pnlHeader.PerformLayout();
+            pnlSearch.ResumeLayout(false);
+            pnlSearch.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvProducts).EndInit();
+            ResumeLayout(false);
 
         }
 
