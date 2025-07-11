@@ -14,12 +14,31 @@ namespace eShift_Logistics_System.Business.Interface
         /// </summary>
         /// <param name="product"></param>
         void AddProduct(Product product);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="product"></param>
         void UpdateProduct(Product product);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         bool DeleteProduct(int id);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         List<Product> GetAllProducts();
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         Product GetProductById(int id);
 
     }
