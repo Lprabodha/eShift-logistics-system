@@ -47,6 +47,6 @@ namespace eShift_Logistics_System.Business.Interface
         /// Retrieves all available transport units that are not currently assigned to any job.
         /// </summary>
         /// <returns></returns>
-        List<TransportUnit> GetAvailableUnits();
+        List<TransportUnit> GetAvailableUnits(int? currentUnitId = null);
     }
 }
