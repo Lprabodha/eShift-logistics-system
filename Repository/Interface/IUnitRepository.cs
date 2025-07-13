@@ -47,5 +47,11 @@ namespace eShift_Logistics_System.Repository.Interface
         /// <returns></returns>
         int GetLastUnitId();
 
+        /// <summary>
+        /// Retrieves all available transport units that are not currently assigned to any job.
+        /// </summary>
+        /// <returns></returns>
+        List<TransportUnit> GetAvailableUnits();
+
     }
 }

@@ -1,7 +1,6 @@
 ﻿using eShift_Logistics_System.Business.Interface;
 using eShift_Logistics_System.Models;
 using eShift_Logistics_System.Repository.Interface;
-using eShift_Logistics_System.Repository.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +40,33 @@ namespace eShift_Logistics_System.Business.Services
         public List<Job> GetAllJobsWithDetails()
         {
             return _jobservice.GetAllJobsWithDetails();
+        }
+
+
+        public void AssignUnitAndFinalizeJob(Job job)
+        {
+            job.EstimatedCost = CalculateEstimatedCost(job.Loads);
+            job.Status = JobStatus.Accepted;
+
+            _jobservice.FinalizeJob(job);
+        }
+
+
+        public decimal CalculateEstimatedCost(List<Load> loads)
+        {
+            const decimal baseRate = 5000m;
+            const decimal ratePerKg = 100m;
+            const decimal ratePerCubicMeter = 20000m;
+
+            if (loads == null || !loads.Any()) return 0;
+
+            decimal totalWeight = loads.Sum(l => l.Weight);
+            decimal totalVolume = loads.Sum(l => l.Volume);
+
+            decimal weightCost = totalWeight * ratePerKg;
+            decimal volumeCost = totalVolume * ratePerCubicMeter;
+
+            return baseRate + Math.Max(weightCost, volumeCost);
         }
     }
 }

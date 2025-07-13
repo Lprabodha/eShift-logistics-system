@@ -98,15 +98,10 @@ namespace eShift_Logistics_System.Forms.Admin
 
         private void LoadAvailableUnitsComboBox()
         {
-            // In a real app, get this from your service
-            // var availableUnits = _unitService.GetAvailableUnits();
-            // cboTransportUnit.DataSource = availableUnits;
-            // cboTransportUnit.DisplayMember = "UnitNumber";
-            // cboTransportUnit.ValueMember = "Id";
-
-            // Placeholder
-            cboTransportUnit.Items.Add("UNIT-2025-001");
-            cboTransportUnit.Items.Add("UNIT-2025-004");
+            var availableUnits = _unitService.GetAvailableUnits();
+            cboTransportUnit.DataSource = availableUnits;
+            cboTransportUnit.DisplayMember = "UnitNumber";
+            cboTransportUnit.ValueMember = "Id";
         }
 
         private void btnAddLoad_Click(object sender, EventArgs e)
@@ -157,32 +152,38 @@ namespace eShift_Logistics_System.Forms.Admin
             txtTotalWeight.Text = totalWeight.ToString("N2");
             txtTotalVolume.Text = totalVolume.ToString("N3");
 
-            // decimal estimatedCost = _jobService.CalculateEstimatedCost(_currentLoads);
-            // txtEstimatedCost.Text = estimatedCost.ToString("C"); // "C" for currency format
+            decimal estimatedCost = _jobService.CalculateEstimatedCost(_currentLoads);
+            txtEstimatedCost.Text = estimatedCost.ToString("C"); 
         }
 
         private void btnAssignAndSave_Click(object sender, EventArgs e)
         {
             if (!_currentLoads.Any())
             {
-                MessageBox.Show("Please add at least one load before saving.", "Cannot Save", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please add at least one load to the job before saving.", "Cannot Save", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            if (cboTransportUnit.SelectedItem == null)
+            if (cboTransportUnit.SelectedItem == null || (int)cboTransportUnit.SelectedValue == 0)
             {
                 MessageBox.Show("Please assign a transport unit to the job.", "Cannot Save", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             _currentJob.Loads = _currentLoads;
-            // _currentJob.EstimatedCost = _jobService.CalculateEstimatedCost(_currentLoads);
-            // _currentJob.TransportUnitId = (int)cboTransportUnit.SelectedValue;
-            _currentJob.Status = JobStatus.Accepted;
+            _currentJob.TransportUnitId = (int)cboTransportUnit.SelectedValue;
 
-            // _jobService.AssignUnitAndFinalizeJob(_currentJob);
-            MessageBox.Show("Job details saved and unit assigned successfully!", "Success");
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+            try
+            {
+                _jobService.AssignUnitAndFinalizeJob(_currentJob);
+
+                MessageBox.Show("Job details saved and unit assigned successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"An error occurred while saving: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

@@ -141,6 +141,70 @@ namespace eShift_Logistics_System.Repository.Service
 
             return job;
         }
-    
-}
+
+
+        /// <summary>
+        /// Finalizes a job by saving its loads, updating its cost, and assigning a transport unit
+        /// within a single database transaction.
+        /// </summary>
+        public void FinalizeJob(Job job)
+        {
+            using (var conn = DatabaseHelper.GetConnection())
+            using (var transaction = conn.BeginTransaction())
+            {
+                try
+                {
+                    using (var cmdDelete = new MySqlCommand("DELETE FROM loads WHERE job_id = @job_id", conn, transaction))
+                    {
+                        cmdDelete.Parameters.AddWithValue("@job_id", job.Id);
+                        cmdDelete.ExecuteNonQuery();
+                    }
+
+                    foreach (var load in job.Loads)
+                    {
+                        using (var cmdLoad = new MySqlCommand(
+                            @"INSERT INTO loads (job_id, description, weight, volume) 
+                              VALUES (@job_id, @description, @weight, @volume)", conn, transaction))
+                        {
+                            cmdLoad.Parameters.AddWithValue("@job_id", job.Id);
+                            cmdLoad.Parameters.AddWithValue("@description", load.Description);
+                            cmdLoad.Parameters.AddWithValue("@weight", load.Weight);
+                            cmdLoad.Parameters.AddWithValue("@volume", load.Volume);
+                            cmdLoad.ExecuteNonQuery();
+                        }
+                    }
+
+                    // Step 3: Update the main job record with the new status, cost, and assigned unit.
+                    using (var cmdJobUpdate = new MySqlCommand(
+                        @"UPDATE jobs SET status = @status, estimated_cost = @cost, 
+                          transport_unit_id = @unitId WHERE id = @id", conn, transaction))
+                    {
+                        cmdJobUpdate.Parameters.AddWithValue("@status", (int)job.Status);
+                        cmdJobUpdate.Parameters.AddWithValue("@cost", job.EstimatedCost);
+                        cmdJobUpdate.Parameters.AddWithValue("@unitId", job.TransportUnitId);
+                        cmdJobUpdate.Parameters.AddWithValue("@id", job.Id);
+                        cmdJobUpdate.ExecuteNonQuery();
+                    }
+
+                    // Step 4: Update the status of the assigned transport unit so it cannot be used for other jobs.
+                    using (var cmdUnitUpdate = new MySqlCommand(
+                        "UPDATE transport_units SET status = @status WHERE id = @id", conn, transaction))
+                    {
+                        cmdUnitUpdate.Parameters.AddWithValue("@status", (int)TransportUnitStatus.Assigned);
+                        cmdUnitUpdate.Parameters.AddWithValue("@id", job.TransportUnitId);
+                        cmdUnitUpdate.ExecuteNonQuery();
+                    }
+
+                    transaction.Commit();
+                }
+                catch (Exception)
+                {
+                    // If any command failed, roll back all changes to ensure data integrity.
+                    transaction.Rollback();
+                    throw; // Re-throw the exception to notify the UI layer.
+                }
+            }
+        }
+
+    }
 }

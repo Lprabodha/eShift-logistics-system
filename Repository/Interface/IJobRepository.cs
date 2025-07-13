@@ -27,5 +27,11 @@ namespace eShift_Logistics_System.Repository.Interface
         /// <returns></returns>
         List<Job> GetAllJobsWithDetails();
 
+        /// <summary>
+        /// Finalizes a job by updating its status and completion date.
+        /// </summary>
+        /// <param name="job"></param>
+        void FinalizeJob(Job job);
+
     }
 }
