@@ -111,7 +111,6 @@
             pnlRequestPickup.Name = "pnlRequestPickup";
             pnlRequestPickup.Size = new Size(220, 45);
             pnlRequestPickup.TabIndex = 3;
-            pnlRequestPickup.Paint += pnlRequestPickup_Paint;
             // 
             // picRequestPickup
             // 
@@ -133,7 +132,6 @@
             lblRequestPickup.Size = new Size(116, 20);
             lblRequestPickup.TabIndex = 0;
             lblRequestPickup.Text = "Request Pickup";
-            lblRequestPickup.Click += lblRequestPickup_Click;
             // 
             // pnlMyJobs
             // 
@@ -222,6 +220,7 @@
             btnLogout.Size = new Size(44, 13);
             btnLogout.TabIndex = 2;
             btnLogout.Text = "Logout";
+            btnLogout.Click += btnLogout_Click;
             // 
             // lblUserName
             // 
@@ -293,6 +292,7 @@
             Controls.Add(pnlMainContent);
             Controls.Add(pnlSidebar);
             Font = new Font("Segoe UI", 9F);
+            MaximizeBox = false;
             MinimizeBox = false;
             Name = "CustomerDashboardForm";
             StartPosition = FormStartPosition.CenterScreen;

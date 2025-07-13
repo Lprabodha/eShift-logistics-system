@@ -69,7 +69,6 @@
             pnlLeft.Name = "pnlLeft";
             pnlLeft.Size = new Size(394, 525);
             pnlLeft.TabIndex = 1;
-            pnlLeft.Paint += pnlLeft_Paint;
             // 
             // label4
             // 

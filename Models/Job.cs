@@ -38,5 +38,6 @@ namespace eShift_Logistics_System.Models
         public User? Customer { get; set; }
         public TransportUnit? TransportUnit { get; set; }
         public List<Load> Loads { get; set; } = new();
+        public List<JobProduct> JobProducts { get; set; } = new List<JobProduct>();
     }
 }

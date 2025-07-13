@@ -14,7 +14,7 @@ namespace eShift_Logistics_System.Validators
         private readonly IProductRepository _productRepository;
 
         /// <summary>
-        /// 
+        /// Validator for Product model to ensure valid data before saving to the repository.
         /// </summary>
         /// <param name="productRepository"></param>
         public ProductValidator(IProductRepository productRepository)

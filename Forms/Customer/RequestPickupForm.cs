@@ -1,4 +1,7 @@
-﻿using eShift_Logistics_System.Models;
+﻿using eShift_Logistics_System.Business.Interface;
+using eShift_Logistics_System.Business.Services;
+using eShift_Logistics_System.Models;
+using eShift_Logistics_System.Repository.Service;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,19 +17,18 @@ namespace eShift_Logistics_System.Forms.Customer
     public partial class RequestPickupForm : Form
     {
         private readonly int _customerId;
-        // This list acts as a temporary "shopping cart" for the items to be shipped.
         private List<JobProduct> _shipmentItems = new List<JobProduct>();
 
-        // In a real application, these would be injected.
-        // private readonly IProductService _productService;
-        // private readonly IJobService _jobService;
+        private readonly IProductService _productService;
+        private readonly IJobService _jobService;
 
         public RequestPickupForm(int customerId)
         {
             InitializeComponent();
             _customerId = customerId;
-            // _productService = new ProductService(new ProductRepository());
-            // _jobService = new JobService(new JobRepository());
+
+            _productService = new ProductService(new ProductRepository());
+            _jobService = new JobService(new JobRepository());
         }
 
         private void RequestPickupForm_Load(object sender, EventArgs e)
@@ -35,7 +37,6 @@ namespace eShift_Logistics_System.Forms.Customer
             LoadProductsComboBox();
             dtpRequestedDate.MinDate = DateTime.Today;
 
-            // Attach all event handlers
             this.btnAddItem.Click += new System.EventHandler(this.btnAddItem_Click);
             this.dgvShipmentItems.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvShipmentItems_CellClick);
             this.btnSubmitRequest.Click += new System.EventHandler(this.btnSubmitRequest_Click);
@@ -45,13 +46,7 @@ namespace eShift_Logistics_System.Forms.Customer
         {
             try
             {
-                // In a real app, get this from your service: _productService.GetAllProducts();
-                var allProducts = new List<Product> {
-                    new Product { Id = 1, Name = "Standard Box" },
-                    new Product { Id = 2, Name = "Wooden Crate" },
-                    new Product { Id = 3, Name = "Document Envelope" }
-                };
-
+                var allProducts = _productService.GetAllProducts();
                 cboProduct.DataSource = allProducts;
                 cboProduct.DisplayMember = "Name";
                 cboProduct.ValueMember = "Id";
@@ -66,16 +61,13 @@ namespace eShift_Logistics_System.Forms.Customer
         {
             dgvShipmentItems.Columns.Clear();
             dgvShipmentItems.AutoGenerateColumns = false;
-
             dgvShipmentItems.Columns.Add(new DataGridViewTextBoxColumn { Name = "ProductId", DataPropertyName = "ProductId", Visible = false });
             dgvShipmentItems.Columns.Add(new DataGridViewTextBoxColumn { Name = "ProductName", HeaderText = "Product", DataPropertyName = "ProductName", AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
             dgvShipmentItems.Columns.Add(new DataGridViewTextBoxColumn { Name = "Quantity", HeaderText = "Quantity", DataPropertyName = "Quantity", Width = 80 });
-
             var btnRemove = new DataGridViewButtonColumn { Name = "Remove", HeaderText = "", Text = "Remove", UseColumnTextForButtonValue = true, Width = 80 };
             dgvShipmentItems.Columns.Add(btnRemove);
         }
 
-        // This is the function that was not working.
         private void btnAddItem_Click(object sender, EventArgs e)
         {
             if (cboProduct.SelectedItem == null)
@@ -87,37 +79,30 @@ namespace eShift_Logistics_System.Forms.Customer
             var selectedProduct = cboProduct.SelectedItem as Product;
             int quantity = (int)numQuantity.Value;
 
-            // Check if the product is already in our list
             var existingItem = _shipmentItems.FirstOrDefault(item => item.ProductId == selectedProduct.Id);
 
             if (existingItem != null)
             {
-                // If it exists, just update the quantity
                 existingItem.Quantity += quantity;
             }
             else
             {
-                // If it's a new item, add it to the list
                 _shipmentItems.Add(new JobProduct
                 {
                     ProductId = selectedProduct.Id,
                     Quantity = quantity,
-                    Product = selectedProduct // Keep the product object for easy name access
+                    Product = selectedProduct
                 });
             }
-
-            // Refresh the grid to show the newly added/updated item
             RefreshShipmentGrid();
         }
 
         private void RefreshShipmentGrid()
         {
             dgvShipmentItems.DataSource = null;
-
-            // Use a LINQ query to create a display-friendly list from our "shopping cart"
             var displayList = _shipmentItems.Select(item => new {
                 item.ProductId,
-                ProductName = item.Product.Name, // Show the product name, not the ID
+                ProductName = item.Product.Name,
                 item.Quantity
             }).ToList();
 
@@ -132,12 +117,11 @@ namespace eShift_Logistics_System.Forms.Customer
             if (e.RowIndex >= 0 && dgvShipmentItems.Columns[e.ColumnIndex].Name == "Remove")
             {
                 int productIdToRemove = (int)dgvShipmentItems.Rows[e.RowIndex].Cells["ProductId"].Value;
-
                 var itemToRemove = _shipmentItems.FirstOrDefault(item => item.ProductId == productIdToRemove);
                 if (itemToRemove != null)
                 {
                     _shipmentItems.Remove(itemToRemove);
-                    RefreshShipmentGrid(); // Update the grid after removing an item
+                    RefreshShipmentGrid();
                 }
             }
         }
@@ -161,15 +145,14 @@ namespace eShift_Logistics_System.Forms.Customer
                 PickupLocation = txtPickupAddress.Text,
                 DeliveryLocation = txtDeliveryAddress.Text,
                 RequestedDate = dtpRequestedDate.Value,
-                //JobProducts = _shipmentItems,
+                JobProducts = _shipmentItems,
                 Description = txtNotes.Text.Trim(),
                 Status = JobStatus.PendingConfirmation,
             };
 
             try
             {
-                // In a real app, you would call your service here to generate a job number and save
-                // _jobService.CreateNewJob(newJob);
+                _jobService.CreateNewJob(newJob);
 
                 MessageBox.Show("Your pickup request has been submitted successfully!", "Request Submitted", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.DialogResult = DialogResult.OK;

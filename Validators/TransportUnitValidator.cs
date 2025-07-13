@@ -13,6 +13,10 @@ namespace eShift_Logistics_System.Validators
     {
         private readonly IUnitRepository _unitRepository;
 
+        /// <summary>
+        /// Validator for TransportUnit model to ensure valid data before saving to the repository.
+        /// </summary>
+        /// <param name="unitRepository"></param>
         public TransportUnitValidator(IUnitRepository unitRepository) {
 
             _unitRepository = unitRepository;

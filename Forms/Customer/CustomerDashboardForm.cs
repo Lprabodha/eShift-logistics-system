@@ -1,4 +1,5 @@
-﻿using System;
+﻿using eShift_Logistics_System.Forms.Admin;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,14 +17,20 @@ namespace eShift_Logistics_System.Forms.Customer
         private Panel _selectedMenuPanel;
         private Form activeForm = null;
 
+        private readonly int _customerId;
 
         // Colors for menu interaction
         private readonly Color _selectedMenuColor = Color.FromArgb(40, 55, 210);
         private readonly Color _hoverColor = Color.FromArgb(50, 70, 225);
 
-        public CustomerDashboardForm()
+        /// <summary>
+        /// The constructor now requires the customer's ID to be passed in.
+        /// </summary>
+        /// <param name="customerId">The ID of the logged-in customer.</param>
+        public CustomerDashboardForm(int customerId)
         {
             InitializeComponent();
+            _customerId = customerId;
         }
 
         private void CustomerDashboardForm_Load(object sender, EventArgs e)
@@ -49,7 +56,6 @@ namespace eShift_Logistics_System.Forms.Customer
             panel.MouseEnter += mouseEnterHandler;
             panel.MouseLeave += mouseLeaveHandler;
 
-            // Attach events to all child controls as well
             foreach (Control control in panel.Controls)
             {
                 control.Click += clickHandler;
@@ -58,32 +64,34 @@ namespace eShift_Logistics_System.Forms.Customer
             }
         }
 
+        /// <summary>
+        /// Public method that can be called from child forms to trigger navigation.
+        /// </summary>
+        public void NavigateToRequestPickup()
+        {
+            MenuPanel_Click(pnlRequestPickup, EventArgs.Empty);
+        }
+
         private void MenuPanel_Click(object sender, EventArgs e)
         {
-            // Determine which panel was clicked
             Control control = sender as Control;
             Panel clickedPanel = (control is Panel) ? (Panel)control : (Panel)control.Parent;
             if (clickedPanel == null) return;
 
-            int customerId = 1;
-
-
             SetSelectedPanel(clickedPanel);
 
-            // Load the correct form into the main panel
             if (clickedPanel == pnlDashboard)
                 LoadFormIntoPanel(new CustomerDashboardViewForm());
-            // else if (clickedPanel == pnlMyJobs)
-            //     LoadFormIntoPanel(new MyJobsForm()); 
+            //else if (clickedPanel == pnlMyJobs)
+            //    LoadFormIntoPanel(new MyJobForm(_customerId));
             else if (clickedPanel == pnlRequestPickup)
-                LoadFormIntoPanel(new RequestPickupForm(customerId));
+                LoadFormIntoPanel(new RequestPickupForm(_customerId));
             else if (clickedPanel == pnlMyProfile)
-                LoadFormIntoPanel(new MyProfileForm(customerId));
+                LoadFormIntoPanel(new MyProfileForm(_customerId));
         }
 
         private void LoadFormIntoPanel(Form childForm)
         {
-            // Avoid reloading the same form
             if (activeForm?.GetType() == childForm.GetType())
             {
                 childForm.Dispose();
@@ -102,13 +110,11 @@ namespace eShift_Logistics_System.Forms.Customer
 
         private void SetSelectedPanel(Panel panelToSelect)
         {
-            // Reset the previously selected panel's color, unless it's the special 'Request Pickup' button
             if (_selectedMenuPanel != null && _selectedMenuPanel.Name != "pnlRequestPickup")
             {
                 _selectedMenuPanel.BackColor = Color.Transparent;
             }
 
-            // Set the new selected panel's color
             if (panelToSelect.Name != "pnlRequestPickup")
             {
                 panelToSelect.BackColor = _selectedMenuColor;
@@ -137,14 +143,16 @@ namespace eShift_Logistics_System.Forms.Customer
             }
         }
 
-        private void lblRequestPickup_Click(object sender, EventArgs e)
+        private void btnLogout_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void pnlRequestPickup_Paint(object sender, PaintEventArgs e)
-        {
-
+            var confirmResult = MessageBox.Show("Are you sure you want to logout?", "Confirm Logout", MessageBoxButtons.YesNo);
+            if (confirmResult == DialogResult.Yes)
+            {
+                this.Hide();
+                LoginForm loginForm = new LoginForm();
+                loginForm.FormClosed += (s, args) => this.Close();
+                loginForm.Show();
+            }
         }
     }
 }
