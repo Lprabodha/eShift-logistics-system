@@ -179,7 +179,7 @@ namespace eShift_Logistics_System.Repository.Service
         /// <returns></returns>
         public List<TransportUnit> GetAvailableUnits()
         {
-            string query = "SELECT * FROM transport_units WHERE is_active = true AND status = @status";
+            string query = "SELECT  id, unit_number FROM transport_units WHERE is_active = true AND status = @status";
 
             return DatabaseHelper.ExecuteReader(query,
                 reader => new TransportUnit
