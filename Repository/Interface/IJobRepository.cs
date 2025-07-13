@@ -33,5 +33,7 @@ namespace eShift_Logistics_System.Repository.Interface
         /// <param name="job"></param>
         void FinalizeJob(Job job);
 
+        Job GetJobWithDetailsById(int jobId);
+
     }
 }

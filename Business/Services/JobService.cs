@@ -1,6 +1,7 @@
 ﻿using eShift_Logistics_System.Business.Interface;
 using eShift_Logistics_System.Models;
 using eShift_Logistics_System.Repository.Interface;
+using eShift_Logistics_System.Repository.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +43,10 @@ namespace eShift_Logistics_System.Business.Services
             return _jobservice.GetAllJobsWithDetails();
         }
 
-
+        /// <summary>
+        /// Finalizes a job by updating its status and estimated cost, and assigning it to a transport unit.
+        /// </summary>
+        /// <param name="job"></param>
         public void AssignUnitAndFinalizeJob(Job job)
         {
             job.EstimatedCost = CalculateEstimatedCost(job.Loads);
@@ -51,7 +55,11 @@ namespace eShift_Logistics_System.Business.Services
             _jobservice.FinalizeJob(job);
         }
 
-
+        /// <summary>
+        /// Calculates the estimated cost for a list of loads based on predefined rates and other criteria.
+        /// </summary>
+        /// <param name="loads"></param>
+        /// <returns></returns>
         public decimal CalculateEstimatedCost(List<Load> loads)
         {
             const decimal baseRate = 5000m;
@@ -67,6 +75,16 @@ namespace eShift_Logistics_System.Business.Services
             decimal volumeCost = totalVolume * ratePerCubicMeter;
 
             return baseRate + Math.Max(weightCost, volumeCost);
+        }
+
+        /// <summary>
+        /// Retrieves a job by its ID, including all associated details such as products and transport units.
+        /// </summary>
+        /// <param name="jobId"></param>
+        /// <returns></returns>
+        public Job GetJobWithDetailsById(int jobId)
+        {
+            return _jobservice.GetJobWithDetailsById(jobId);
         }
     }
 }

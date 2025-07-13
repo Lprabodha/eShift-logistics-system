@@ -34,5 +34,12 @@ namespace eShift_Logistics_System.Business.Interface
         /// <returns></returns>
         decimal CalculateEstimatedCost(List<Load> loads);
 
+        /// <summary>
+        /// Retrieves a job by its ID, including all associated details such as products and transport units.
+        /// </summary>
+        /// <param name="jobId"></param>
+        /// <returns></returns>
+        Job GetJobWithDetailsById(int jobId);
+
     }
 }

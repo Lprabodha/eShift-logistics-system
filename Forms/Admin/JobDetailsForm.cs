@@ -48,41 +48,34 @@ namespace eShift_Logistics_System.Forms.Admin
 
         private void LoadJobDetails()
         {
-            // In a real app, fetch this from the database
-            // _currentJob = _jobService.GetJobWithDetailsById(_jobId);
-
-            // Using placeholder data for demonstration
-            _currentJob = new Job
+            try
             {
-                Id = _jobId,
-                JobNumber = "JOB-2025-003",
-                RequestedDate = DateTime.Now.AddDays(1),
-                Status = JobStatus.PendingConfirmation,
-                PickupLocation = "Matara",
-                DeliveryLocation = "Negombo",
-                Customer = new User { FirstName = "Peter", LastName = "Brandix", Email = "peter@brandix.com", Phone = "0719876543" },
-                Loads = new List<Load>() // Start with an empty list of loads
-            };
+                _currentJob = _jobService.GetJobWithDetailsById(_jobId);
 
-            if (_currentJob == null)
-            {
-                MessageBox.Show("Job not found.", "Error");
-                this.Close();
-                return;
+                if (_currentJob == null)
+                {
+                    MessageBox.Show("Job not found.", "Error");
+                    this.Close();
+                    return;
+                }
+
+                txtJobNumber.Text = _currentJob.JobNumber;
+                txtRequestedDate.Text = _currentJob.RequestedDate.ToShortDateString();
+                txtStatus.Text = _currentJob.Status.ToString();
+                txtPickupAddress.Text = _currentJob.PickupLocation;
+                txtDeliveryAddress.Text = _currentJob.DeliveryLocation;
+                txtCustomerName.Text = _currentJob.Customer.FirstName;
+                txtCustomerPhone.Text = _currentJob.Customer.Phone;
+                txtCustomerEmail.Text = _currentJob.Customer.Email;
+
+                _currentLoads = _currentJob.Loads ?? new List<Load>();
+                RefreshLoadsGrid();
+
             }
-
-            // Populate the read-only fields
-            txtJobNumber.Text = _currentJob.JobNumber;
-            txtRequestedDate.Text = _currentJob.RequestedDate.ToShortDateString();
-            txtStatus.Text = _currentJob.Status.ToString();
-            txtPickupAddress.Text = _currentJob.PickupLocation;
-            txtDeliveryAddress.Text = _currentJob.DeliveryLocation;
-            txtCustomerName.Text = _currentJob.Customer.FullName;
-            txtCustomerPhone.Text = _currentJob.Customer.Phone;
-            txtCustomerEmail.Text = _currentJob.Customer.Email;
-
-            _currentLoads = _currentJob.Loads ?? new List<Load>();
-            RefreshLoadsGrid();
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading job details: {ex.Message}", "Error Loading");
+            }
         }
 
 
