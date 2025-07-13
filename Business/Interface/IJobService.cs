@@ -41,5 +41,12 @@ namespace eShift_Logistics_System.Business.Interface
         /// <returns></returns>
         Job GetJobWithDetailsById(int jobId);
 
+        /// <summary>
+        /// Updates the status of a job based on its ID and the new status provided.
+        /// </summary>
+        /// <param name="jobId"></param>
+        /// <param name="newStatus"></param>
+        void UpdateJobStatus(int jobId, JobStatus newStatus);
+
     }
 }

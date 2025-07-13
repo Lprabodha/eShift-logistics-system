@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace eShift_Logistics_System.Repository.Service
 {
@@ -305,6 +306,27 @@ namespace eShift_Logistics_System.Repository.Service
             }, new MySqlParameter("@jobId", jobId));
 
             return job;
+        }
+
+        public void UpdateJobStatus(int jobId, JobStatus newStatus)
+        {
+            string query = @"
+                UPDATE jobs j
+                LEFT JOIN transport_units tu ON j.transport_unit_id = tu.id
+                SET 
+                    j.status = @newStatus,
+                    j.completion_date = IF(@newStatus = @completedStatus OR @newStatus = @cancelledStatus, NOW(), j.completion_date),
+                    tu.status = IF(@newStatus = @completedStatus OR @newStatus = @cancelledStatus, @freeStatus, tu.status)
+                WHERE j.id = @jobId";
+
+            DatabaseHelper.ExecuteNonQuery(query, command =>
+            {
+                command.Parameters.AddWithValue("@newStatus", (int)newStatus);
+                command.Parameters.AddWithValue("@completedStatus", (int)JobStatus.Completed);
+                command.Parameters.AddWithValue("@cancelledStatus", (int)JobStatus.Cancelled);
+                command.Parameters.AddWithValue("@freeStatus", (int)TransportUnitStatus.Free);
+                command.Parameters.AddWithValue("@jobId", jobId);
+            });
         }
 
     }
