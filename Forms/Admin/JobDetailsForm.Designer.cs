@@ -159,6 +159,7 @@
             btnUpdateStatus.TabIndex = 2;
             btnUpdateStatus.Text = "Update Status";
             btnUpdateStatus.UseVisualStyleBackColor = false;
+            btnUpdateStatus.Click += btnUpdateStatus_Click;
             // 
             // cboUpdateStatus
             // 

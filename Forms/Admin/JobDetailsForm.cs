@@ -101,6 +101,7 @@ namespace eShift_Logistics_System.Forms.Admin
         private void PopulateStatusUpdateComboBox()
         {
             cboUpdateStatus.Items.Clear();
+
             if (_currentJob.Status == JobStatus.Accepted)
             {
                 cboUpdateStatus.Items.Add(JobStatus.Ongoing);
@@ -110,8 +111,11 @@ namespace eShift_Logistics_System.Forms.Admin
             {
                 cboUpdateStatus.Items.Add(JobStatus.Completed);
             }
+
             if (cboUpdateStatus.Items.Count > 0)
+            {
                 cboUpdateStatus.SelectedIndex = 0;
+            }
         }
 
         private void SetEditMode(bool enabled)
@@ -163,7 +167,8 @@ namespace eShift_Logistics_System.Forms.Admin
 
             if (products != null && products.Any())
             {
-                var displayList = products.Select(p => new {
+                var displayList = products.Select(p => new
+                {
                     ProductName = p.Product?.Name ?? "N/A",
                     p.Quantity
                 }).ToList();
@@ -224,7 +229,7 @@ namespace eShift_Logistics_System.Forms.Admin
             txtTotalVolume.Text = totalVolume.ToString("N3");
 
             decimal estimatedCost = _jobService.CalculateEstimatedCost(_currentLoads);
-            txtEstimatedCost.Text = estimatedCost.ToString("C"); 
+            txtEstimatedCost.Text = estimatedCost.ToString("C");
         }
 
         private void btnAssignAndSave_Click(object sender, EventArgs e)
@@ -259,13 +264,34 @@ namespace eShift_Logistics_System.Forms.Admin
 
         private void btnUpdateStatus_Click(object sender, EventArgs e)
         {
-            if (cboUpdateStatus.SelectedItem == null) return;
+            if (cboUpdateStatus.SelectedItem == null)
+            {
+                MessageBox.Show("Please select a new status.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             var newStatus = (JobStatus)cboUpdateStatus.SelectedItem;
-            // In your real app, call a service method:
-             //_jobService.UpdateJobStatus(_jobId, newStatus);
-            MessageBox.Show($"Job status updated to '{newStatus}'.", "Success");
-            LoadJobDetails();
+
+            var confirmResult = MessageBox.Show($"Are you sure you want to update the status to '{newStatus}'?",
+                                              "Confirm Status Change",
+                                              MessageBoxButtons.YesNo,
+                                              MessageBoxIcon.Question);
+
+            if (confirmResult == DialogResult.Yes)
+            {
+                try
+                {
+                    _jobService.UpdateJobStatus(_jobId, newStatus);
+
+                    MessageBox.Show("Job status updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    LoadJobDetails();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"An error occurred while updating the status: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
     }
 }

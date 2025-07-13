@@ -86,5 +86,11 @@ namespace eShift_Logistics_System.Business.Services
         {
             return _jobservice.GetJobWithDetailsById(jobId);
         }
+
+
+        public void UpdateJobStatus(int jobId, JobStatus newStatus)
+        {
+            _jobservice.UpdateJobStatus(jobId, newStatus);
+        }
     }
 }
