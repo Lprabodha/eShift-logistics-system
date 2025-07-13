@@ -12,6 +12,10 @@ namespace eShift_Logistics_System.Repository.Service
 {
     public class JobRepository : IJobRepository
     {
+        /// <summary>
+        /// Retrieves the last job ID from the database.
+        /// </summary>
+        /// <returns></returns>
         public int GetLastJobId()
         {
             string query = "SELECT MAX(id) FROM jobs";
@@ -19,6 +23,10 @@ namespace eShift_Logistics_System.Repository.Service
             return (result != DBNull.Value && result != null) ? Convert.ToInt32(result) : 0;
         }
 
+        /// <summary>
+        /// Creates a new job in the database along with its associated products.
+        /// </summary>
+        /// <param name="job"></param>
         public void CreateJob(Job job)
         {
             using (var conn = DatabaseHelper.GetConnection())
