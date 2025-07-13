@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace eShift_Logistics_System.Business.Services
 {
+    /// <summary>
+    /// Service for managing job creation and business logic related to jobs.
+    /// </summary>
     public class JobService : IJobService
     {
         private readonly IJobRepository _jobservice;
@@ -16,6 +19,11 @@ namespace eShift_Logistics_System.Business.Services
         {
             _jobservice = jobservice;
         }
+
+        /// <summary>
+        /// Creates a new job with a unique job number based on the current year and the last job ID.
+        /// </summary>
+        /// <param name="job"></param>
         public void CreateNewJob(Job job)
         {
             int lastId = _jobservice.GetLastJobId();

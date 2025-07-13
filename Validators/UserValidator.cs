@@ -13,6 +13,11 @@ namespace eShift_Logistics_System.Validators
     public class UserValidator: AbstractValidator<User>
     {
         private readonly IUserRepository _userRepository;
+
+        /// <summary>
+        /// Validator for User model to ensure valid data before saving to the repository.
+        /// </summary>
+        /// <param name="userRepository"></param>
         public UserValidator(IUserRepository userRepository)
         {
             _userRepository = userRepository;

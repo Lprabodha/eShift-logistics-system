@@ -10,6 +10,9 @@ namespace eShift_Logistics_System.Validators
 {
     public class JobValidator : AbstractValidator<Job>
     {
+        /// <summary>
+        /// Validator for Job model to ensure valid data before saving to the repository.
+        /// </summary>
         public JobValidator()
         {
             RuleFor(job => job.CustomerId)
