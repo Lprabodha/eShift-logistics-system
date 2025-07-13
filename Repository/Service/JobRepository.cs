@@ -329,5 +329,45 @@ namespace eShift_Logistics_System.Repository.Service
             });
         }
 
+        public List<Job> GetJobsByCustomerId(int customerId)
+        {
+            string query = @"
+                SELECT
+                    j.id, j.job_number, j.pickup_location, j.delivery_location, j.requested_date, j.status,
+                    j.dispatch_date, j.completion_date, j.description, j.estimated_cost, j.actual_cost,
+                    j.transport_unit_id, j.created_date, j.notes
+                FROM jobs j
+                WHERE j.customer_id = @customerId
+                ORDER BY j.requested_date DESC";
+
+            try
+            {
+                return DatabaseHelper.ExecuteReader(query, reader =>
+                {
+                    return new Job
+                    {
+                        Id = Convert.ToInt32(reader["id"]),
+                        JobNumber = reader["job_number"] == DBNull.Value ? string.Empty : reader["job_number"].ToString(),
+                        PickupLocation = reader["pickup_location"] == DBNull.Value ? string.Empty : reader["pickup_location"].ToString(),
+                        DeliveryLocation = reader["delivery_location"] == DBNull.Value ? string.Empty : reader["delivery_location"].ToString(),
+                        RequestedDate = Convert.ToDateTime(reader["requested_date"]),
+                        Status = (JobStatus)Convert.ToInt32(reader["status"]),
+                        DispatchDate = reader["dispatch_date"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(reader["dispatch_date"]),
+                        CompletionDate = reader["completion_date"] == DBNull.Value ? (DateTime?)null : Convert.ToDateTime(reader["completion_date"]),
+                        Description = reader["description"] == DBNull.Value ? null : reader["description"].ToString(),
+                        EstimatedCost = Convert.ToDecimal(reader["estimated_cost"]),
+                        ActualCost = reader["actual_cost"] == DBNull.Value ? (decimal?)null : Convert.ToDecimal(reader["actual_cost"]),
+                        TransportUnitId = reader["transport_unit_id"] == DBNull.Value ? (int?)null : Convert.ToInt32(reader["transport_unit_id"]),
+                        CreatedDate = Convert.ToDateTime(reader["created_date"]),
+                        Notes = reader["notes"] == DBNull.Value ? null : reader["notes"].ToString()
+                    };
+                }, new MySqlParameter("@customerId", customerId));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in JobRepository.GetJobsByCustomerId: {ex.Message}");
+                throw; 
+            }
+        }
     }
 }
