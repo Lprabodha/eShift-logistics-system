@@ -66,7 +66,7 @@ namespace eShift_Logistics_System.Forms.Admin
                 bool isEditable = (_currentJob.Status == JobStatus.PendingConfirmation);
                 SetEditMode(isEditable);
 
-                bool canUpdateStatus = (_currentJob.Status == JobStatus.Accepted || _currentJob.Status == JobStatus.Ongoing);
+                bool canUpdateStatus = (_currentJob.Status == JobStatus.Accepted || _currentJob.Status == JobStatus.Ongoing || _currentJob.Status == JobStatus.PendingConfirmation);
                 grpStatusUpdate.Visible = canUpdateStatus;
                 if (canUpdateStatus)
                 {
@@ -110,6 +110,10 @@ namespace eShift_Logistics_System.Forms.Admin
             else if (_currentJob.Status == JobStatus.Ongoing)
             {
                 cboUpdateStatus.Items.Add(JobStatus.Completed);
+            }
+            else if (_currentJob.Status == JobStatus.PendingConfirmation)
+            {
+                cboUpdateStatus.Items.Add(JobStatus.Cancelled);
             }
 
             if (cboUpdateStatus.Items.Count > 0)
