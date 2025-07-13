@@ -1,4 +1,5 @@
 ﻿using eShift_Logistics_System.Business.Interface;
+using eShift_Logistics_System.Helpers;
 using eShift_Logistics_System.Models;
 using eShift_Logistics_System.Repository.Interface;
 using eShift_Logistics_System.Repository.Service;
@@ -47,6 +48,20 @@ namespace eShift_Logistics_System.Business.Services
         public bool ToggleUserStatus(string customerNumber)
         {
             return _userService.ToggleUserStatus(customerNumber);
+        }
+
+        public User AuthenticateUser(string email, string password)
+        {
+            var user = _userService.GetUserByEmail(email);
+
+            if (user != null && user.IsActive)
+            {
+                if (CommonHelper.VerifyPassword(password, user.PasswordHash))
+                {
+                    return user; 
+                }
+            }
+            return null;
         }
 
     }

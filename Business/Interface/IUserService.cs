@@ -38,6 +38,14 @@ namespace eShift_Logistics_System.Business.Interface
         /// <returns></returns>
         bool ToggleUserStatus(string customerNumber);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        User AuthenticateUser(string email, string password);
+
 
     }
 }
