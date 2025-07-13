@@ -82,8 +82,8 @@ namespace eShift_Logistics_System.Forms.Customer
 
             if (clickedPanel == pnlDashboard)
                 LoadFormIntoPanel(new CustomerDashboardViewForm());
-            //else if (clickedPanel == pnlMyJobs)
-            //    LoadFormIntoPanel(new MyJobForm(_customerId));
+            else if (clickedPanel == pnlMyJobs)
+                LoadFormIntoPanel(new MyJobsForm(_customerId));
             else if (clickedPanel == pnlRequestPickup)
                 LoadFormIntoPanel(new RequestPickupForm(_customerId));
             else if (clickedPanel == pnlMyProfile)

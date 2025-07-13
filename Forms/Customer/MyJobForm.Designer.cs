@@ -41,6 +41,7 @@
             Name = "MyJobForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "MyJobForm";
+            Load += MyJobForm_Load;
             ResumeLayout(false);
         }
 

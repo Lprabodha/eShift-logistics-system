@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace eShift_Logistics_System.Forms.Customer
 {
-    public partial class MyJobForm: Form
+    public partial class MyJobForm : Form
     {
         public MyJobForm()
         {
             InitializeComponent();
+        }
+
+        private void MyJobForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

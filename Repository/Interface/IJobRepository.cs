@@ -33,6 +33,11 @@ namespace eShift_Logistics_System.Repository.Interface
         /// <param name="job"></param>
         void FinalizeJob(Job job);
 
+        /// <summary>
+        /// Calculates the estimated cost for a list of loads based on predefined rates and other criteria.
+        /// </summary>
+        /// <param name="jobId"></param>
+        /// <returns></returns>
         Job GetJobWithDetailsById(int jobId);
 
     }

@@ -20,7 +20,6 @@ namespace eShift_Logistics_System.Forms.Admin
         private Job _currentJob;
         private List<Load> _currentLoads = new List<Load>();
 
-        // In a real app, these would be injected.
         private readonly IJobService _jobService;
         private readonly IUnitService _unitService;
 
@@ -40,7 +39,6 @@ namespace eShift_Logistics_System.Forms.Admin
             LoadJobDetails();
             LoadAvailableUnitsComboBox();
 
-            // Attach event handlers
             btnAddLoad.Click += btnAddLoad_Click;
             dgvLoads.CellClick += dgvLoads_CellClick;
             btnAssignAndSave.Click += btnAssignAndSave_Click;
@@ -64,7 +62,7 @@ namespace eShift_Logistics_System.Forms.Admin
                 txtStatus.Text = _currentJob.Status.ToString();
                 txtPickupAddress.Text = _currentJob.PickupLocation;
                 txtDeliveryAddress.Text = _currentJob.DeliveryLocation;
-                txtCustomerName.Text = _currentJob.Customer.FirstName;
+                txtCustomerName.Text = $"{_currentJob.Customer.FirstName} {_currentJob.Customer.LastName}".Trim();
                 txtCustomerPhone.Text = _currentJob.Customer.Phone;
                 txtCustomerEmail.Text = _currentJob.Customer.Email;
 
@@ -137,6 +135,9 @@ namespace eShift_Logistics_System.Forms.Admin
             UpdateCalculations();
         }
 
+        /// <summary>
+        /// Updates the total weight, volume, and estimated cost based on the current loads.
+        /// </summary>
         private void UpdateCalculations()
         {
             decimal totalWeight = _currentLoads.Sum(l => l.Weight);
