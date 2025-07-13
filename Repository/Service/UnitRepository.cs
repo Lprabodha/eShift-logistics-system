@@ -172,5 +172,23 @@ namespace eShift_Logistics_System.Repository.Service
             }
             return 0;
         }
+
+        /// <summary>
+        /// Retrieves all available transport units that are not currently assigned to any job.
+        /// </summary>
+        /// <returns></returns>
+        public List<TransportUnit> GetAvailableUnits()
+        {
+            string query = "SELECT * FROM transport_units WHERE is_active = true AND status = @status";
+
+            return DatabaseHelper.ExecuteReader(query,
+                reader => new TransportUnit
+                {
+                    Id = Convert.ToInt32(reader["id"]),
+                    UnitNumber = reader["unit_number"].ToString()
+                },
+                new MySqlParameter("@status", (int)TransportUnitStatus.Free)
+            );
+        }
     }
  }

@@ -15,7 +15,31 @@ namespace eShift_Logistics_System.Business.Interface
         /// <param name="job"></param>
         void CreateNewJob(Job job);
 
+        /// <summary>
+        /// Retrieves all jobs with their details, including associated products and transport units.
+        /// </summary>
+        /// <returns></returns>
         List<Job> GetAllJobsWithDetails();
+
+        /// <summary>
+        /// Finalizes a job by updating its status and completion date.
+        /// </summary>
+        /// <param name="job"></param>
+        void AssignUnitAndFinalizeJob(Job job);
+
+        /// <summary>
+        /// Calculates the estimated cost for a list of loads based on predefined rates and other criteria.
+        /// </summary>
+        /// <param name="loads"></param>
+        /// <returns></returns>
+        decimal CalculateEstimatedCost(List<Load> loads);
+
+        /// <summary>
+        /// Retrieves a job by its ID, including all associated details such as products and transport units.
+        /// </summary>
+        /// <param name="jobId"></param>
+        /// <returns></returns>
+        Job GetJobWithDetailsById(int jobId);
 
     }
 }

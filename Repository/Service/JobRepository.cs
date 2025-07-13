@@ -103,9 +103,12 @@ namespace eShift_Logistics_System.Repository.Service
             return DatabaseHelper.ExecuteReader(query, reader => MapToJob(reader));
         }
 
+
         /// <summary>
-        /// A private helper method to map a row from the database to a complete Job object.
+        /// Maps a MySqlDataReader to a Job object, including customer and transport unit details.
         /// </summary>
+        /// <param name="reader"></param>
+        /// <returns></returns>
         private Job MapToJob(MySqlDataReader reader)
         {
             var job = new Job
@@ -124,7 +127,6 @@ namespace eShift_Logistics_System.Repository.Service
                 }
             };
 
-            // Safely create the TransportUnit object only if it exists
             if (reader["unit_id"] != DBNull.Value)
             {
                 job.TransportUnit = new TransportUnit
@@ -139,6 +141,166 @@ namespace eShift_Logistics_System.Repository.Service
 
             return job;
         }
-    
-}
+
+
+        /// <summary>
+        /// Finalizes a job by saving its loads, updating its cost, and assigning a transport unit
+        /// within a single database transaction.
+        /// </summary>
+        public void FinalizeJob(Job job)
+        {
+            using (var conn = DatabaseHelper.GetConnection())
+            using (var transaction = conn.BeginTransaction())
+            {
+                try
+                {
+                    using (var cmdDelete = new MySqlCommand("DELETE FROM loads WHERE job_id = @job_id", conn, transaction))
+                    {
+                        cmdDelete.Parameters.AddWithValue("@job_id", job.Id);
+                        cmdDelete.ExecuteNonQuery();
+                    }
+
+                    foreach (var load in job.Loads)
+                    {
+                        using (var cmdLoad = new MySqlCommand(
+                            @"INSERT INTO loads (job_id, description, weight, volume) 
+                              VALUES (@job_id, @description, @weight, @volume)", conn, transaction))
+                        {
+                            cmdLoad.Parameters.AddWithValue("@job_id", job.Id);
+                            cmdLoad.Parameters.AddWithValue("@description", load.Description);
+                            cmdLoad.Parameters.AddWithValue("@weight", load.Weight);
+                            cmdLoad.Parameters.AddWithValue("@volume", load.Volume);
+                            cmdLoad.ExecuteNonQuery();
+                        }
+                    }
+
+                    using (var cmdJobUpdate = new MySqlCommand(
+                        @"UPDATE jobs SET status = @status, estimated_cost = @cost, 
+                          transport_unit_id = @unitId WHERE id = @id", conn, transaction))
+                    {
+                        cmdJobUpdate.Parameters.AddWithValue("@status", (int)job.Status);
+                        cmdJobUpdate.Parameters.AddWithValue("@cost", job.EstimatedCost);
+                        cmdJobUpdate.Parameters.AddWithValue("@unitId", job.TransportUnitId);
+                        cmdJobUpdate.Parameters.AddWithValue("@id", job.Id);
+                        cmdJobUpdate.ExecuteNonQuery();
+                    }
+
+                    using (var cmdUnitUpdate = new MySqlCommand(
+                        "UPDATE transport_units SET status = @status WHERE id = @id", conn, transaction))
+                    {
+                        cmdUnitUpdate.Parameters.AddWithValue("@status", (int)TransportUnitStatus.Assigned);
+                        cmdUnitUpdate.Parameters.AddWithValue("@id", job.TransportUnitId);
+                        cmdUnitUpdate.ExecuteNonQuery();
+                    }
+
+                    if (job.TransportUnit?.DriverId != null)
+                    {
+                        using (var cmdDriverUpdate = new MySqlCommand(
+                            "UPDATE drivers SET status = @status WHERE id = @id", conn, transaction))
+                        {
+                            cmdDriverUpdate.Parameters.AddWithValue("@status", (int)DriverStatus.Assigned);
+                            cmdDriverUpdate.Parameters.AddWithValue("@id", job.TransportUnit.DriverId);
+                            cmdDriverUpdate.ExecuteNonQuery();
+                        }
+                    }
+
+                    if (job.TransportUnit?.AssistantId != null)
+                    {
+                        using (var cmdDriverUpdate = new MySqlCommand(
+                            "UPDATE assistants SET status = @status WHERE id = @id", conn, transaction))
+                        {
+                            cmdDriverUpdate.Parameters.AddWithValue("@status", (int)DriverStatus.Assigned);
+                            cmdDriverUpdate.Parameters.AddWithValue("@id", job.TransportUnit.AssistantId);
+                            cmdDriverUpdate.ExecuteNonQuery();
+                        }
+                    }
+
+                    if (job.TransportUnit?.TruckId != null)
+                    {
+                        using (var cmdDriverUpdate = new MySqlCommand(
+                            "UPDATE trucks SET status = @status WHERE id = @id", conn, transaction))
+                        {
+                            cmdDriverUpdate.Parameters.AddWithValue("@status", (int)DriverStatus.Assigned);
+                            cmdDriverUpdate.Parameters.AddWithValue("@id", job.TransportUnit.TruckId);
+                            cmdDriverUpdate.ExecuteNonQuery();
+                        }
+                    }
+
+
+                    transaction.Commit();
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                    throw; 
+                }
+            }
+        }
+
+        /// <summary>
+        /// Retrieves a job by its ID, including all associated details such as products and transport units.
+        /// </summary>
+        /// <param name="jobId"></param>
+        /// <returns></returns>
+
+        public Job GetJobWithDetailsById(int jobId)
+        {
+            Job job = null;
+            string query = @"
+                SELECT 
+                    j.*, 
+                    c.id as customer_id, c.first_name, c.last_name, c.email, c.phone as customer_phone,
+                    jp.product_id, jp.quantity, p.name as product_name,
+                    tu.id as unit_id, tu.unit_number
+                FROM jobs j
+                INNER JOIN users c ON j.customer_id = c.id
+                LEFT JOIN job_products jp ON j.id = jp.job_id
+                LEFT JOIN products p ON jp.product_id = p.id
+                LEFT JOIN transport_units tu ON j.transport_unit_id = tu.id
+                WHERE j.id = @jobId";
+
+            DatabaseHelper.ExecuteReader(query, reader =>
+            {
+                if (job == null)
+                {
+                    job = new Job
+                    {
+                        Id = Convert.ToInt32(reader["id"]),
+                        JobNumber = reader["job_number"].ToString(),
+                        PickupLocation = reader["pickup_location"].ToString(),
+                        DeliveryLocation = reader["delivery_location"].ToString(),
+                        RequestedDate = Convert.ToDateTime(reader["requested_date"]),
+                        Status = (JobStatus)Convert.ToInt32(reader["status"]),
+                        EstimatedCost = reader.IsDBNull(reader.GetOrdinal("estimated_cost")) ? 0 : reader.GetDecimal("estimated_cost"),
+                        TransportUnitId = reader.IsDBNull(reader.GetOrdinal("transport_unit_id")) ? (int?)null : Convert.ToInt32(reader["transport_unit_id"]),
+                        Customer = new User
+                        {
+                            Id = Convert.ToInt32(reader["customer_id"]),
+                            FirstName = reader["first_name"].ToString(),
+                            LastName = reader["last_name"].ToString(),
+                            Email = reader["email"].ToString(),
+                            Phone = reader["customer_phone"].ToString()
+                        }
+                    };
+                }
+                if (!reader.IsDBNull(reader.GetOrdinal("product_id")))
+                {
+                    job.JobProducts.Add(new JobProduct
+                    {
+                        ProductId = Convert.ToInt32(reader["product_id"]),
+                        Quantity = Convert.ToInt32(reader["quantity"]),
+                        Product = new Product { Name = reader["product_name"].ToString() }
+                    });
+                }
+                if (job.TransportUnit == null && !reader.IsDBNull(reader.GetOrdinal("unit_id")))
+                {
+                    job.TransportUnit = new TransportUnit { Id = Convert.ToInt32(reader["unit_id"]), UnitNumber = reader["unit_number"].ToString() };
+                }
+                return job; 
+            }, new MySqlParameter("@jobId", jobId));
+
+            return job;
+        }
+
+    }
 }

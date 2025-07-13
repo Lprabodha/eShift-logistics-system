@@ -21,7 +21,19 @@ namespace eShift_Logistics_System.Repository.Interface
         /// <param name="job"></param>
         void CreateJob(Job job);
 
+        /// <summary>
+        /// Retrieves all jobs with their details, including associated products and transport units.
+        /// </summary>
+        /// <returns></returns>
         List<Job> GetAllJobsWithDetails();
+
+        /// <summary>
+        /// Finalizes a job by updating its status and completion date.
+        /// </summary>
+        /// <param name="job"></param>
+        void FinalizeJob(Job job);
+
+        Job GetJobWithDetailsById(int jobId);
 
     }
 }
