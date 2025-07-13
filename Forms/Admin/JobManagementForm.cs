@@ -63,15 +63,7 @@ namespace eShift_Logistics_System.Forms.Admin
         {
             try
             {
-                // In a real app, this service call would fetch data from the database
                 _allJobs = _jobService.GetAllJobsWithDetails();
-
-                // Using placeholder data for demonstration
-                //_allJobs = new List<Job> {
-                //    new Job { Id = 1, JobNumber = "JOB-2025-001", Customer = new User { FirstName = "John", LastName = "Keells" }, RequestedDate = DateTime.Now.AddDays(-2), Status = JobStatus.Completed, PickupLocation="Colombo", DeliveryLocation="Kandy" },
-                //    new Job { Id = 2, JobNumber = "JOB-2025-002", Customer = new User { FirstName = "Jane", LastName = "Hemas" }, RequestedDate = DateTime.Now, Status = JobStatus.Accepted, PickupLocation="Galle", DeliveryLocation="Jaffna" },
-                //    new Job { Id = 3, JobNumber = "JOB-2025-003", Customer = new User { FirstName = "Peter", LastName = "Brandix" }, RequestedDate = DateTime.Now.AddDays(1), Status = JobStatus.PendingConfirmation, PickupLocation="Matara", DeliveryLocation="Negombo" }
-                //};
 
                 BindDataToGrid(_allJobs);
             }

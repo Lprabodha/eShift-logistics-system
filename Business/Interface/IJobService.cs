@@ -15,6 +15,10 @@ namespace eShift_Logistics_System.Business.Interface
         /// <param name="job"></param>
         void CreateNewJob(Job job);
 
+        /// <summary>
+        /// Retrieves all jobs with their details, including associated products and transport units.
+        /// </summary>
+        /// <returns></returns>
         List<Job> GetAllJobsWithDetails();
 
     }

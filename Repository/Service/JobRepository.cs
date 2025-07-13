@@ -103,9 +103,12 @@ namespace eShift_Logistics_System.Repository.Service
             return DatabaseHelper.ExecuteReader(query, reader => MapToJob(reader));
         }
 
+
         /// <summary>
-        /// A private helper method to map a row from the database to a complete Job object.
+        /// Maps a MySqlDataReader to a Job object, including customer and transport unit details.
         /// </summary>
+        /// <param name="reader"></param>
+        /// <returns></returns>
         private Job MapToJob(MySqlDataReader reader)
         {
             var job = new Job
@@ -124,7 +127,6 @@ namespace eShift_Logistics_System.Repository.Service
                 }
             };
 
-            // Safely create the TransportUnit object only if it exists
             if (reader["unit_id"] != DBNull.Value)
             {
                 job.TransportUnit = new TransportUnit

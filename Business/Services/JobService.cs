@@ -34,6 +34,10 @@ namespace eShift_Logistics_System.Business.Services
             _jobservice.CreateJob(job);
         }
 
+        /// <summary>
+        /// Retrieves all jobs with their details, including associated products and transport units.
+        /// </summary>
+        /// <returns></returns>
         public List<Job> GetAllJobsWithDetails()
         {
             return _jobservice.GetAllJobsWithDetails();
