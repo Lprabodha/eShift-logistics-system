@@ -462,6 +462,7 @@
             txtLoadDescription.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             txtLoadDescription.Font = new Font("Segoe UI", 9.75F);
             txtLoadDescription.Location = new Point(10, 38);
+            txtLoadDescription.MaxLength = 1000;
             txtLoadDescription.Name = "txtLoadDescription";
             txtLoadDescription.Size = new Size(218, 25);
             txtLoadDescription.TabIndex = 1;

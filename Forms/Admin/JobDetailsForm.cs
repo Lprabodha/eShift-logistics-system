@@ -85,6 +85,7 @@ namespace eShift_Logistics_System.Forms.Admin
             RefreshLoadsGrid();
         }
 
+
         private void SetupLoadsGrid()
         {
             dgvLoads.Columns.Clear();

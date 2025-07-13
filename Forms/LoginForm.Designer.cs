@@ -296,6 +296,7 @@
             Name = "LoginForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "e-Shift - Login";
+            Load += LoginForm_Load;
             pnlLeft.ResumeLayout(false);
             pnlLeft.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)picIllustration).EndInit();
