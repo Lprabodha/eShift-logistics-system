@@ -22,6 +22,8 @@ namespace eShift_Logistics_System.Forms.Admin
 
         private readonly IJobService _jobService;
         private readonly IUnitService _unitService;
+        private readonly IJobStatusService _jobStatusService;
+
 
         public JobDetailsForm(int jobId)
         {
@@ -31,6 +33,7 @@ namespace eShift_Logistics_System.Forms.Admin
             // Initialize services
             _jobService = new JobService(new JobRepository());
             _unitService = new UnitService(new UnitRepository());
+            _jobStatusService = new JobStatusService(new JobStatusRepository());
         }
 
         private void JobDetailsForm_Load(object sender, EventArgs e)
@@ -255,6 +258,7 @@ namespace eShift_Logistics_System.Forms.Admin
             try
             {
                 _jobService.AssignUnitAndFinalizeJob(_currentJob);
+                _jobStatusService.AddLogJobStatus(_jobId, _currentJob.Status.ToString(), null, "Admin finalized job and assigned unit");
 
                 MessageBox.Show("Job details saved and unit assigned successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.DialogResult = DialogResult.OK;
@@ -286,6 +290,8 @@ namespace eShift_Logistics_System.Forms.Admin
                 try
                 {
                     _jobService.UpdateJobStatus(_jobId, newStatus);
+
+                    _jobStatusService.AddLogJobStatus(_jobId, newStatus.ToString(), null, "Admin updated status");
 
                     MessageBox.Show("Job status updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
