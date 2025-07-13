@@ -48,5 +48,7 @@ namespace eShift_Logistics_System.Business.Interface
         /// <param name="newStatus"></param>
         void UpdateJobStatus(int jobId, JobStatus newStatus);
 
+        List<Job> GetJobsByCustomerId(int customerId);
+
     }
 }
