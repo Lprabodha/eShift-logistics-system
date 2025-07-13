@@ -1,6 +1,7 @@
 using eShift_Logistics_System.Forms;
 using eShift_Logistics_System.Forms.Admin;
 using eShift_Logistics_System.Forms.Customer;
+using System.Globalization;
 
 namespace eShift_Logistics_System
 {
@@ -15,6 +16,11 @@ namespace eShift_Logistics_System
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
+
+            CultureInfo sriLankanCulture = new CultureInfo("si-LK");
+            Thread.CurrentThread.CurrentCulture = sriLankanCulture;
+            Thread.CurrentThread.CurrentUICulture = sriLankanCulture;
+
             Application.Run(new AdminDashboardForm());
         }
     }

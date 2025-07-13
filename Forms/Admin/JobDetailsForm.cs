@@ -57,22 +57,73 @@ namespace eShift_Logistics_System.Forms.Admin
                     return;
                 }
 
-                txtJobNumber.Text = _currentJob.JobNumber;
-                txtRequestedDate.Text = _currentJob.RequestedDate.ToShortDateString();
-                txtStatus.Text = _currentJob.Status.ToString();
-                txtPickupAddress.Text = _currentJob.PickupLocation;
-                txtDeliveryAddress.Text = _currentJob.DeliveryLocation;
-                txtCustomerName.Text = $"{_currentJob.Customer.FirstName} {_currentJob.Customer.LastName}".Trim();
-                txtCustomerPhone.Text = _currentJob.Customer.Phone;
-                txtCustomerEmail.Text = _currentJob.Customer.Email;
+                PopulateStaticDetails();
+                BindProductsToGrid(_currentJob.JobProducts);
 
                 _currentLoads = _currentJob.Loads ?? new List<Load>();
                 RefreshLoadsGrid();
 
+                bool isEditable = (_currentJob.Status == JobStatus.PendingConfirmation);
+                SetEditMode(isEditable);
+
+                bool canUpdateStatus = (_currentJob.Status == JobStatus.Accepted || _currentJob.Status == JobStatus.Ongoing);
+                grpStatusUpdate.Visible = canUpdateStatus;
+                if (canUpdateStatus)
+                {
+                    PopulateStatusUpdateComboBox();
+                }
+
+                LoadAvailableUnitsComboBox(_currentJob.TransportUnitId);
+                if (_currentJob.TransportUnitId.HasValue)
+                {
+                    cboTransportUnit.SelectedValue = _currentJob.TransportUnitId.Value;
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error loading job details: {ex.Message}", "Error Loading");
+                MessageBox.Show($"Error loading job details: {ex.Message}");
+            }
+        }
+
+        private void PopulateStaticDetails()
+        {
+            txtJobNumber.Text = _currentJob.JobNumber;
+            txtRequestedDate.Text = _currentJob.RequestedDate.ToString("yyyy-MM-dd");
+            txtStatus.Text = _currentJob.Status.ToString();
+            txtPickupAddress.Text = _currentJob.PickupLocation;
+            txtDeliveryAddress.Text = _currentJob.DeliveryLocation;
+            txtCustomerName.Text = _currentJob.Customer?.FullName;
+            txtCustomerPhone.Text = _currentJob.Customer?.Phone;
+            txtCustomerEmail.Text = _currentJob.Customer?.Email;
+            txtEstimatedCost.Text = _currentJob.EstimatedCost.ToString("C");
+        }
+
+        private void PopulateStatusUpdateComboBox()
+        {
+            cboUpdateStatus.Items.Clear();
+            if (_currentJob.Status == JobStatus.Accepted)
+            {
+                cboUpdateStatus.Items.Add(JobStatus.Ongoing);
+                cboUpdateStatus.Items.Add(JobStatus.Cancelled);
+            }
+            else if (_currentJob.Status == JobStatus.Ongoing)
+            {
+                cboUpdateStatus.Items.Add(JobStatus.Completed);
+            }
+            if (cboUpdateStatus.Items.Count > 0)
+                cboUpdateStatus.SelectedIndex = 0;
+        }
+
+        private void SetEditMode(bool enabled)
+        {
+            pnlAddLoad.Enabled = enabled;
+            grpCosting.Enabled = enabled;
+            cboTransportUnit.Enabled = enabled;
+            btnAssignAndSave.Enabled = enabled;
+
+            if (dgvLoads.Columns.Contains("Remove"))
+            {
+                dgvLoads.Columns["Remove"].Visible = enabled;
             }
         }
 
@@ -87,12 +138,38 @@ namespace eShift_Logistics_System.Forms.Admin
             dgvLoads.Columns.Add(new DataGridViewButtonColumn { Name = "Remove", HeaderText = "", Text = "Remove", UseColumnTextForButtonValue = true, Width = 80 });
         }
 
-        private void LoadAvailableUnitsComboBox()
+        private void LoadAvailableUnitsComboBox(int? currentUnitId = null)
         {
-            var availableUnits = _unitService.GetAvailableUnits();
-            cboTransportUnit.DataSource = availableUnits;
-            cboTransportUnit.DisplayMember = "UnitNumber";
-            cboTransportUnit.ValueMember = "Id";
+            try
+            {
+                var availableUnits = _unitService.GetAvailableUnits(_currentJob?.TransportUnitId);
+
+                var placeholderUnit = new TransportUnit { Id = 0, UnitNumber = "--- Select a Unit ---" };
+                availableUnits.Insert(0, placeholderUnit);
+
+                cboTransportUnit.DataSource = availableUnits;
+                cboTransportUnit.DisplayMember = "UnitNumber";
+                cboTransportUnit.ValueMember = "Id";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading transport units: {ex.Message}", "Error");
+            }
+        }
+
+        private void BindProductsToGrid(List<JobProduct> products)
+        {
+            dgvJobProducts.DataSource = null;
+
+            if (products != null && products.Any())
+            {
+                var displayList = products.Select(p => new {
+                    ProductName = p.Product?.Name ?? "N/A",
+                    p.Quantity
+                }).ToList();
+
+                dgvJobProducts.DataSource = displayList;
+            }
         }
 
         private void btnAddLoad_Click(object sender, EventArgs e)
@@ -178,6 +255,17 @@ namespace eShift_Logistics_System.Forms.Admin
             {
                 MessageBox.Show($"An error occurred while saving: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void btnUpdateStatus_Click(object sender, EventArgs e)
+        {
+            if (cboUpdateStatus.SelectedItem == null) return;
+
+            var newStatus = (JobStatus)cboUpdateStatus.SelectedItem;
+            // In your real app, call a service method:
+             //_jobService.UpdateJobStatus(_jobId, newStatus);
+            MessageBox.Show($"Job status updated to '{newStatus}'.", "Success");
+            LoadJobDetails();
         }
     }
 }

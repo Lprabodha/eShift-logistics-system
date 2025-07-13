@@ -160,13 +160,18 @@ namespace eShift_Logistics_System.Repository.Service
                         cmdDelete.ExecuteNonQuery();
                     }
 
+                    int loadSequence = 1;
+
                     foreach (var load in job.Loads)
                     {
+                        load.LoadNumber = $"{job.JobNumber}-L{loadSequence:D2}";
+
                         using (var cmdLoad = new MySqlCommand(
-                            @"INSERT INTO loads (job_id, description, weight, volume) 
-                              VALUES (@job_id, @description, @weight, @volume)", conn, transaction))
+                            @"INSERT INTO loads (job_id, load_number, description, weight, volume) 
+                    VALUES (@job_id, @load_number, @description, @weight, @volume)", conn, transaction))
                         {
                             cmdLoad.Parameters.AddWithValue("@job_id", job.Id);
+                            cmdLoad.Parameters.AddWithValue("@load_number", load.LoadNumber);
                             cmdLoad.Parameters.AddWithValue("@description", load.Description);
                             cmdLoad.Parameters.AddWithValue("@weight", load.Weight);
                             cmdLoad.Parameters.AddWithValue("@volume", load.Volume);

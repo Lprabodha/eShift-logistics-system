@@ -2,8 +2,15 @@
 {
     partial class JobDetailsForm
     {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -15,11 +22,19 @@
 
         #region Windows Form Designer generated code
 
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
         private void InitializeComponent()
         {
             lblTitle = new Label();
             tblMainLayout = new TableLayoutPanel();
             pnlLeft = new Panel();
+            grpStatusUpdate = new GroupBox();
+            btnUpdateStatus = new Button();
+            cboUpdateStatus = new ComboBox();
+            lblUpdateStatus = new Label();
             grpCustomer = new GroupBox();
             txtCustomerEmail = new TextBox();
             label5 = new Label();
@@ -43,13 +58,15 @@
             grpLoads = new GroupBox();
             dgvLoads = new DataGridView();
             pnlAddLoad = new Panel();
-            label16 = new Label();
-            label17 = new Label();
             label18 = new Label();
+            label17 = new Label();
+            label16 = new Label();
             btnAddLoad = new Button();
             numLoadVolume = new NumericUpDown();
             numLoadWeight = new NumericUpDown();
             txtLoadDescription = new TextBox();
+            grpProductsRequested = new GroupBox();
+            dgvJobProducts = new DataGridView();
             grpCosting = new GroupBox();
             btnAssignAndSave = new Button();
             cboTransportUnit = new ComboBox();
@@ -62,6 +79,7 @@
             label12 = new Label();
             tblMainLayout.SuspendLayout();
             pnlLeft.SuspendLayout();
+            grpStatusUpdate.SuspendLayout();
             grpCustomer.SuspendLayout();
             grpLocations.SuspendLayout();
             grpJobInfo.SuspendLayout();
@@ -71,6 +89,8 @@
             pnlAddLoad.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numLoadVolume).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numLoadWeight).BeginInit();
+            grpProductsRequested.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvJobProducts).BeginInit();
             grpCosting.SuspendLayout();
             SuspendLayout();
             // 
@@ -101,6 +121,7 @@
             // 
             // pnlLeft
             // 
+            pnlLeft.Controls.Add(grpStatusUpdate);
             pnlLeft.Controls.Add(grpCustomer);
             pnlLeft.Controls.Add(grpLocations);
             pnlLeft.Controls.Add(grpJobInfo);
@@ -109,6 +130,55 @@
             pnlLeft.Name = "pnlLeft";
             pnlLeft.Size = new Size(323, 537);
             pnlLeft.TabIndex = 0;
+            // 
+            // grpStatusUpdate
+            // 
+            grpStatusUpdate.Controls.Add(btnUpdateStatus);
+            grpStatusUpdate.Controls.Add(cboUpdateStatus);
+            grpStatusUpdate.Controls.Add(lblUpdateStatus);
+            grpStatusUpdate.Dock = DockStyle.Top;
+            grpStatusUpdate.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            grpStatusUpdate.Location = new Point(0, 440);
+            grpStatusUpdate.Name = "grpStatusUpdate";
+            grpStatusUpdate.Size = new Size(323, 100);
+            grpStatusUpdate.TabIndex = 3;
+            grpStatusUpdate.TabStop = false;
+            grpStatusUpdate.Text = "Update Status";
+            grpStatusUpdate.Visible = false;
+            // 
+            // btnUpdateStatus
+            // 
+            btnUpdateStatus.BackColor = Color.FromArgb(255, 193, 7);
+            btnUpdateStatus.FlatAppearance.BorderSize = 0;
+            btnUpdateStatus.FlatStyle = FlatStyle.Flat;
+            btnUpdateStatus.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            btnUpdateStatus.ForeColor = Color.Black;
+            btnUpdateStatus.Location = new Point(110, 55);
+            btnUpdateStatus.Name = "btnUpdateStatus";
+            btnUpdateStatus.Size = new Size(200, 30);
+            btnUpdateStatus.TabIndex = 2;
+            btnUpdateStatus.Text = "Update Status";
+            btnUpdateStatus.UseVisualStyleBackColor = false;
+            // 
+            // cboUpdateStatus
+            // 
+            cboUpdateStatus.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboUpdateStatus.Font = new Font("Segoe UI", 9.75F);
+            cboUpdateStatus.FormattingEnabled = true;
+            cboUpdateStatus.Location = new Point(110, 24);
+            cboUpdateStatus.Name = "cboUpdateStatus";
+            cboUpdateStatus.Size = new Size(200, 25);
+            cboUpdateStatus.TabIndex = 1;
+            // 
+            // lblUpdateStatus
+            // 
+            lblUpdateStatus.AutoSize = true;
+            lblUpdateStatus.Font = new Font("Segoe UI", 9.75F);
+            lblUpdateStatus.Location = new Point(13, 27);
+            lblUpdateStatus.Name = "lblUpdateStatus";
+            lblUpdateStatus.Size = new Size(76, 17);
+            lblUpdateStatus.TabIndex = 0;
+            lblUpdateStatus.Text = "New Status:";
             // 
             // grpCustomer
             // 
@@ -343,6 +413,7 @@
             // pnlRight
             // 
             pnlRight.Controls.Add(grpLoads);
+            pnlRight.Controls.Add(grpProductsRequested);
             pnlRight.Controls.Add(grpCosting);
             pnlRight.Dock = DockStyle.Fill;
             pnlRight.Location = new Point(332, 3);
@@ -356,34 +427,34 @@
             grpLoads.Controls.Add(pnlAddLoad);
             grpLoads.Dock = DockStyle.Fill;
             grpLoads.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            grpLoads.Location = new Point(0, 0);
+            grpLoads.Location = new Point(0, 130);
             grpLoads.Name = "grpLoads";
             grpLoads.Padding = new Padding(10);
-            grpLoads.Size = new Size(605, 292);
-            grpLoads.TabIndex = 0;
+            grpLoads.Size = new Size(605, 162);
+            grpLoads.TabIndex = 1;
             grpLoads.TabStop = false;
-            grpLoads.Text = "Manage Loads";
+            grpLoads.Text = "Create/Manage Loads";
             // 
             // dgvLoads
             // 
             dgvLoads.AllowUserToAddRows = false;
             dgvLoads.AllowUserToDeleteRows = false;
             dgvLoads.BackgroundColor = Color.WhiteSmoke;
-            dgvLoads.BorderStyle = BorderStyle.Fixed3D;
+            dgvLoads.BorderStyle = BorderStyle.None;
             dgvLoads.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvLoads.Dock = DockStyle.Fill;
             dgvLoads.Location = new Point(10, 100);
             dgvLoads.Name = "dgvLoads";
             dgvLoads.ReadOnly = true;
             dgvLoads.RowHeadersVisible = false;
-            dgvLoads.Size = new Size(585, 182);
+            dgvLoads.Size = new Size(585, 52);
             dgvLoads.TabIndex = 1;
             // 
             // pnlAddLoad
             // 
-            pnlAddLoad.Controls.Add(label16);
-            pnlAddLoad.Controls.Add(label17);
             pnlAddLoad.Controls.Add(label18);
+            pnlAddLoad.Controls.Add(label17);
+            pnlAddLoad.Controls.Add(label16);
             pnlAddLoad.Controls.Add(btnAddLoad);
             pnlAddLoad.Controls.Add(numLoadVolume);
             pnlAddLoad.Controls.Add(numLoadWeight);
@@ -394,15 +465,15 @@
             pnlAddLoad.Size = new Size(585, 72);
             pnlAddLoad.TabIndex = 0;
             // 
-            // label16
+            // label18
             // 
-            label16.AutoSize = true;
-            label16.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label16.Location = new Point(7, 18);
-            label16.Name = "label16";
-            label16.Size = new Size(67, 15);
-            label16.TabIndex = 5;
-            label16.Text = "Description";
+            label18.AutoSize = true;
+            label18.Font = new Font("Segoe UI", 9F);
+            label18.Location = new Point(361, 18);
+            label18.Name = "label18";
+            label18.Size = new Size(73, 15);
+            label18.TabIndex = 7;
+            label18.Text = "Volume (m³)";
             // 
             // label17
             // 
@@ -414,15 +485,15 @@
             label17.TabIndex = 6;
             label17.Text = "Weight (kg)";
             // 
-            // label18
+            // label16
             // 
-            label18.AutoSize = true;
-            label18.Font = new Font("Segoe UI", 9F);
-            label18.Location = new Point(361, 18);
-            label18.Name = "label18";
-            label18.Size = new Size(73, 15);
-            label18.TabIndex = 7;
-            label18.Text = "Volume (m³)";
+            label16.AutoSize = true;
+            label16.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label16.Location = new Point(7, 18);
+            label16.Name = "label16";
+            label16.Size = new Size(67, 15);
+            label16.TabIndex = 5;
+            label16.Text = "Description";
             // 
             // btnAddLoad
             // 
@@ -462,10 +533,38 @@
             txtLoadDescription.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             txtLoadDescription.Font = new Font("Segoe UI", 9.75F);
             txtLoadDescription.Location = new Point(10, 38);
-            txtLoadDescription.MaxLength = 1000;
             txtLoadDescription.Name = "txtLoadDescription";
             txtLoadDescription.Size = new Size(218, 25);
             txtLoadDescription.TabIndex = 1;
+            // 
+            // grpProductsRequested
+            // 
+            grpProductsRequested.Controls.Add(dgvJobProducts);
+            grpProductsRequested.Dock = DockStyle.Top;
+            grpProductsRequested.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            grpProductsRequested.Location = new Point(0, 0);
+            grpProductsRequested.Name = "grpProductsRequested";
+            grpProductsRequested.Padding = new Padding(10);
+            grpProductsRequested.Size = new Size(605, 130);
+            grpProductsRequested.TabIndex = 2;
+            grpProductsRequested.TabStop = false;
+            grpProductsRequested.Text = "Products Requested by Customer";
+            // 
+            // dgvJobProducts
+            // 
+            dgvJobProducts.AllowUserToAddRows = false;
+            dgvJobProducts.AllowUserToDeleteRows = false;
+            dgvJobProducts.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvJobProducts.BackgroundColor = Color.WhiteSmoke;
+            dgvJobProducts.BorderStyle = BorderStyle.None;
+            dgvJobProducts.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvJobProducts.Dock = DockStyle.Fill;
+            dgvJobProducts.Location = new Point(10, 28);
+            dgvJobProducts.Name = "dgvJobProducts";
+            dgvJobProducts.ReadOnly = true;
+            dgvJobProducts.RowHeadersVisible = false;
+            dgvJobProducts.Size = new Size(585, 92);
+            dgvJobProducts.TabIndex = 0;
             // 
             // grpCosting
             // 
@@ -602,14 +701,17 @@
             Controls.Add(lblTitle);
             Font = new Font("Segoe UI", 9F);
             MaximizeBox = false;
+            MinimizeBox = false;
             MinimumSize = new Size(1016, 689);
             Name = "JobDetailsForm";
-            Padding = new Padding(30);
+            Padding = new Padding(20);
             StartPosition = FormStartPosition.CenterParent;
             Text = "Job Details";
             Load += JobDetailsForm_Load;
             tblMainLayout.ResumeLayout(false);
             pnlLeft.ResumeLayout(false);
+            grpStatusUpdate.ResumeLayout(false);
+            grpStatusUpdate.PerformLayout();
             grpCustomer.ResumeLayout(false);
             grpCustomer.PerformLayout();
             grpLocations.ResumeLayout(false);
@@ -623,12 +725,14 @@
             pnlAddLoad.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)numLoadVolume).EndInit();
             ((System.ComponentModel.ISupportInitialize)numLoadWeight).EndInit();
+            grpProductsRequested.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvJobProducts).EndInit();
             grpCosting.ResumeLayout(false);
             grpCosting.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
-
         }
+
         #endregion
 
         private System.Windows.Forms.Label lblTitle;
@@ -636,34 +740,37 @@
         private System.Windows.Forms.Panel pnlLeft;
         private System.Windows.Forms.Panel pnlRight;
         private System.Windows.Forms.GroupBox grpJobInfo;
-        private System.Windows.Forms.GroupBox grpLocations;
-        private System.Windows.Forms.GroupBox grpCustomer;
-        private System.Windows.Forms.GroupBox grpLoads;
-        private System.Windows.Forms.GroupBox grpCosting;
         private System.Windows.Forms.TextBox txtJobNumber;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtRequestedDate;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox txtStatus;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.GroupBox grpLocations;
         private System.Windows.Forms.TextBox txtPickupAddress;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtDeliveryAddress;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.GroupBox grpCustomer;
         private System.Windows.Forms.TextBox txtCustomerName;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtCustomerPhone;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtCustomerEmail;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Panel pnlAddLoad;
+        private System.Windows.Forms.GroupBox grpLoads;
         private System.Windows.Forms.DataGridView dgvLoads;
-        private System.Windows.Forms.Button btnAddLoad;
-        private System.Windows.Forms.NumericUpDown numLoadVolume;
-        private System.Windows.Forms.NumericUpDown numLoadWeight;
+        private System.Windows.Forms.Panel pnlAddLoad;
         private System.Windows.Forms.TextBox txtLoadDescription;
-        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.NumericUpDown numLoadWeight;
+        private System.Windows.Forms.NumericUpDown numLoadVolume;
+        private System.Windows.Forms.Button btnAddLoad;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.GroupBox grpCosting;
         private System.Windows.Forms.TextBox txtTotalWeight;
+        private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox txtTotalVolume;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox txtEstimatedCost;
@@ -671,8 +778,11 @@
         private System.Windows.Forms.ComboBox cboTransportUnit;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Button btnAssignAndSave;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.GroupBox grpProductsRequested;
+        private System.Windows.Forms.DataGridView dgvJobProducts;
+        private System.Windows.Forms.GroupBox grpStatusUpdate;
+        private System.Windows.Forms.Label lblUpdateStatus;
+        private System.Windows.Forms.ComboBox cboUpdateStatus;
+        private System.Windows.Forms.Button btnUpdateStatus;
     }
 }
