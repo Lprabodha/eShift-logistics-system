@@ -21,5 +21,7 @@ namespace eShift_Logistics_System.Repository.Interface
         /// <param name="job"></param>
         void CreateJob(Job job);
 
+        List<Job> GetAllJobsWithDetails();
+
     }
 }

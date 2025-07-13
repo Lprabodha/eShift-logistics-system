@@ -87,25 +87,30 @@ namespace eShift_Logistics_System.Forms
                 if (authenticatedUser.UserType == UserType.Admin)
                 {
                     var adminForm = new AdminDashboardForm();
-                    adminForm.FormClosed += (s, args) => this.Close(); 
+                    adminForm.FormClosed += (s, args) => this.Close();
                     adminForm.Show();
                 }
                 else if (authenticatedUser.UserType == UserType.Customer)
                 {
                     var customerForm = new CustomerDashboardForm(authenticatedUser.Id);
-                    customerForm.FormClosed += (s, args) => this.Close(); 
+                    customerForm.FormClosed += (s, args) => this.Close();
                     customerForm.Show();
                 }
                 else
                 {
                     MessageBox.Show("Unknown user role.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    this.Show(); 
+                    this.Show();
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Login process failed: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void LoginForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

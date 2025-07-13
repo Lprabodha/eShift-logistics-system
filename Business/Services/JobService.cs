@@ -1,6 +1,7 @@
 ﻿using eShift_Logistics_System.Business.Interface;
 using eShift_Logistics_System.Models;
 using eShift_Logistics_System.Repository.Interface;
+using eShift_Logistics_System.Repository.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,11 @@ namespace eShift_Logistics_System.Business.Services
             job.JobNumber = $"JOB-{year}-{(lastId + 1):D4}";
 
             _jobservice.CreateJob(job);
+        }
+
+        public List<Job> GetAllJobsWithDetails()
+        {
+            return _jobservice.GetAllJobsWithDetails();
         }
     }
 }
