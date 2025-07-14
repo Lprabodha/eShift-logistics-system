@@ -78,5 +78,17 @@ namespace eShift_Logistics_System.Helpers
             }
         }
 
+        /// <summary>
+        /// Sends a simple email without attachment.
+        /// </summary>
+        /// <param name="toEmail"></param>
+        /// <param name="subject"></param>
+        /// <param name="body"></param>
+        /// <param name="attachmentPath"></param>
+        public static void SendEmailWithAttachment(string toEmail, string subject, string body, string attachmentPath)
+        {
+            SendEmail(toEmail, subject, body, attachmentPath: attachmentPath);
+        }
+
     }
 }
