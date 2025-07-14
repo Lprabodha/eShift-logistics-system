@@ -117,7 +117,7 @@ namespace eShift_Logistics_System.Forms.Admin
             else if (clickedPanel == pnlProduct)
                 LoadFormIntoPanel(new ProductManagementForm());
             else if (clickedPanel == pnlReports)
-                LoadFormIntoPanel(new ReportsForm());
+                LoadFormIntoPanel(new AdminReportForm());
         }
 
         /// <summary>

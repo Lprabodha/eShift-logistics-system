@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -94,5 +95,38 @@ namespace eShift_Logistics_System.Helpers
             }
             return results;
         }
-}
+
+        /// <summary>
+        /// Executes a query asynchronously and returns a DataTable containing the results.
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public static async Task<DataTable> ExecuteReaderAsyncToDataTable(string query, params MySqlParameter[] parameters)
+        {
+            var dataTable = new DataTable();
+            try
+            {
+                using (var conn = GetConnection())
+                using (var cmd = new MySqlCommand(query, conn))
+                {
+                    if (parameters != null)
+                    {
+                        cmd.Parameters.AddRange(parameters);
+                    }
+                    using (var reader = await cmd.ExecuteReaderAsync()) 
+                    {
+                        dataTable.Load(reader); 
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Database query for report failed: {ex.Message}", "Database Error");
+                Console.WriteLine($"[DatabaseHelper] Error in ExecuteReaderAsyncToDataTable: {ex}");
+                return new DataTable(); // Return an empty DataTable on error
+            }
+            return dataTable;
+        }
+    }
 }
