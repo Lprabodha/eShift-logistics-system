@@ -73,5 +73,15 @@ namespace eShift_Logistics_System.Business.Services
             return _userService.GetAllUsers().Count(u => u.IsActive && u.UserType == UserType.Customer);
         }
 
+        /// <summary>
+        /// /// Retrieves a user by their email address.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public User GetUserById(int id)
+        {
+            return _userService.GetUserById(id);
+        }
+
     }
 }

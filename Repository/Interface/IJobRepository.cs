@@ -74,5 +74,21 @@ namespace eShift_Logistics_System.Repository.Interface
         /// <param name="limit"></param>
         /// <returns></returns>
         List<Job> GetLatestAssignedJobs(int limit);
+
+        /// <summary>
+        /// Retrieves the count of jobs based on their status. If no status is provided, it returns the total count of all jobs.
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        int GetJobCountByCustomer(int customerId, JobStatus? status = null);
+
+        /// <summary>
+        /// Retrieves a list of recent jobs for a specific customer, limited to a specified number.
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        List<Job> GetRecentJobsByCustomer(int customerId, int limit);
     }
 }

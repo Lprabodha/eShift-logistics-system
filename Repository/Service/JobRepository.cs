@@ -457,5 +457,55 @@ namespace eShift_Logistics_System.Repository.Service
                 }
             }, new MySqlParameter("@limit", limit));
         }
+
+        /// <summary>
+        /// Retrieves the count of jobs for a specific customer, optionally filtered by status.
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        public int GetJobCountByCustomer(int customerId, JobStatus? status = null)
+        {
+            string query = "SELECT COUNT(*) FROM jobs WHERE customer_id = @customerId";
+            if (status.HasValue)
+            {
+                query += " AND status = @status";
+            }
+
+            using (var conn = DatabaseHelper.GetConnection())
+            using (var cmd = new MySqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@customerId", customerId);
+                if (status.HasValue)
+                {
+                    cmd.Parameters.AddWithValue("@status", (int)status.Value);
+                }
+                return Convert.ToInt32(cmd.ExecuteScalar());
+            }
+        }
+
+        /// <summary>
+        /// Retrieves a list of the most recent jobs for a specific customer, limited to a specified number.
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        public List<Job> GetRecentJobsByCustomer(int customerId, int limit = 5)
+        {
+            string query = @"
+            SELECT job_number, delivery_location, requested_date, status 
+            FROM jobs 
+            WHERE customer_id = @customerId
+            ORDER BY created_date DESC
+            LIMIT @limit";
+
+            return DatabaseHelper.ExecuteReader(query, reader => new Job
+            {
+                JobNumber = reader["job_number"].ToString(),
+                DeliveryLocation = reader["delivery_location"].ToString(),
+                RequestedDate = Convert.ToDateTime(reader["requested_date"]),
+                Status = (JobStatus)Convert.ToInt32(reader["status"])
+            }, new MySqlParameter("@customerId", customerId), new MySqlParameter("@limit", limit));
+        }
     }
 }

@@ -1,4 +1,8 @@
-﻿using eShift_Logistics_System.Forms.Admin;
+﻿using eShift_Logistics_System.Business.Interface;
+using eShift_Logistics_System.Business.Services;
+using eShift_Logistics_System.Forms.Admin;
+using eShift_Logistics_System.Repository.Interface;
+using eShift_Logistics_System.Repository.Service;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,6 +27,9 @@ namespace eShift_Logistics_System.Forms.Customer
         private readonly Color _selectedMenuColor = Color.FromArgb(40, 55, 210);
         private readonly Color _hoverColor = Color.FromArgb(50, 70, 225);
 
+        private readonly IUserService _userService;
+
+
         /// <summary>
         /// The constructor now requires the customer's ID to be passed in.
         /// </summary>
@@ -31,6 +38,9 @@ namespace eShift_Logistics_System.Forms.Customer
         {
             InitializeComponent();
             _customerId = customerId;
+
+            IUserRepository userRepository = new UserRepository();
+            _userService = new UserService(userRepository);
         }
 
         private void CustomerDashboardForm_Load(object sender, EventArgs e)
@@ -42,8 +52,31 @@ namespace eShift_Logistics_System.Forms.Customer
                 AttachClickAndHoverEvents(panel);
             }
 
-            LoadFormIntoPanel(new CustomerDashboardViewForm());
+            LoadUserDetails();
+
+            LoadFormIntoPanel(new CustomerDashboardViewForm(_customerId));
             SetSelectedPanel(pnlDashboard);
+        }
+
+        private void LoadUserDetails()
+        {
+            try
+            {
+                var customer = _userService.GetUserById(_customerId);
+                if (customer != null)
+                {
+                    lblUserName.Text = customer.FirstName;
+                }
+                else
+                {
+                    lblUserName.Text = "Customer";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to load user details: {ex.Message}", "Error");
+                lblUserName.Text = "Error";
+            }
         }
 
         private void AttachClickAndHoverEvents(Panel panel)
@@ -81,7 +114,7 @@ namespace eShift_Logistics_System.Forms.Customer
             SetSelectedPanel(clickedPanel);
 
             if (clickedPanel == pnlDashboard)
-                LoadFormIntoPanel(new CustomerDashboardViewForm());
+                LoadFormIntoPanel(new CustomerDashboardViewForm(_customerId));
             else if (clickedPanel == pnlMyJobs)
                 LoadFormIntoPanel(new MyJobsForm(_customerId));
             else if (clickedPanel == pnlRequestPickup)

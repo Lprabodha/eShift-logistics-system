@@ -61,6 +61,12 @@ namespace eShift_Logistics_System.Repository.Interface
         /// <returns></returns>
         bool ToggleUserStatus(string customerNumber);
 
+        /// <summary>
+        /// Authenticates a user by checking their email and password.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        User GetUserById(int id);
 
     }
 }

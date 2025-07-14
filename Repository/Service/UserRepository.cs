@@ -179,5 +179,30 @@ namespace eShift_Logistics_System.Repository.Service
             }
         }
 
+        /// <summary>
+        /// Retrieves a user by their ID from the database.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public User GetUserById(int id)
+        {
+            const string query = "SELECT * FROM users WHERE id = @id LIMIT 1";
+
+            var users = DatabaseHelper.ExecuteReader(query, reader => new User
+            {
+                Id = Convert.ToInt32(reader["id"]),
+                FirstName = reader["first_name"].ToString(),
+                LastName = reader["last_name"].ToString(),
+                Email = reader["email"].ToString(),
+                Phone = reader["phone"].ToString(),
+                Address = reader["address"].ToString(),
+                UserType = (UserType)Convert.ToInt32(reader["user_type"]),
+                IsActive = Convert.ToBoolean(reader["is_active"]),
+                CustomerNumber = reader["customer_number"].ToString()
+            }, new MySqlParameter("@id", id));
+
+            return users.FirstOrDefault(); // Returns the found user or null if not found
+        }
+
     }
 }

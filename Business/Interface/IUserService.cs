@@ -52,5 +52,11 @@ namespace eShift_Logistics_System.Business.Interface
         /// <returns></returns>
         int GetActiveCustomerCount();
 
+        /// <summary>
+        /// Retrieves a user by their email address.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        User GetUserById(int id);
     }
 }
