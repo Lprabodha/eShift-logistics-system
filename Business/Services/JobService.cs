@@ -87,15 +87,54 @@ namespace eShift_Logistics_System.Business.Services
             return _jobservice.GetJobWithDetailsById(jobId);
         }
 
-
+        /// <summary>
+        /// Updates the status of a job based on its ID and the new status provided.
+        /// </summary>
+        /// <param name="jobId"></param>
+        /// <param name="newStatus"></param>
         public void UpdateJobStatus(int jobId, JobStatus newStatus)
         {
             _jobservice.UpdateJobStatus(jobId, newStatus);
         }
 
+        /// <summary>
+        /// Retrieves jobs associated with a specific customer by their ID.
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <returns></returns>
         public List<Job> GetJobsByCustomerId(int customerId)
         {
             return _jobservice.GetJobsByCustomerId(customerId);
+        }
+
+        /// <summary>
+        /// Retrieves the count of jobs based on their status. If no status is provided, it returns the total count of all jobs.
+        /// </summary>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        public int GetJobCountByStatus(JobStatus? status = null)
+        {
+            return _jobservice.GetJobCountByStatus(status);
+        }
+
+        /// <summary>
+        /// Retrieves a list of recent jobs, limited to a specified number.
+        /// </summary>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        public List<Job> GetRecentJobs(int limit = 5)
+        {
+            return _jobservice.GetRecentJobs(limit);
+        }
+
+        /// <summary>
+        /// Retrieves a list of the most recent jobs assigned to transport units, limited to a specified number.
+        /// </summary>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        public List<Job> GetLatestAssignedJobs(int limit = 5)
+        {
+            return _jobservice.GetLatestAssignedJobs(limit);
         }
     }
 }

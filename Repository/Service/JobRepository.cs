@@ -308,6 +308,11 @@ namespace eShift_Logistics_System.Repository.Service
             return job;
         }
 
+        /// <summary>
+        /// Updates the status of a job based on its ID and the new status provided.
+        /// </summary>
+        /// <param name="jobId"></param>
+        /// <param name="newStatus"></param>
         public void UpdateJobStatus(int jobId, JobStatus newStatus)
         {
             string query = @"
@@ -329,6 +334,11 @@ namespace eShift_Logistics_System.Repository.Service
             });
         }
 
+        /// <summary>
+        /// Retrieves all jobs associated with a specific customer ID, including their details.
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <returns></returns>
         public List<Job> GetJobsByCustomerId(int customerId)
         {
             string query = @"
@@ -368,6 +378,84 @@ namespace eShift_Logistics_System.Repository.Service
                 Console.WriteLine($"Error in JobRepository.GetJobsByCustomerId: {ex.Message}");
                 throw; 
             }
+        }
+
+        /// <summary>
+        /// Retrieves the count of jobs based on their status. If no status is provided, it returns the total count of jobs.
+        /// </summary>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        public int GetJobCountByStatus(JobStatus? status = null)
+        {
+            string query = "SELECT COUNT(*) FROM jobs";
+            if (status.HasValue)
+            {
+                query += " WHERE status = @status";
+            }
+
+            using (var conn = DatabaseHelper.GetConnection())
+            using (var cmd = new MySqlCommand(query, conn))
+            {
+                if (status.HasValue)
+                {
+                    cmd.Parameters.AddWithValue("@status", (int)status.Value);
+                }
+                return Convert.ToInt32(cmd.ExecuteScalar());
+            }
+        }
+
+        /// <summary>
+        /// Retrieves a list of the most recent jobs, limited to a specified number.
+        /// </summary>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        public List<Job> GetRecentJobs(int limit = 5)
+        {
+            string query = @"
+            SELECT j.job_number, c.first_name, c.last_name, j.delivery_location, j.status 
+            FROM jobs j
+            INNER JOIN users c ON j.customer_id = c.id
+            ORDER BY j.created_date DESC
+            LIMIT @limit";
+
+            return DatabaseHelper.ExecuteReader(query, reader => new Job
+            {
+                JobNumber = reader["job_number"].ToString(),
+                Customer = new User { FirstName = reader["first_name"].ToString(), LastName = reader["last_name"].ToString() },
+                DeliveryLocation = reader["delivery_location"].ToString(),
+                Status = (JobStatus)Convert.ToInt32(reader["status"])
+            }, new MySqlParameter("@limit", limit));
+        }
+
+        /// <summary>
+        /// Retrieves a list of the most recent jobs assigned to transport units, limited to a specified number.
+        /// </summary>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        public List<Job> GetLatestAssignedJobs(int limit = 5)
+        {
+            string query = @"
+            SELECT 
+                j.job_number, j.status,
+                tu.unit_number,
+                d.name as driver_name
+            FROM jobs j
+            INNER JOIN transport_units tu ON j.transport_unit_id = tu.id
+            INNER JOIN drivers d ON tu.driver_id = d.id
+            WHERE j.transport_unit_id IS NOT NULL
+            ORDER BY j.created_date DESC
+            LIMIT @limit";
+
+            return DatabaseHelper.ExecuteReader(query, reader => new Job
+            {
+                JobNumber = reader["job_number"].ToString(),
+                Status = (JobStatus)Convert.ToInt32(reader["status"]),
+                TransportUnit = new TransportUnit
+                {
+                    UnitNumber = reader["unit_number"].ToString(),
+                    Driver = new Driver { Name = reader["driver_name"].ToString() }
+                }
+            }, new MySqlParameter("@limit", limit));
         }
     }
 }

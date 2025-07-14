@@ -64,5 +64,14 @@ namespace eShift_Logistics_System.Business.Services
             return null;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public int GetActiveCustomerCount()
+        {
+            return _userService.GetAllUsers().Count(u => u.IsActive && u.UserType == UserType.Customer);
+        }
+
     }
 }
