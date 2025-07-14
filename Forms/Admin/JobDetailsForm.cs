@@ -24,7 +24,10 @@ namespace eShift_Logistics_System.Forms.Admin
         private readonly IUnitService _unitService;
         private readonly IJobStatusService _jobStatusService;
 
-
+        /// <summary>
+        /// Form for displaying and managing job details, including loads and transport units.
+        /// </summary>
+        /// <param name="jobId"></param>
         public JobDetailsForm(int jobId)
         {
             InitializeComponent();
@@ -36,6 +39,11 @@ namespace eShift_Logistics_System.Forms.Admin
             _jobStatusService = new JobStatusService(new JobStatusRepository());
         }
 
+        /// <summary>
+        /// Handles the form load event to initialize job details, loads grid, and available transport units.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void JobDetailsForm_Load(object sender, EventArgs e)
         {
             SetupLoadsGrid();
@@ -47,6 +55,9 @@ namespace eShift_Logistics_System.Forms.Admin
             btnAssignAndSave.Click += btnAssignAndSave_Click;
         }
 
+        /// <summary>
+        /// Loads the job details by fetching the job from the service and populating the UI controls.
+        /// </summary>
         private void LoadJobDetails()
         {
             try
@@ -88,6 +99,9 @@ namespace eShift_Logistics_System.Forms.Admin
             }
         }
 
+        /// <summary>
+        /// Populates the static details of the job into the respective text boxes on the form.
+        /// </summary>
         private void PopulateStaticDetails()
         {
             txtJobNumber.Text = _currentJob.JobNumber;
@@ -101,6 +115,9 @@ namespace eShift_Logistics_System.Forms.Admin
             txtEstimatedCost.Text = _currentJob.EstimatedCost.ToString("C");
         }
 
+        /// <summary>
+        /// Populates the status update combo box based on the current job status.
+        /// </summary>
         private void PopulateStatusUpdateComboBox()
         {
             cboUpdateStatus.Items.Clear();
@@ -125,6 +142,10 @@ namespace eShift_Logistics_System.Forms.Admin
             }
         }
 
+        /// <summary>
+        /// Sets the edit mode for the form, enabling or disabling controls based on the provided flag.
+        /// </summary>
+        /// <param name="enabled"></param>
         private void SetEditMode(bool enabled)
         {
             pnlAddLoad.Enabled = enabled;
@@ -138,7 +159,9 @@ namespace eShift_Logistics_System.Forms.Admin
             }
         }
 
-
+        /// <summary>
+        /// Initializes the DataGridView for displaying loads, setting up columns and properties.
+        /// </summary>
         private void SetupLoadsGrid()
         {
             dgvLoads.Columns.Clear();
@@ -149,6 +172,10 @@ namespace eShift_Logistics_System.Forms.Admin
             dgvLoads.Columns.Add(new DataGridViewButtonColumn { Name = "Remove", HeaderText = "", Text = "Remove", UseColumnTextForButtonValue = true, Width = 80 });
         }
 
+        /// <summary>
+        /// Loads the available transport units into the combo box, allowing the user to select a unit for the job.
+        /// </summary>
+        /// <param name="currentUnitId"></param>
         private void LoadAvailableUnitsComboBox(int? currentUnitId = null)
         {
             try
@@ -168,6 +195,10 @@ namespace eShift_Logistics_System.Forms.Admin
             }
         }
 
+        /// <summary>
+        /// Binds the list of job products to the DataGridView for display, showing product names and quantities.
+        /// </summary>
+        /// <param name="products"></param>
         private void BindProductsToGrid(List<JobProduct> products)
         {
             dgvJobProducts.DataSource = null;
@@ -184,6 +215,11 @@ namespace eShift_Logistics_System.Forms.Admin
             }
         }
 
+        /// <summary>
+        /// Handles the click event for the "Add Load" button, validating input and adding a new load to the job.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAddLoad_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtLoadDescription.Text) || numLoadWeight.Value <= 0 || numLoadVolume.Value <= 0)
@@ -205,6 +241,11 @@ namespace eShift_Logistics_System.Forms.Admin
             numLoadVolume.Value = 0;
         }
 
+        /// <summary>
+        /// Handles the cell click event for the DataGridView, allowing the user to remove a load by clicking the "Remove" button in the grid.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgvLoads_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && dgvLoads.Columns[e.ColumnIndex].Name == "Remove")
@@ -214,6 +255,9 @@ namespace eShift_Logistics_System.Forms.Admin
             }
         }
 
+        /// <summary>
+        /// Refreshes the DataGridView displaying loads, updating the data source and recalculating totals.
+        /// </summary>
         private void RefreshLoadsGrid()
         {
             dgvLoads.DataSource = null;
@@ -239,6 +283,11 @@ namespace eShift_Logistics_System.Forms.Admin
             txtEstimatedCost.Text = estimatedCost.ToString("C");
         }
 
+        /// <summary>
+        /// Handles the click event for the "Assign and Save" button, validating inputs and saving the job details along with assigned transport unit.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnAssignAndSave_Click(object sender, EventArgs e)
         {
             if (!_currentLoads.Any())
@@ -263,6 +312,7 @@ namespace eShift_Logistics_System.Forms.Admin
                 MessageBox.Show("Job details saved and unit assigned successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.DialogResult = DialogResult.OK;
                 this.Close();
+
             }
             catch (Exception ex)
             {
@@ -270,6 +320,11 @@ namespace eShift_Logistics_System.Forms.Admin
             }
         }
 
+        /// <summary>
+        /// Handles the click event for the "Update Status" button, validating the selected status and updating the job status accordingly.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnUpdateStatus_Click(object sender, EventArgs e)
         {
             if (cboUpdateStatus.SelectedItem == null)

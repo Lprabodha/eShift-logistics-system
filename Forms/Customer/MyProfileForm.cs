@@ -1,4 +1,8 @@
-﻿using System;
+﻿using eShift_Logistics_System.Business.Interface;
+using eShift_Logistics_System.Business.Services;
+using eShift_Logistics_System.Models;
+using eShift_Logistics_System.Repository.Service;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,14 +17,14 @@ namespace eShift_Logistics_System.Forms.Customer
     public partial class MyProfileForm : Form
     {
         private readonly int _customerId;
-        // private readonly IUserService _userService;
+        private readonly IUserService _userService;
+        private User _customer;
 
-        // In your real application, you would pass the logged-in customer's ID here
         public MyProfileForm(int customerId)
         {
             InitializeComponent();
             _customerId = customerId;
-            // _userService = new UserService(new UserRepository());
+            _userService = new UserService(new UserRepository());
         }
 
         private void MyProfileForm_Load(object sender, EventArgs e)
@@ -30,28 +34,24 @@ namespace eShift_Logistics_System.Forms.Customer
 
         private void LoadProfileData()
         {
-            // In a real app, get the user from your service:
-            // var customer = _userService.GetUserById(_customerId);
-
-            // Using placeholder data for demonstration
-            var customer = new
+            try
             {
-                Name = "John Keells",
-                Email = "contact@jkh.lk",
-                Phone = "0112345678",
-                Address = "123, Galle Road, Colombo 03"
-            };
+                _customer = _userService.GetUserById(_customerId);
+                if (_customer == null)
+                {
+                    MessageBox.Show("Could not load your profile.", "Error");
+                    return;
+                }
 
-            if (customer == null)
-            {
-                MessageBox.Show("Could not load your profile.", "Error");
-                return;
+                txtName.Text = _customer.FullName;
+                txtEmail.Text = _customer.Email;
+                txtPhone.Text = _customer.Phone;
+                txtAddress.Text = _customer.Address;
             }
-
-            txtName.Text = customer.Name;
-            txtEmail.Text = customer.Email;
-            txtPhone.Text = customer.Phone;
-            txtAddress.Text = customer.Address;
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error loading profile: {ex.Message}", "Error");
+            }
         }
 
         private void btnSaveChanges_Click(object sender, EventArgs e)
@@ -62,11 +62,25 @@ namespace eShift_Logistics_System.Forms.Customer
                 return;
             }
 
-            // Create user object with updated info
-            // var updatedProfile = new User { Id = _customerId, Name = txtName.Text, ... };
-            // _userService.UpdateProfile(updatedProfile);
+            if (string.IsNullOrWhiteSpace(txtPhone.Text))
+            {
+                MessageBox.Show("Phone number cannot be empty.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-            MessageBox.Show("Profile updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            _customer.FirstName = txtName.Text.Trim();
+            _customer.Phone = txtPhone.Text.Trim();
+            _customer.Address = txtAddress.Text.Trim();
+
+            try
+            {
+                _userService.UpdateUserProfile(_customer);
+                MessageBox.Show("Profile updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error updating profile: {ex.Message}", "Error");
+            }
         }
 
         private void btnChangePassword_Click(object sender, EventArgs e)
@@ -87,14 +101,26 @@ namespace eShift_Logistics_System.Forms.Customer
                 return;
             }
 
-            // In a real app, call your service to change the password
-            // bool success = _userService.ChangePassword(_customerId, currentPassword, newPassword);
-            // if(success) { ... } else { ... }
+            try
+            {
+                bool success = _userService.ChangePassword(_customerId, currentPassword, newPassword);
 
-            MessageBox.Show("Password changed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            txtCurrentPassword.Clear();
-            txtNewPassword.Clear();
-            txtConfirmPassword.Clear();
+                if (success)
+                {
+                    MessageBox.Show("Password changed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    txtCurrentPassword.Clear();
+                    txtNewPassword.Clear();
+                    txtConfirmPassword.Clear();
+                }
+                else
+                {
+                    MessageBox.Show("The current password you entered is incorrect.", "Password Change Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error changing password: {ex.Message}", "Error");
+            }
         }
     }
 }

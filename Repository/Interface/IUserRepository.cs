@@ -68,5 +68,20 @@ namespace eShift_Logistics_System.Repository.Interface
         /// <returns></returns>
         User GetUserById(int id);
 
+        /// <summary>
+        /// Updates the user's profile information in the repository.
+        /// </summary>
+        /// <param name="user"></param>
+        void UpdateUserProfile(User user);
+
+        /// <summary>
+        /// Changes the password for a user by verifying the old password and setting a new one.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="oldPasswordHash"></param>
+        /// <param name="newPasswordHash"></param>
+        /// <returns></returns>
+        bool ChangePassword(int userId, string oldPasswordHash, string newPasswordHash);
+
     }
 }

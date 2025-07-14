@@ -86,6 +86,7 @@
             btnSaveChanges.TabIndex = 4;
             btnSaveChanges.Text = "Save Changes";
             btnSaveChanges.UseVisualStyleBackColor = false;
+            btnSaveChanges.Click += btnSaveChanges_Click;
             // 
             // txtAddress
             // 
@@ -193,6 +194,7 @@
             btnChangePassword.TabIndex = 3;
             btnChangePassword.Text = "Change Password";
             btnChangePassword.UseVisualStyleBackColor = false;
+            btnChangePassword.Click += btnChangePassword_Click;
             // 
             // txtConfirmPassword
             // 
