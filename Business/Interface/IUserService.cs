@@ -46,6 +46,11 @@ namespace eShift_Logistics_System.Business.Interface
         /// <returns></returns>
         User AuthenticateUser(string email, string password);
 
+        /// <summary>
+        /// Retrieves the count of active customers in the system.
+        /// </summary>
+        /// <returns></returns>
+        int GetActiveCustomerCount();
 
     }
 }

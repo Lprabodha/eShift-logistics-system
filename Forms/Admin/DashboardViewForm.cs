@@ -1,4 +1,8 @@
-﻿using System;
+﻿using eShift_Logistics_System.Business.Interface;
+using eShift_Logistics_System.Business.Services;
+using eShift_Logistics_System.Models;
+using eShift_Logistics_System.Repository.Service;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,9 +16,14 @@ namespace eShift_Logistics_System.Forms.Admin
 {
     public partial class DashboardViewForm : Form
     {
+        private readonly IJobService _jobService;
+        private readonly IUserService _userService;
         public DashboardViewForm()
         {
             InitializeComponent();
+
+            _jobService = new JobService(new JobRepository());
+            _userService = new UserService(new UserRepository());
         }
 
         private void DashboardViewForm_Load(object sender, EventArgs e)
@@ -29,43 +38,58 @@ namespace eShift_Logistics_System.Forms.Admin
 
         private void SetupRecentJobsGrid()
         {
-            dgvRecentJobs.ColumnCount = 4;
-            dgvRecentJobs.Columns[0].Name = "JobID";
-            dgvRecentJobs.Columns[1].Name = "Customer";
-            dgvRecentJobs.Columns[2].Name = "Destination";
-            dgvRecentJobs.Columns[3].Name = "Status";
+            dgvRecentJobs.Columns.Clear();
+            dgvRecentJobs.AutoGenerateColumns = false;
+            dgvRecentJobs.Columns.Add(new DataGridViewTextBoxColumn { Name = "JobNumber", HeaderText = "Job #", DataPropertyName = "JobNumber", Width = 120 });
+            dgvRecentJobs.Columns.Add(new DataGridViewTextBoxColumn { Name = "CustomerName", HeaderText = "Customer", DataPropertyName = "CustomerName", AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
+            dgvRecentJobs.Columns.Add(new DataGridViewTextBoxColumn { Name = "Destination", HeaderText = "Destination", DataPropertyName = "DeliveryLocation", AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
+            dgvRecentJobs.Columns.Add(new DataGridViewTextBoxColumn { Name = "Status", HeaderText = "Status", DataPropertyName = "Status", Width = 110 });
         }
 
         private void SetupLoadAssignmentsGrid()
         {
-            dgvLoadAssignments.ColumnCount = 4;
-            dgvLoadAssignments.Columns[0].Name = "AssignmentID";
-            dgvLoadAssignments.Columns[1].Name = "TruckNo";
-            dgvLoadAssignments.Columns[2].Name = "Driver";
-            dgvLoadAssignments.Columns[3].Name = "Status";
+            dgvLoadAssignments.Columns.Clear();
+            dgvLoadAssignments.AutoGenerateColumns = false;
+            dgvLoadAssignments.Columns.Add(new DataGridViewTextBoxColumn { Name = "JobNumber", HeaderText = "Job #", DataPropertyName = "JobNumber", Width = 120 });
+            dgvLoadAssignments.Columns.Add(new DataGridViewTextBoxColumn { Name = "UnitNumber", HeaderText = "Unit #", DataPropertyName = "UnitNumber", Width = 120 });
+            dgvLoadAssignments.Columns.Add(new DataGridViewTextBoxColumn { Name = "DriverName", HeaderText = "Driver", DataPropertyName = "DriverName", AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
+            dgvLoadAssignments.Columns.Add(new DataGridViewTextBoxColumn { Name = "Status", HeaderText = "Status", DataPropertyName = "Status", Width = 110 });
         }
 
         private void LoadDashboardData()
         {
-            // In a real application, you would fetch this data from your database.
-            // For now, we will use placeholder data.
+            try
+            {
+                lblTotalJobsValue.Text = _jobService.GetJobCountByStatus().ToString();
+                lblPendingJobsValue.Text = _jobService.GetJobCountByStatus(JobStatus.PendingConfirmation).ToString();
+                lblCompletedJobsValue.Text = _jobService.GetJobCountByStatus(JobStatus.Completed).ToString();
+                lblActiveCustomersValue.Text = _userService.GetActiveCustomerCount().ToString();
 
-            // Example metrics
-            lblTotalJobsValue.Text = "132";
-            lblPendingJobsValue.Text = "8";
-            lblCompletedJobsValue.Text = "124";
-            lblActiveCustomersValue.Text = "73";
+                var recentJobs = _jobService.GetRecentJobs();
+                var displayList = recentJobs.Select(j => new
+                {
+                    j.JobNumber,
+                    CustomerName = j.Customer.FullName,
+                    j.DeliveryLocation,
+                    j.Status
+                }).ToList();
 
-            // Example data for Recent Jobs grid
-            dgvRecentJobs.Rows.Add("JB-00125", "Alpha Industries", "Kandy", "Pending");
-            dgvRecentJobs.Rows.Add("JB-00124", "Central Hardware", "Galle", "Completed");
-            dgvRecentJobs.Rows.Add("JB-00123", "Beta Solutions", "Jaffna", "Completed");
-            dgvRecentJobs.Rows.Add("JB-00122", "Mega Corp", "Colombo 07", "Pending");
+                dgvRecentJobs.DataSource = displayList;
 
-            // Example data for Load Assignments grid
-            dgvLoadAssignments.Rows.Add("AS-0034", "CBB-4512", "S. Perera", "In Transit");
-            dgvLoadAssignments.Rows.Add("AS-0033", "CBA-1121", "K. Silva", "Loading");
-            dgvLoadAssignments.Rows.Add("AS-0032", "CBC-9870", "M. Fernando", "Delivered");
+                var latestAssignments = _jobService.GetLatestAssignedJobs(5);
+                var assignmentsList = latestAssignments.Select(j => new
+                {
+                    j.JobNumber,
+                    UnitNumber = j.TransportUnit.UnitNumber,
+                    DriverName = j.TransportUnit.Driver.Name,
+                    j.Status
+                }).ToList();
+                dgvLoadAssignments.DataSource = assignmentsList;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to load dashboard data: {ex.Message}", "Error");
+            }
         }
 
         // You would add event handlers for your shortcut buttons here. For example:

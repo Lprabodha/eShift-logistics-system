@@ -48,7 +48,33 @@ namespace eShift_Logistics_System.Business.Interface
         /// <param name="newStatus"></param>
         void UpdateJobStatus(int jobId, JobStatus newStatus);
 
+        /// <summary>
+        /// Retrieves all jobs associated with a specific customer ID, including their details.
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <returns></returns>
         List<Job> GetJobsByCustomerId(int customerId);
+
+        /// <summary>
+        /// Retrieves the count of jobs based on their status. If no status is provided, it returns the total count of all jobs.
+        /// </summary>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        int GetJobCountByStatus(JobStatus? status = null);
+
+        /// <summary>
+        /// Retrieves a list of the most recent jobs, limited to a specified number.
+        /// </summary>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        List<Job> GetRecentJobs(int limit = 5);
+
+        /// <summary>
+        /// Retrieves a list of the most recent jobs assigned to the current user, limited to a specified number.
+        /// </summary>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        List<Job> GetLatestAssignedJobs(int limit = 5);
 
     }
 }

@@ -47,6 +47,32 @@ namespace eShift_Logistics_System.Repository.Interface
         /// <param name="newStatus"></param>
         void UpdateJobStatus(int jobId, JobStatus newStatus);
 
+        /// <summary>
+        /// Retrieves all jobs associated with a specific customer ID, including their details.
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <returns></returns>
         List<Job> GetJobsByCustomerId(int customerId);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        int GetJobCountByStatus(JobStatus? status = null);
+
+        /// <summary>
+        /// Retrieves a list of the most recent jobs, limited to a specified number.
+        /// </summary>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        List<Job> GetRecentJobs(int limit = 5);
+
+        /// <summary>
+        /// Retrieves a list of the most recent jobs, limited to a specified number.
+        /// </summary>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        List<Job> GetLatestAssignedJobs(int limit);
     }
 }
