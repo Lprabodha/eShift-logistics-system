@@ -90,5 +90,7 @@ namespace eShift_Logistics_System.Repository.Interface
         /// <param name="limit"></param>
         /// <returns></returns>
         List<Job> GetRecentJobsByCustomer(int customerId, int limit);
+
+        bool CancelJob(int jobId);
     }
 }

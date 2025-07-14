@@ -92,5 +92,12 @@ namespace eShift_Logistics_System.Business.Interface
         /// <returns></returns>
         List<Job> GetRecentJobsByCustomer(int customerId, int limit = 5);
 
+        /// <summary>
+        /// Cancels a job by its ID, updating its status to 'Cancelled' and setting the completion date to the current date.
+        /// </summary>
+        /// <param name="jobId"></param>
+        /// <returns></returns>
+        bool CancelJob(int jobId);
+
     }
 }

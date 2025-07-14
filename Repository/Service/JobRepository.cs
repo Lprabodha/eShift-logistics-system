@@ -595,5 +595,54 @@ namespace eShift_Logistics_System.Repository.Service
                 Status = (JobStatus)Convert.ToInt32(reader["status"])
             }, new MySqlParameter("@customerId", customerId), new MySqlParameter("@limit", limit));
         }
+
+
+        /// <summary>
+        /// Cancels a job by updating its status to Cancelled and freeing up the associated transport unit if it exists.
+        /// </summary>
+        /// <param name="jobId"></param>
+        /// <returns></returns>
+        public bool CancelJob(int jobId)
+        {
+            using (var conn = DatabaseHelper.GetConnection())
+            using (var transaction = conn.BeginTransaction())
+            {
+                try
+                {
+                    // First, get the transport_unit_id from the job to be cancelled
+                    string getUnitQuery = "SELECT transport_unit_id FROM jobs WHERE id = @jobId";
+                    int? unitId = null;
+                    using (var cmd = new MySqlCommand(getUnitQuery, conn, transaction))
+                    {
+                        cmd.Parameters.AddWithValue("@jobId", jobId);
+                        var result = cmd.ExecuteScalar();
+                        unitId = result != DBNull.Value && result != null ? Convert.ToInt32(result) : (int?)null;
+                    }
+
+                    // Update the job's status to Cancelled
+                    string cancelQuery = "UPDATE jobs SET status = @status WHERE id = @jobId";
+                    using (var cmd = new MySqlCommand(cancelQuery, conn, transaction))
+                    {
+                        cmd.Parameters.AddWithValue("@status", (int)JobStatus.Cancelled);
+                        cmd.Parameters.AddWithValue("@jobId", jobId);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    // If a transport unit was assigned, free it up
+                    if (unitId.HasValue)
+                    {
+                        UpdateUnitAndComponentStatus(unitId, TransportUnitStatus.Free, conn, transaction);
+                    }
+
+                    transaction.Commit();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                    throw;
+                }
+            }
+        }
     }
 }

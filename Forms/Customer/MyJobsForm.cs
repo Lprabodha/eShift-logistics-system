@@ -253,21 +253,19 @@ namespace eShift_Logistics_System.Forms.Customer
                     {
                         try
                         {
-                            //// Calling the synchronous version of the service method
-                            //bool success = _jobService.CancelJob(selectedJob.Id); // Assuming synchronous CancelJob method
-                            //if (success)
-                            //{
-                            //    MessageBox.Show($"Job Number: {selectedJob.JobNumber} has been cancelled successfully.",
-                            //                    "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            //    // Reload all jobs and re-apply filters
-                            //    LoadAllCustomerJobsSynchronous();
-                            //    ApplyFilters();
-                            //}
-                            //else
-                            //{
-                            //    MessageBox.Show("Failed to cancel the job. It might have been updated by someone else, or an internal error occurred. Please try again.",
-                            //                    "Cancellation Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            //}
+                            bool success = _jobService.CancelJob(selectedJob.Id); 
+                            if (success)
+                            {
+                                MessageBox.Show($"Job Number: {selectedJob.JobNumber} has been cancelled successfully.",
+                                                "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                LoadAllCustomerJobsSynchronous();
+                                ApplyFilters();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Failed to cancel the job. It might have been updated by someone else, or an internal error occurred. Please try again.",
+                                                "Cancellation Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            }
                         }
                         catch (Exception ex)
                         {

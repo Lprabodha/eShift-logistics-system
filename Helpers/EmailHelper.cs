@@ -1,118 +1,93 @@
-﻿using System;
+﻿using MimeKit;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MailKit.Net.Smtp;
+using MimeKit; 
+using System.IO; 
+using System.Windows.Forms;
 
 namespace eShift_Logistics_System.Helpers
 {
-    public class EmailHelper
+    public static class EmailHelper
     {
-        public static void SendNewUserRegistrationEmail(string toEmail, string userName)
-        {
-            // Logic to send email for new user registration
-            Console.WriteLine($"Sending registration email to {toEmail} for user {userName}");
-        }
+        /// <summary>
+        /// SMTP configuration for sending emails.
+        /// </summary>
+        private static readonly string emailAddress = "your_email@example.com"; 
+        private static readonly string emailPassword = "your_app_password";
+        private static readonly string smtpHost = "smtp.gmail.com"; 
+        private static readonly int smtpPort = 587;
 
-        public static void SendPickupConfirmationEmail(string toEmail, string pickupDetails)
+        /// <summary>
+        /// Sends an email with optional attachment.
+        /// </summary>
+        /// <param name="toEmail"></param>
+        /// <param name="subject"></param>
+        /// <param name="body"></param>
+        /// <param name="attachmentPath"></param>
+        /// <param name="isHtml"></param>
+        public static void SendEmail(string toEmail, string subject, string body, string attachmentPath = null, bool isHtml = false)
         {
-            // Logic to send email for pickup confirmation
-            Console.WriteLine($"Sending pickup confirmation email to {toEmail} with details: {pickupDetails}");
-        }
-
-        public static void SendJobStatusUpdateEmail(string toEmail, string jobId, string status)
-        {
-            // Logic to send email for job status update
-            Console.WriteLine($"Sending job status update email to {toEmail} for job {jobId} with status: {status}");
-        }
-
-        public static void SendJobCompletionEmail(string toEmail, string jobId)
-        {
-            // Logic to send email for job completion
-            Console.WriteLine($"Sending job completion email to {toEmail} for job {jobId}");
-        }
-
-        public static void SendJobCancellationEmail(string toEmail, string jobId)
-        {
-            // Logic to send email for job cancellation
-            Console.WriteLine($"Sending job cancellation email to {toEmail} for job {jobId}");
-        }
-
-        public static void SendJobRescheduleEmail(string toEmail, string jobId, string newSchedule)
-        {
-            // Logic to send email for job reschedule
-            Console.WriteLine($"Sending job reschedule email to {toEmail} for job {jobId} with new schedule: {newSchedule}");
-        }
-
-        public static void SendAdminApprovalEmail(string toEmail, string jobId)
-        {
-            // Logic to send email for admin approval of job status
-            Console.WriteLine($"Sending admin approval email to {toEmail} for job {jobId}");
-        }
-
-        public static void SendEmail(string toEmail, string subject, string body)
-        {
-            // Logic to send a generic email
-            Console.WriteLine($"Sending email to {toEmail} with subject: {subject}");
-            Console.WriteLine($"Email body: {body}");
-        }
-
-        public static void SendEmailWithTemplate(string toEmail, string templateName, Dictionary<string, string> templateData)
-        {
-            // Logic to send an email using a specific template
-            Console.WriteLine($"Sending email to {toEmail} using template: {templateName}");
-            foreach (var data in templateData)
+            try
             {
-                Console.WriteLine($"{data.Key}: {data.Value}");
+                var message = new MimeMessage();
+                message.From.Add(new MailboxAddress("eShift Logistics", emailAddress));
+                message.To.Add(new MailboxAddress("", toEmail));
+                message.Subject = subject;
+
+                var bodyBuilder = new BodyBuilder();
+                if (isHtml)
+                {
+                    bodyBuilder.HtmlBody = body;
+                }
+                else
+                {
+                    bodyBuilder.TextBody = body;
+                }
+
+                if (!string.IsNullOrEmpty(attachmentPath))
+                {
+                    if (File.Exists(attachmentPath))
+                    {
+                        bodyBuilder.Attachments.Add(attachmentPath);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Warning: Attachment file not found at '{attachmentPath}'. Email sent without it.");
+                    }
+                }
+
+                message.Body = bodyBuilder.ToMessageBody();
+
+                using (var client = new SmtpClient())
+                {
+                    client.Connect(smtpHost, smtpPort, MailKit.Security.SecureSocketOptions.StartTls);
+                    client.Authenticate(emailAddress, emailPassword);
+                    client.Send(message);
+                    client.Disconnect(true);
+                }
+                Console.WriteLine($"Email sent successfully to {toEmail} for subject: {subject}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error sending email to {toEmail} with subject '{subject}': {ex.Message}");
+                MessageBox.Show($"Failed to send email to {toEmail}. Error: {ex.Message}", "Email Sending Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
+        /// <summary>
+        /// Sends a simple email without attachment.
+        /// </summary>
+        /// <param name="toEmail"></param>
+        /// <param name="subject"></param>
+        /// <param name="body"></param>
+        /// <param name="attachmentPath"></param>
         public static void SendEmailWithAttachment(string toEmail, string subject, string body, string attachmentPath)
         {
-            // Logic to send an email with an attachment
-            Console.WriteLine($"Sending email to {toEmail} with subject: {subject}");
-            Console.WriteLine($"Email body: {body}");
-            Console.WriteLine($"Attachment path: {attachmentPath}");
-        }
-
-        public static void SendBulkEmail(List<string> toEmails, string subject, string body)
-        {
-            // Logic to send bulk emails
-            foreach (var email in toEmails)
-            {
-                Console.WriteLine($"Sending bulk email to {email} with subject: {subject}");
-                Console.WriteLine($"Email body: {body}");
-            }
-        }
-
-        public static void SendEmailWithCC(string toEmail, string ccEmail, string subject, string body)
-        {
-            // Logic to send an email with CC
-            Console.WriteLine($"Sending email to {toEmail} with CC to {ccEmail}");
-            Console.WriteLine($"Subject: {subject}");
-            Console.WriteLine($"Email body: {body}");
-        }
-
-        public static void SendEmailWithBCC(string toEmail, string bccEmail, string subject, string body)
-        {
-            // Logic to send an email with BCC
-            Console.WriteLine($"Sending email to {toEmail} with BCC to {bccEmail}");
-            Console.WriteLine($"Subject: {subject}");
-            Console.WriteLine($"Email body: {body}");
-        }
-
-        public static void SendEmailWithHtmlBody(string toEmail, string subject, string htmlBody)
-        {
-            // Logic to send an email with HTML body
-            Console.WriteLine($"Sending HTML email to {toEmail} with subject: {subject}");
-            Console.WriteLine($"HTML Email body: {htmlBody}");
-        }
-
-        public static void SendEmailWithPriority(string toEmail, string subject, string body, string priority)
-        {
-            // Logic to send an email with priority
-            Console.WriteLine($"Sending email to {toEmail} with subject: {subject} and priority: {priority}");
-            Console.WriteLine($"Email body: {body}");
+            SendEmail(toEmail, subject, body, attachmentPath: attachmentPath);
         }
 
     }

@@ -1,11 +1,11 @@
 ﻿using eShift_Logistics_System.Business.Interface;
-using eShift_Logistics_System.Business.Services; // Assuming JobService is here
-using eShift_Logistics_System.Models;           // Assuming Job, JobProduct, Product models are here
-using eShift_Logistics_System.Repository.Service; // Assuming JobRepository is here
+using eShift_Logistics_System.Business.Services;
+using eShift_Logistics_System.Models;  
+using eShift_Logistics_System.Repository.Service;
 using System;
 using System.Collections.Generic;
-using System.Linq;           // For .Any() and .Select()
-using System.Windows.Forms;  // For Form, MessageBox, DataGridView
+using System.Linq;      
+using System.Windows.Forms; 
 
 namespace eShift_Logistics_System.Forms.Customer
 {
@@ -18,7 +18,6 @@ namespace eShift_Logistics_System.Forms.Customer
         {
             InitializeComponent();
             _jobId = jobId;
-            // In a real application with dependency injection, this would be passed in.
             _jobService = new JobService(new JobRepository());
         }
 
@@ -51,11 +50,7 @@ namespace eShift_Logistics_System.Forms.Customer
         {
             try
             {
-                // In a real application, you would fetch the data from your service
-                // Job job = _jobService.GetJobWithDetailsById(_jobId);
-
-                // Using placeholder data for demonstration
-                Job job = GetPlaceholderJobSummary();
+                 Job job = _jobService.GetJobWithDetailsById(_jobId);
 
                 if (job == null)
                 {
@@ -64,7 +59,6 @@ namespace eShift_Logistics_System.Forms.Customer
                     return;
                 }
 
-                // Populate all the read-only text fields
                 txtJobNumber.Text = job.JobNumber;
                 txtRequestedDate.Text = job.RequestedDate.ToString("yyyy-MM-dd");
                 txtStatus.Text = job.Status.ToString();
@@ -78,7 +72,6 @@ namespace eShift_Logistics_System.Forms.Customer
                 txtEstimatedCost.Text = job.EstimatedCost.ToString("C");
                 txtAssignedUnit.Text = job.TransportUnit?.UnitNumber ?? "Not Yet Assigned";
 
-                // Bind the product and load lists to their respective grids
                 BindProductsToGrid(job.JobProducts);
                 BindLoadsToGrid(job.Loads);
             }
@@ -110,33 +103,6 @@ namespace eShift_Logistics_System.Forms.Customer
                 dgvLoads.DataSource = loads.ToList();
             }
         }
-
-        private Job GetPlaceholderJobSummary()
-        {
-            return new Job
-            {
-                Id = _jobId,
-                JobNumber = "JOB-2025-002",
-                RequestedDate = new DateTime(2025, 7, 13),
-                Status = JobStatus.Accepted,
-                PickupLocation = "Galle",
-                DeliveryLocation = "Jaffna",
-                EstimatedCost = 35000,
-                TransportUnitId = 1,
-                Customer = new User { FirstName = "Jane", LastName = "Hemas", Email = "jane@hemas.com", Phone = "077-5551234" },
-                JobProducts = new List<JobProduct>
-                {
-                    new JobProduct { Product = new Product { Name = "King Size Bed" }, Quantity = 1 },
-                    new JobProduct { Product = new Product { Name = "Wardrobe" }, Quantity = 2 },
-                    new JobProduct { Product = new Product { Name = "Standard Box" }, Quantity = 15 }
-                },
-                Loads = new List<Load>
-                {
-                    new Load { LoadNumber = "JOB-2025-002-L01", Description = "Master Bedroom Furniture", Weight = 120, Volume = 2.5m },
-                    new Load { LoadNumber = "JOB-2025-002-L02", Description = "Kitchenware Boxes", Weight = 80, Volume = 1.0m }
-                },
-                TransportUnit = new TransportUnit { UnitNumber = "UNIT-2025-004" }
-            };
-        }
+        
     }
 }
