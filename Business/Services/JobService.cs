@@ -158,5 +158,15 @@ namespace eShift_Logistics_System.Business.Services
         {
             return _jobservice.GetRecentJobsByCustomer(customerId, limit);
         }
+
+        /// <summary>
+        /// Cancels a job by its ID, updating its status to 'Cancelled' and removing any associated transport unit.
+        /// </summary>
+        /// <param name="jobId"></param>
+        /// <returns></returns>
+        public bool CancelJob(int jobId)
+        {
+            return _jobservice.CancelJob(jobId);
+        }
     }
 }
