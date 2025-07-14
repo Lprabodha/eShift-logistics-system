@@ -237,7 +237,9 @@ namespace eShift_Logistics_System.Forms.Customer
 
             if (dgvMyJobs.Columns[e.ColumnIndex].Name == "ViewDetails")
             {
-                MessageBox.Show($"Viewing details for Job Number: {selectedJob.JobNumber}\nStatus: {selectedJob.Status}", "Job Details");
+
+                JobSummaryForm jobSummaryForm = new JobSummaryForm(selectedJob.Id);
+                jobSummaryForm.ShowDialog();
             }
             else if (dgvMyJobs.Columns[e.ColumnIndex].Name == "Cancel")
             {

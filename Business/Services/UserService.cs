@@ -73,5 +73,39 @@ namespace eShift_Logistics_System.Business.Services
             return _userService.GetAllUsers().Count(u => u.IsActive && u.UserType == UserType.Customer);
         }
 
+        /// <summary>
+        /// /// Retrieves a user by their email address.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public User GetUserById(int id)
+        {
+            return _userService.GetUserById(id);
+        }
+
+        /// <summary>
+        /// /// Updates the profile of the currently logged-in user.
+        /// </summary>
+        /// <param name="user"></param>
+        public void UpdateUserProfile(User user)
+        {
+            _userService.UpdateUserProfile(user);
+        }
+
+        /// <summary>
+        /// /// Changes the password for a user.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="currentPassword"></param>
+        /// <param name="newPassword"></param>
+        /// <returns></returns>
+        public bool ChangePassword(int userId, string currentPassword, string newPassword)
+        {
+            var currentPasswordHash = CommonHelper.HashPassword(currentPassword);
+            var newPasswordHash = CommonHelper.HashPassword(newPassword);
+
+            return _userService.ChangePassword(userId, currentPasswordHash, newPasswordHash);
+        }
+
     }
 }

@@ -179,5 +179,76 @@ namespace eShift_Logistics_System.Repository.Service
             }
         }
 
+        /// <summary>
+        /// Retrieves a user by their ID from the database.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public User GetUserById(int id)
+        {
+            const string query = "SELECT * FROM users WHERE id = @id LIMIT 1";
+
+            var users = DatabaseHelper.ExecuteReader(query, reader => new User
+            {
+                Id = Convert.ToInt32(reader["id"]),
+                FirstName = reader["first_name"].ToString(),
+                LastName = reader["last_name"].ToString(),
+                Email = reader["email"].ToString(),
+                Phone = reader["phone"].ToString(),
+                Address = reader["address"].ToString(),
+                UserType = (UserType)Convert.ToInt32(reader["user_type"]),
+                IsActive = Convert.ToBoolean(reader["is_active"]),
+                CustomerNumber = reader["customer_number"].ToString()
+            }, new MySqlParameter("@id", id));
+
+            return users.FirstOrDefault(); // Returns the found user or null if not found
+        }
+
+        /// <summary>
+        /// Updates the user's profile information in the database.
+        /// </summary>
+        /// <param name="user"></param>
+        public void UpdateUserProfile(User user)
+        {
+            string query = @"UPDATE users SET 
+                             first_name = @firstName, 
+                             last_name = @lastName, 
+                             phone = @phone, 
+                             address = @address 
+                             WHERE id = @id";
+
+            DatabaseHelper.ExecuteNonQuery(query, command =>
+            {
+                command.Parameters.AddWithValue("@firstName", user.FirstName);
+                command.Parameters.AddWithValue("@lastName", user.LastName);
+                command.Parameters.AddWithValue("@phone", user.Phone);
+                command.Parameters.AddWithValue("@address", user.Address);
+                command.Parameters.AddWithValue("@id", user.Id);
+            });
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="oldPasswordHash"></param>
+        /// <param name="newPasswordHash"></param>
+        /// <returns></returns>
+
+        public bool ChangePassword(int userId, string oldPasswordHash, string newPasswordHash)
+        {
+            string query = "UPDATE users SET password_hash = @newPassword WHERE id = @id AND password_hash = @oldPassword";
+
+
+            int rowsAffected = DatabaseHelper.ExecuteNonQuery(query, command =>
+            {
+                command.Parameters.AddWithValue("@newPassword", newPasswordHash);
+                command.Parameters.AddWithValue("@id", userId);
+                command.Parameters.AddWithValue("@oldPassword", oldPasswordHash);
+            });
+
+            return rowsAffected > 0;
+        }
+
     }
 }

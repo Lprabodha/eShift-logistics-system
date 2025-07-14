@@ -136,5 +136,27 @@ namespace eShift_Logistics_System.Business.Services
         {
             return _jobservice.GetLatestAssignedJobs(limit);
         }
+
+        /// <summary>
+        /// Retrieves the count of jobs for a specific customer based on their ID and an optional status filter.
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        public int GetJobCountByCustomer(int customerId, JobStatus? status = null)
+        {
+            return _jobservice.GetJobCountByCustomer(customerId, status);
+        }
+
+        /// <summary>
+        /// Retrieves a list of the most recent jobs for a specific customer, limited to a specified number.
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        public List<Job> GetRecentJobsByCustomer(int customerId, int limit = 5)
+        {
+            return _jobservice.GetRecentJobsByCustomer(customerId, limit);
+        }
     }
 }

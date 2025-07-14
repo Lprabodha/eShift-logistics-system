@@ -315,23 +315,111 @@ namespace eShift_Logistics_System.Repository.Service
         /// <param name="newStatus"></param>
         public void UpdateJobStatus(int jobId, JobStatus newStatus)
         {
-            string query = @"
-                UPDATE jobs j
-                LEFT JOIN transport_units tu ON j.transport_unit_id = tu.id
-                SET 
-                    j.status = @newStatus,
-                    j.completion_date = IF(@newStatus = @completedStatus OR @newStatus = @cancelledStatus, NOW(), j.completion_date),
-                    tu.status = IF(@newStatus = @completedStatus OR @newStatus = @cancelledStatus, @freeStatus, tu.status)
-                WHERE j.id = @jobId";
-
-            DatabaseHelper.ExecuteNonQuery(query, command =>
+            using (var conn = DatabaseHelper.GetConnection())
+            using (var transaction = conn.BeginTransaction())
             {
-                command.Parameters.AddWithValue("@newStatus", (int)newStatus);
-                command.Parameters.AddWithValue("@completedStatus", (int)JobStatus.Completed);
-                command.Parameters.AddWithValue("@cancelledStatus", (int)JobStatus.Cancelled);
-                command.Parameters.AddWithValue("@freeStatus", (int)TransportUnitStatus.Free);
-                command.Parameters.AddWithValue("@jobId", jobId);
-            });
+                try
+                {
+                    string getUnitIdQuery = "SELECT transport_unit_id FROM jobs WHERE id = @jobId";
+                    int? unitId = null;
+                    using (var cmd = new MySqlCommand(getUnitIdQuery, conn, transaction))
+                    {
+                        cmd.Parameters.AddWithValue("@jobId", jobId);
+                        var result = cmd.ExecuteScalar();
+                        unitId = result != DBNull.Value && result != null ? Convert.ToInt32(result) : (int?)null;
+                    }
+
+                    string jobUpdateQuery = "UPDATE jobs SET status = @newStatus, completion_date = IF(@newStatus = @completedStatus, NOW(), completion_date) WHERE id = @jobId";
+                    using (var cmd = new MySqlCommand(jobUpdateQuery, conn, transaction))
+                    {
+                        cmd.Parameters.AddWithValue("@newStatus", (int)newStatus);
+                        cmd.Parameters.AddWithValue("@completedStatus", (int)JobStatus.Completed);
+                        cmd.Parameters.AddWithValue("@jobId", jobId);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    if (unitId.HasValue && (newStatus == JobStatus.Completed || newStatus == JobStatus.Cancelled))
+                    {
+                        UpdateUnitAndComponentStatus(unitId, TransportUnitStatus.Free, conn, transaction);
+                    }
+
+                    transaction.Commit();
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                    throw;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="unitId"></param>
+        /// <param name="unitStatus"></param>
+        /// <param name="conn"></param>
+        /// <param name="transaction"></param>
+        private void UpdateUnitAndComponentStatus(int? unitId, TransportUnitStatus unitStatus, MySqlConnection conn, MySqlTransaction transaction)
+        {
+            if (!unitId.HasValue) return;
+
+            string getIdsQuery = "SELECT truck_id, driver_id, assistant_id FROM transport_units WHERE id = @unitId";
+            using (var cmd = new MySqlCommand(getIdsQuery, conn, transaction))
+            {
+                cmd.Parameters.AddWithValue("@unitId", unitId.Value);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (!reader.Read()) return;
+                    int truckId = reader.GetInt32("truck_id");
+                    int driverId = reader.GetInt32("driver_id");
+                    int? assistantId = reader.IsDBNull(reader.GetOrdinal("assistant_id")) ? (int?)null : reader.GetInt32("assistant_id");
+                    reader.Close();
+
+                    var truckComponentStatus = (unitStatus == TransportUnitStatus.Free) ? TruckStatus.Available : TruckStatus.OnJob;
+                    var driverComponentStatus = (unitStatus == TransportUnitStatus.Free) ? DriverStatus.Available : DriverStatus.Assigned;
+                    var assistantComponentStatus = (unitStatus == TransportUnitStatus.Free) ? AssistantStatus.Available : AssistantStatus.Assigned;
+
+                    // Update Transport Unit
+                    string unitQuery = "UPDATE transport_units SET status = @status WHERE id = @id";
+                    using (var unitCmd = new MySqlCommand(unitQuery, conn, transaction))
+                    {
+                        unitCmd.Parameters.AddWithValue("@status", (int)unitStatus);
+                        unitCmd.Parameters.AddWithValue("@id", unitId.Value);
+                        unitCmd.ExecuteNonQuery();
+                    }
+
+                    // Update Truck
+                    string truckQuery = "UPDATE trucks SET status = @status WHERE id = @id";
+                    using (var truckCmd = new MySqlCommand(truckQuery, conn, transaction))
+                    {
+                        truckCmd.Parameters.AddWithValue("@status", (int)truckComponentStatus);
+                        truckCmd.Parameters.AddWithValue("@id", truckId);
+                        truckCmd.ExecuteNonQuery();
+                    }
+
+                    // Update Driver
+                    string driverQuery = "UPDATE drivers SET status = @status WHERE id = @id";
+                    using (var driverCmd = new MySqlCommand(driverQuery, conn, transaction))
+                    {
+                        driverCmd.Parameters.AddWithValue("@status", (int)driverComponentStatus);
+                        driverCmd.Parameters.AddWithValue("@id", driverId);
+                        driverCmd.ExecuteNonQuery();
+                    }
+
+                    // Update Assistant (if one exists)
+                    if (assistantId.HasValue)
+                    {
+                        string assistantQuery = "UPDATE assistants SET status = @status WHERE id = @id";
+                        using (var assistantCmd = new MySqlCommand(assistantQuery, conn, transaction))
+                        {
+                            assistantCmd.Parameters.AddWithValue("@status", (int)assistantComponentStatus);
+                            assistantCmd.Parameters.AddWithValue("@id", assistantId.Value);
+                            assistantCmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -456,6 +544,56 @@ namespace eShift_Logistics_System.Repository.Service
                     Driver = new Driver { Name = reader["driver_name"].ToString() }
                 }
             }, new MySqlParameter("@limit", limit));
+        }
+
+        /// <summary>
+        /// Retrieves the count of jobs for a specific customer, optionally filtered by status.
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        public int GetJobCountByCustomer(int customerId, JobStatus? status = null)
+        {
+            string query = "SELECT COUNT(*) FROM jobs WHERE customer_id = @customerId";
+            if (status.HasValue)
+            {
+                query += " AND status = @status";
+            }
+
+            using (var conn = DatabaseHelper.GetConnection())
+            using (var cmd = new MySqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@customerId", customerId);
+                if (status.HasValue)
+                {
+                    cmd.Parameters.AddWithValue("@status", (int)status.Value);
+                }
+                return Convert.ToInt32(cmd.ExecuteScalar());
+            }
+        }
+
+        /// <summary>
+        /// Retrieves a list of the most recent jobs for a specific customer, limited to a specified number.
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        public List<Job> GetRecentJobsByCustomer(int customerId, int limit = 5)
+        {
+            string query = @"
+            SELECT job_number, delivery_location, requested_date, status 
+            FROM jobs 
+            WHERE customer_id = @customerId
+            ORDER BY created_date DESC
+            LIMIT @limit";
+
+            return DatabaseHelper.ExecuteReader(query, reader => new Job
+            {
+                JobNumber = reader["job_number"].ToString(),
+                DeliveryLocation = reader["delivery_location"].ToString(),
+                RequestedDate = Convert.ToDateTime(reader["requested_date"]),
+                Status = (JobStatus)Convert.ToInt32(reader["status"])
+            }, new MySqlParameter("@customerId", customerId), new MySqlParameter("@limit", limit));
         }
     }
 }

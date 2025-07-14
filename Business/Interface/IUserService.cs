@@ -52,5 +52,26 @@ namespace eShift_Logistics_System.Business.Interface
         /// <returns></returns>
         int GetActiveCustomerCount();
 
+        /// <summary>
+        /// Retrieves a user by their email address.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        User GetUserById(int id);
+
+        /// <summary>
+        /// Checks if an email already exists in the system.
+        /// </summary>
+        /// <param name="user"></param>
+        void UpdateUserProfile(User user);
+
+        /// <summary>
+        /// Checks if an email already exists in the system.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="currentPassword"></param>
+        /// <param name="newPassword"></param>
+        /// <returns></returns>
+        bool ChangePassword(int userId, string currentPassword, string newPassword);
     }
 }

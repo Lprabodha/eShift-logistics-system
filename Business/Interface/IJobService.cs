@@ -76,5 +76,21 @@ namespace eShift_Logistics_System.Business.Interface
         /// <returns></returns>
         List<Job> GetLatestAssignedJobs(int limit = 5);
 
+        /// <summary>
+        /// Retrieves the count of jobs associated with a specific customer ID, optionally filtered by status.
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        int GetJobCountByCustomer(int customerId, JobStatus? status = null);
+
+        /// <summary>
+        /// Retrieves a list of the most recent jobs for a specific customer, limited to a specified number.
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <param name="limit"></param>
+        /// <returns></returns>
+        List<Job> GetRecentJobsByCustomer(int customerId, int limit = 5);
+
     }
 }

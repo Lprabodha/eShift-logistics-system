@@ -7,17 +7,23 @@
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        // The System.ExecutionEngineException is a critical error that usually indicates a severe problem with the .NET runtime or native interop.
+        // It is not caused by the code in the Dispose method you selected. 
+        // However, to ensure best practices, you can add a null check for the base class and ensure proper disposal pattern:
+
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            try
             {
-                components.Dispose();
+                if (disposing && (components != null))
+                {
+                    components.Dispose();
+                }
             }
-            base.Dispose(disposing);
+            finally
+            {
+                base.Dispose(disposing);
+            }
         }
 
         #region Windows Form Designer generated code
