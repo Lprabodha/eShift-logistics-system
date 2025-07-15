@@ -92,6 +92,11 @@ namespace eShift_Logistics_System.Forms.Admin
             }
         }
 
+        private void btnCreateUnit_Click(object sender, EventArgs e)
+        {
+
+        }
+
         // You would add event handlers for your shortcut buttons here. For example:
         // private void btnAddJob_Click(object sender, EventArgs e) { ... }
         // private void btnCreateUnit_Click(object sender, EventArgs e) { ... }

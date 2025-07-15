@@ -16,9 +16,11 @@ namespace eShift_Logistics_System.Business.Services
     public class JobService : IJobService
     {
         private readonly IJobRepository _jobservice;
+        private readonly IEmailService _emailService;
         public JobService(IJobRepository jobservice)
         {
             _jobservice = jobservice;
+            _emailService = new EmailService();
         }
 
         /// <summary>
@@ -30,6 +32,15 @@ namespace eShift_Logistics_System.Business.Services
             int lastId = _jobservice.GetLastJobId();
             string year = DateTime.Now.ToString("yyyy");
             job.JobNumber = $"JOB-{year}-{(lastId + 1):D4}";
+
+            try
+            {
+                _emailService.SendJobConfirmationEmail(job);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Email Error] Failed to send confirmation for Job #{job.JobNumber}: {ex.Message}");
+            }
 
             _jobservice.CreateJob(job);
         }
@@ -53,6 +64,17 @@ namespace eShift_Logistics_System.Business.Services
             job.Status = JobStatus.Accepted;
 
             _jobservice.FinalizeJob(job);
+
+            try
+            {
+                var customer = new UserRepository().GetUserById(job.CustomerId); 
+                job.Customer = customer;
+                _emailService.SendJobApprovedEmail(job);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Email Error] Failed to send approval for Job #{job.JobNumber}: {ex.Message}");
+            }
         }
 
         /// <summary>
@@ -95,6 +117,26 @@ namespace eShift_Logistics_System.Business.Services
         public void UpdateJobStatus(int jobId, JobStatus newStatus)
         {
             _jobservice.UpdateJobStatus(jobId, newStatus);
+
+            try
+            {
+                var updatedJob = _jobservice.GetJobWithDetailsById(jobId);
+                if (updatedJob != null)
+                {
+                    if (newStatus == JobStatus.Completed)
+                    {
+                        _emailService.SendJobCompletionEmailWithInvoice(updatedJob);
+                    }
+                    else
+                    {
+                        _emailService.SendJobStatusUpdateEmail(updatedJob, newStatus);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Email Error] Failed to send status update for Job #{jobId}: {ex.Message}");
+            }
         }
 
         /// <summary>
