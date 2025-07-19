@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <Folder Include="Assets\Fonts\" />
+    <Folder Include="Database\" />
   </ItemGroup>
 
   <ItemGroup>
