@@ -18,7 +18,7 @@ namespace eShift_Logistics_System.Forms.Admin
         /// Service to manage user-related operations, including customers.
         /// </summary>
         private readonly IUserService _userService;
-        private List<User> _allCustomers; 
+        private List<User> _allCustomers;
 
         public CustomersForm()
         {
@@ -57,6 +57,7 @@ namespace eShift_Logistics_System.Forms.Admin
             dgvCustomers.Columns.Clear();
             dgvCustomers.AutoGenerateColumns = false;
 
+            dgvCustomers.Columns.Add(new DataGridViewTextBoxColumn { Name = "Id", DataPropertyName = "Id", Visible = false });
             dgvCustomers.Columns.Add(new DataGridViewTextBoxColumn { Name = "CustomerNumber", HeaderText = "Customer ID", DataPropertyName = "CustomerNumber", Width = 120 });
             dgvCustomers.Columns.Add(new DataGridViewTextBoxColumn { Name = "Name", HeaderText = "Full Name", DataPropertyName = "Name", AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
             dgvCustomers.Columns.Add(new DataGridViewTextBoxColumn { Name = "Email", HeaderText = "Email Address", DataPropertyName = "Email", AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
@@ -116,7 +117,7 @@ namespace eShift_Logistics_System.Forms.Admin
             var displayList = customers.Select(u => new
             {
                 CustomerNumber = u.CustomerNumber ?? "N/A",
-                Name = u.FirstName, 
+                Name = u.FirstName,
                 Email = u.Email,
                 Status = u.IsActive ? "Active" : "Inactive"
             }).ToList();
@@ -163,13 +164,22 @@ namespace eShift_Logistics_System.Forms.Admin
         /// <param name="e"></param>
         private void DgvCustomers_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0) return; 
+            if (e.RowIndex < 0) return;
 
             string customerId = dgvCustomers.Rows[e.RowIndex].Cells["CustomerNumber"].Value?.ToString();
-            if (string.IsNullOrEmpty(customerId)) return; 
+            int userId = Convert.ToInt32(dgvCustomers.Rows[e.RowIndex].Cells["Id"].Value);
+            if (string.IsNullOrEmpty(customerId)) return;
 
             switch (dgvCustomers.Columns[e.ColumnIndex].Name)
             {
+                case "Edit":
+                    var editForm = new AddEditUserForm(userId);
+                    if (editForm.ShowDialog() == DialogResult.OK)
+                    {
+                        LoadAndBindInitialData(); 
+                    }
+                    break;
+
                 case "ChangeStatus":
                     ToggleCustomerStatus(customerId);
                     break;
@@ -193,7 +203,7 @@ namespace eShift_Logistics_System.Forms.Admin
 
             if (confirm == DialogResult.Yes)
             {
-                 bool success = _userService.ToggleUserStatus(customerId);
+                bool success = _userService.ToggleUserStatus(customerId);
                 LoadAndBindInitialData(); // Refresh data from source
                 MessageBox.Show("Status updated successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -212,8 +222,8 @@ namespace eShift_Logistics_System.Forms.Admin
 
             if (confirm == DialogResult.Yes)
             {
-                 bool success = _userService.DeleteUser(customerId);
-                LoadAndBindInitialData(); 
+                bool success = _userService.DeleteUser(customerId);
+                LoadAndBindInitialData();
                 MessageBox.Show("Customer deleted successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
@@ -264,7 +274,7 @@ namespace eShift_Logistics_System.Forms.Admin
         {
             txtSearch.Clear();
             cboFilterStatus.SelectedIndex = 0;
-            BindDataToGrid(_allCustomers); 
+            BindDataToGrid(_allCustomers);
         }
 
         /// <summary>
@@ -274,7 +284,17 @@ namespace eShift_Logistics_System.Forms.Admin
         /// <param name="e"></param>
         private void cboFilterStatus_SelectedIndexChanged(object sender, EventArgs e)
         {
-            btnSearch.PerformClick(); 
+            btnSearch.PerformClick();
         }
+
+        private void btnAddNewCustomer_Click(object sender, EventArgs e)
+        {
+            var addForm = new AddEditUserForm();
+            if (addForm.ShowDialog() == DialogResult.OK)
+            {
+                LoadAndBindInitialData();
+            }
+        }
+
     }
 }
