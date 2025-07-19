@@ -264,7 +264,7 @@
             lblWelcomeTitle.Name = "lblWelcomeTitle";
             lblWelcomeTitle.Size = new Size(940, 40);
             lblWelcomeTitle.TabIndex = 0;
-            lblWelcomeTitle.Text = "Hello, Evano 👋";
+            lblWelcomeTitle.Text = "Hello, Admin 👋";
             // 
             // grpRecentJobs
             // 

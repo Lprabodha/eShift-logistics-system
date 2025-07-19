@@ -23,6 +23,7 @@ namespace eShift_Logistics_System.Forms.Admin
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             pnlHeader = new Panel();
+            btnAddNewCustomer = new Button();
             lblTitle = new Label();
             pnlSearch = new Panel();
             btnClear = new Button();
@@ -51,12 +52,32 @@ namespace eShift_Logistics_System.Forms.Admin
             // 
             // pnlHeader
             // 
+            pnlHeader.Controls.Add(btnAddNewCustomer);
             pnlHeader.Controls.Add(lblTitle);
             pnlHeader.Dock = DockStyle.Top;
             pnlHeader.Location = new Point(20, 20);
             pnlHeader.Name = "pnlHeader";
             pnlHeader.Size = new Size(960, 50);
             pnlHeader.TabIndex = 0;
+
+
+            //
+            // btnAddNewCustomer
+            //
+            btnAddNewCustomer.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnAddNewCustomer.BackColor = Color.FromArgb(65, 84, 241);
+            btnAddNewCustomer.FlatAppearance.BorderSize = 0;
+            btnAddNewCustomer.FlatStyle = FlatStyle.Flat;
+            btnAddNewCustomer.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            btnAddNewCustomer.ForeColor = Color.White;
+            btnAddNewCustomer.Location = new Point(780, 5); // Adjusted location
+            btnAddNewCustomer.Name = "btnAddNewCustomer";
+            btnAddNewCustomer.Size = new Size(160, 40);
+            btnAddNewCustomer.TabIndex = 1;
+            btnAddNewCustomer.Text = "+ Add New Customer";
+            btnAddNewCustomer.UseVisualStyleBackColor = false;
+            btnAddNewCustomer.Click += btnAddNewCustomer_Click;
+
             // 
             // lblTitle
             // 
@@ -320,5 +341,6 @@ namespace eShift_Logistics_System.Forms.Admin
         private System.Windows.Forms.DataGridView dgvJobHistory;
         private System.Windows.Forms.TextBox txtNotes;
         private System.Windows.Forms.DataGridView dgvCustomers;
+        private System.Windows.Forms.Button btnAddNewCustomer;
     }
 }

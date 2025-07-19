@@ -307,7 +307,7 @@
             lblUserName.Name = "lblUserName";
             lblUserName.Size = new Size(45, 17);
             lblUserName.TabIndex = 1;
-            lblUserName.Text = "Evano";
+            lblUserName.Text = "Admin";
             // 
             // picUserAvatar
             // 

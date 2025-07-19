@@ -186,23 +186,35 @@ namespace eShift_Logistics_System.Repository.Service
         /// <returns></returns>
         public User GetUserById(int id)
         {
-            const string query = "SELECT * FROM users WHERE id = @id LIMIT 1";
-
-            var users = DatabaseHelper.ExecuteReader(query, reader => new User
+            string query = "SELECT * FROM users WHERE id = @id";
+            using (var conn = DatabaseHelper.GetConnection())
             {
-                Id = Convert.ToInt32(reader["id"]),
-                FirstName = reader["first_name"].ToString(),
-                LastName = reader["last_name"].ToString(),
-                Email = reader["email"].ToString(),
-                Phone = reader["phone"].ToString(),
-                Address = reader["address"].ToString(),
-                UserType = (UserType)Convert.ToInt32(reader["user_type"]),
-                IsActive = Convert.ToBoolean(reader["is_active"]),
-                CustomerNumber = reader["customer_number"].ToString()
-            }, new MySqlParameter("@id", id));
-
-            return users.FirstOrDefault(); // Returns the found user or null if not found
+                using (var cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return new User
+                            {
+                                Id = Convert.ToInt32(reader["id"]),
+                                FirstName = reader["first_name"].ToString(),
+                                LastName = reader["last_name"].ToString(),
+                                Email = reader["email"].ToString(),
+                                Phone = reader["phone"].ToString(),
+                                Address = reader["address"].ToString(),
+                                UserType = (UserType)Convert.ToInt32(reader["user_type"]),
+                                CustomerNumber = reader["customer_number"].ToString(),
+                                IsActive = Convert.ToInt32(reader["is_active"]) == 1
+                            };
+                        }
+                    }
+                }
+            }
+            return null;
         }
+
 
         /// <summary>
         /// Updates the user's profile information in the database.

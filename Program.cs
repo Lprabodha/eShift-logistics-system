@@ -25,7 +25,7 @@ namespace eShift_Logistics_System
             Thread.CurrentThread.CurrentCulture = sriLankanCulture;
             Thread.CurrentThread.CurrentUICulture = sriLankanCulture;
 
-            Application.Run(new AdminDashboardForm());
+            Application.Run(new LoginForm());
         }
     }
 }
