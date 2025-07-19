@@ -1,4 +1,5 @@
-﻿using eShift_Logistics_System.Helpers;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using eShift_Logistics_System.Helpers;
 using eShift_Logistics_System.Models;
 using eShift_Logistics_System.Repository.Interface;
 using MySql.Data.MySqlClient;
@@ -36,15 +37,74 @@ namespace eShift_Logistics_System.Repository.Service
             });
         }
 
-        public bool DeleteUser(int userId)
+        public bool DeleteUser(int id)
         {
-            using (var conn = DatabaseHelper.GetConnection())
+            // Pseudocode:
+            // 1. Begin a transaction.
+            // 2. Delete from job_status_logs where job_id in (select id from jobs where customer_id = @id)
+            // 3. Delete from job_products where job_id in (select id from jobs where customer_id = @id)
+            // 4. Delete from loads where job_id in (select id from jobs where customer_id = @id)
+            // 5. Delete from jobs where customer_id = @id
+            // 6. Delete from users where id = @id
+            // 7. Commit transaction if all succeed, otherwise rollback.
+            using var conn = DatabaseHelper.GetConnection();
+            using var transaction = conn.BeginTransaction();
+            try
             {
-                string query = "DELETE FROM users WHERE id = @id";
-                using var cmd = new MySqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@id", userId);
+                // Delete job_status_logs related to user's jobs
+                string deleteJobStatusLogs = @"
+                    DELETE FROM job_status_logs 
+                    WHERE job_id IN (SELECT id FROM jobs WHERE customer_id = @id)";
+                using (var cmd = new MySqlCommand(deleteJobStatusLogs, conn, transaction))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                }
 
-                return cmd.ExecuteNonQuery() > 0;
+                // Delete job_products related to user's jobs
+                string deleteJobProducts = @"
+                    DELETE FROM job_products 
+                    WHERE job_id IN (SELECT id FROM jobs WHERE customer_id = @id)";
+                using (var cmd = new MySqlCommand(deleteJobProducts, conn, transaction))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+
+                // Delete loads related to user's jobs
+                string deleteLoads = @"
+                    DELETE FROM loads 
+                    WHERE job_id IN (SELECT id FROM jobs WHERE customer_id = @id)";
+                using (var cmd = new MySqlCommand(deleteLoads, conn, transaction))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+
+                // Delete jobs related to user
+                string deleteJobs = "DELETE FROM jobs WHERE customer_id = @id";
+                using (var cmd = new MySqlCommand(deleteJobs, conn, transaction))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+                    cmd.ExecuteNonQuery();
+                }
+
+                // Delete user
+                string deleteUser = "DELETE FROM users WHERE id = @id";
+                int rowsAffected;
+                using (var cmd = new MySqlCommand(deleteUser, conn, transaction))
+                {
+                    cmd.Parameters.AddWithValue("@id", id);
+                    rowsAffected = cmd.ExecuteNonQuery();
+                }
+
+                transaction.Commit();
+                return rowsAffected > 0;
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
             }
         }
 

@@ -46,6 +46,7 @@ namespace eShift_Logistics_System.Repository.Service
 
             DatabaseHelper.ExecuteNonQuery(query, command =>
             {
+                command.Parameters.AddWithValue("@id", product.Id);
                 command.Parameters.AddWithValue("@name", product.Name);
                 command.Parameters.AddWithValue("@default_weight", product.DefaultWeight);
                 command.Parameters.AddWithValue("@default_dimensions", product.DefaultDimensions);
