@@ -109,7 +109,7 @@ namespace eShift_Logistics_System.Business.Services
         {
             string filePath = Path.Combine(Path.GetTempPath(), $"Invoice_{job.JobNumber}.pdf");
 
-             QuestPDF.Settings.License = LicenseType.Community;
+            QuestPDF.Settings.License = LicenseType.Community;
 
             Document.Create(container =>
             {
@@ -145,7 +145,7 @@ namespace eShift_Logistics_System.Business.Services
                     column.Item().Text($"Invoice #: INV-{job.JobNumber}");
                     column.Item().Text($"Date: {DateTime.Now:d}");
                 });
-                row.ConstantItem(100).Height(50).Placeholder(); 
+                row.ConstantItem(100).Height(50).Placeholder();
             });
         }
 
@@ -217,6 +217,35 @@ namespace eShift_Logistics_System.Business.Services
                 // Add a final note/thank you
                 column.Item().PaddingTop(20).Text("Thank you for choosing e-Shift Logistics!").Italic();
             });
+        }
+
+        /// <summary>
+        /// Sends an account creation email to the user after registration.
+        /// </summary>
+        /// <param name="user"></param>
+        public void SendAccountCreatedEmail(User user)
+        {
+            if (user == null || string.IsNullOrEmpty(user.Email))
+            {
+                Console.WriteLine("Cannot send account creation email: Email is missing.");
+                return;
+            }
+
+            string templatePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates", "AccountCreated.html");
+
+            if (!File.Exists(templatePath))
+            {
+                Console.WriteLine($"Email template not found: {templatePath}");
+                return;
+            }
+
+            string htmlBody = File.ReadAllText(templatePath)
+                .Replace("{{FirstName}}", user.FirstName)
+                .Replace("{{Email}}", user.Email);
+
+            string subject = "Welcome to eShift Logistics";
+
+            EmailHelper.SendEmail(user.Email, subject, htmlBody, isHtml: true);
         }
     }
 }

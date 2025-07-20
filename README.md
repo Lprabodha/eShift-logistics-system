@@ -37,7 +37,7 @@ eShift Logistics System is a robust desktop application built with **C# (.NET 8)
 #### 🔑 **Admin Dashboard**
 - **Customer Management**: Complete CRUD operations for customer profiles
 - **Job & Load Management**: Create, assign, track, and finalize transport jobs
-- **Fleet Management**: Comprehensive truck, driver, and assistant management
+- **Vehicle Management**: Comprehensive truck, driver, and assistant management
 - **Transport Unit Management**: Create and manage transport units (truck + driver + assistant combinations)
 - **Product Catalog**: Maintain product types and pricing
 - **Advanced Reporting**: Generate detailed PDF and Excel reports
@@ -344,7 +344,7 @@ Ensure you have the following installed:
 ### 🔐 **Getting Started**
 
 1. **First Launch**
-   - The application starts with `AdminDashboardForm` (as configured in `Program.cs`)
+   - The application starts with `LoginForm` (as configured in `Program.cs`)
    - Use the login system to authenticate users
    - Admin accounts have full system access
 
@@ -443,7 +443,6 @@ Document.Create(container =>
         {
             column.Item().Text($"Job Number: {job.JobNumber}");
             column.Item().Text($"Customer: {job.Customer.Name}");
-            // ... add more content
         });
     });
 }).GeneratePdf("JobReport.pdf");
@@ -539,15 +538,12 @@ dotnet build
 - [ ] **Advanced Analytics**: Business intelligence dashboard with interactive charts
 - [ ] **API Integration**: RESTful API for third-party integrations
 - [ ] **Enhanced Reports**: Advanced reporting with data visualization
-
-### **Version 1.5 (In Development)**
 - [ ] **Enhanced Security**: Advanced authentication and authorization
 - [ ] **Performance Optimization**: Database query optimization and caching
 - [ ] **Extended Reporting**: More comprehensive business reports with QuestPDF templates
 - [ ] **Excel Automation**: Advanced ClosedXML features with charts and pivot tables
 - [ ] **Audit Trail**: Complete system activity logging
 - [ ] **Multi-language Support**: Localization framework
-
 ---
 
 ## 🤝 Contributing
@@ -597,7 +593,7 @@ We welcome contributions to enhance the eShift Logistics System!
 
 ## 📄 License
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for complete details.
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE.txt) file for complete details.
 
 ```
 MIT License

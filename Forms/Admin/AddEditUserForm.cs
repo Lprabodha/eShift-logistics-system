@@ -22,6 +22,7 @@ namespace eShift_Logistics_System.Forms.Admin
         private readonly int? _userId;
         private User _currentUser;
         private readonly IUserService _userService;
+        private readonly IEmailService _emailService;
 
 
         public AddEditUserForm(int? userId = null)
@@ -29,6 +30,7 @@ namespace eShift_Logistics_System.Forms.Admin
             InitializeComponent();
             _userId = userId;
             _userService = new UserService(new UserRepository());
+            _emailService = new EmailService();
         }
 
         private async void AddEditUserForm_Load(object sender, EventArgs e)
@@ -140,6 +142,16 @@ namespace eShift_Logistics_System.Forms.Admin
                 else
                 {
                     _userService.AddUser(user);
+
+                    try
+                    {
+                        _emailService.SendAccountCreatedEmail(user);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error sending account email: " + ex.Message);
+                    }
+
                     MessageBox.Show("New customer added successfully!", "Success", MessageBoxButtons.OK);
                 }
 

@@ -31,6 +31,12 @@ namespace eShift_Logistics_System.Helpers
             return $"CUST{dayCode}";
         }
 
+        /// <summary>
+        /// Verify if the input password matches the hashed password.
+        /// </summary>
+        /// <param name="inputPassword"></param>
+        /// <param name="hashedPassword"></param>
+        /// <returns></returns>
         public static bool VerifyPassword(string inputPassword, string hashedPassword)
         {
             return HashPassword(inputPassword) == hashedPassword;
