@@ -33,5 +33,11 @@ namespace eShift_Logistics_System.Business.Interface
         /// </summary>
         /// <param name="job"></param>
         void SendJobCompletionEmailWithInvoice(Job job);
+
+        /// <summary>
+        /// Sends an email to the customer when a job is canceled.
+        /// </summary>
+        /// <param name="user"></param>
+        void SendAccountCreatedEmail(User user);
     }
 }

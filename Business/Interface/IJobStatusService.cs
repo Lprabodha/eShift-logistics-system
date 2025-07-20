@@ -9,7 +9,14 @@ namespace eShift_Logistics_System.Business.Interface
 {
     public interface IJobStatusService
     {
-       void AddLogJobStatus(int jobId, string status, int? updatedBy, string note = "");
+        /// <summary>
+        /// Service interface for managing job status operations.
+        /// </summary>
+        /// <param name="jobId"></param>
+        /// <param name="status"></param>
+        /// <param name="updatedBy"></param>
+        /// <param name="note"></param>
+        void AddLogJobStatus(int jobId, string status, int? updatedBy, string note = "");
 
     }
 }

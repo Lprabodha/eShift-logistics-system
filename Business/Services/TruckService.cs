@@ -74,6 +74,11 @@ namespace eShift_Logistics_System.Business.Services
             return _truckService.GetTruckById(id);
         }
 
+        /// <summary>
+        /// Checks if a truck number already exists in the system, excluding a specific truck ID.
+        /// </summary>
+        /// <param name="currentTruckId"></param>
+        /// <returns></returns>
         public List<Truck> GetAvailableTrucks(int? currentTruckId = null)
         {
             return _truckService.GetAvailableTrucks(currentTruckId);

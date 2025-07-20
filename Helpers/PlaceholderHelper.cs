@@ -45,6 +45,11 @@ namespace eShift_Logistics_System.Helpers
             };
         }
 
+        /// <summary>
+        /// Retrieves the input from a TextBox, considering the placeholder.
+        /// </summary>
+        /// <param name="textbox"></param>
+        /// <returns></returns>
         public static string GetInput(TextBox textbox)
         {
             if (_placeholders.TryGetValue(textbox, out string? placeholder))
