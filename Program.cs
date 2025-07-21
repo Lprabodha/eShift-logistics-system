@@ -19,6 +19,11 @@ namespace eShift_Logistics_System
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
 
+            Application.ApplicationExit += (sender, args) =>
+            {
+                Helpers.EmailHelper.StopQueue();
+            };
+
             QuestPDF.Settings.License = LicenseType.Community;
 
             CultureInfo sriLankanCulture = new CultureInfo("si-LK");
